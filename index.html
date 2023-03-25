@@ -1,0 +1,1371 @@
+<html>
+
+<head>
+  <script type="text/javascript" src="https://livejs.com/live.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="style.css"> 
+  <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+  <script> //Console timestamp script
+    var log = console.log;
+
+    console.log = function () {
+      var first_parameter = arguments[0];
+      var other_parameters = Array.prototype.slice.call(arguments, 1);
+
+      function formatConsoleDate(date) {
+        var hour = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+        var milliseconds = date.getMilliseconds();
+
+        return '[' +
+          ((hour < 10) ? '0' + hour : hour) +
+          ':' +
+          ((minutes < 10) ? '0' + minutes : minutes) +
+          ':' +
+          ((seconds < 10) ? '0' + seconds : seconds) +
+          '.' +
+          ('00' + milliseconds).slice(-3) +
+          '] ';
+      }
+
+      log.apply(console, [formatConsoleDate(new Date()) + first_parameter].concat(other_parameters));
+    };
+    console.log("Hello World");
+  </script>
+  <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,width=device-width" />
+	<title>Classes</title>
+  <!-- Embeds -->
+  <meta content="Google Classroom" property="og:title" />
+  <meta content="G-Classroom clone made by choobs#6227" property="og:description" />
+  <meta content="https://choobs.repl.co" property="og:url" />
+  <meta content="#032224" data-react-helmet="true" name="theme-color" />
+	<link rel="icon" type="image/png" href="https://ssl.gstatic.com/classroom/favicon.png" />
+	
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	
+	<script async src="https://www.googletagmanager.com/gtag/js?id=G-CCS6F21XDE">
+	</script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-CCS6F21XDE');
+	</script>
+
+	<!-------------------------------------------------->
+	
+  <script>
+		/** URL Check
+    if (document.location.href.indexOf('https://choobs.repl.co') === -1){ 
+      window.location.replace("https://choobs.repl.co");
+    }
+		**/
+		if ('scrollRestoration' in history) {
+		  history.scrollRestoration = 'manual';
+		}
+  </script>
+</head>
+
+<!-- Made by choobs#6227 -->
+  
+<body>
+  <nav>
+    <div class="navLeft">
+      <div class="hamburger">
+        <svg width="24" height="24" viewBox="0 0 24 24" focusable="false" style="padding: 12px;">
+          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+        </svg>
+        <div class="shadow"></div>
+      </div>
+      <div class="logo">
+        <img src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg" alt="Google"
+          height="24px" width="74px">
+        <span class="classroomLogo">Classroom</span>
+      </div>
+    </div>
+    <div class="navRight">
+      <img class="pfp" src="/img/profile.png">
+      <div class="apps">
+        <svg class="gb_Ne" focusable="false" viewBox="0 0 24 24">
+          <path d="M6,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM6,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM12,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM16,6c0,1.1 0.9,2 2,2s2,-0.9 2,-2 -0.9,-2 -2,-2 -2,0.9 -2,2zM12,8c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,14c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2zM18,20c1.1,0 2,-0.9 2,-2s-0.9,-2 -2,-2 -2,0.9 -2,2 0.9,2 2,2z"></path>
+        </svg>
+      </div>
+      <a id="addGame">
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" class="plus" style="fill: black">
+          <path d="M20 13h-7v7h-2v-7H4v-2h7V4h2v7h7v2z"></path>
+        </svg>
+        <div class="shadow"></div>
+      </a>
+      <div id="addGameModal" class="modal">
+        <div class="agModalContent">
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdAsS2fyny2NkWgL8pqzBExafWjz-fB3FKDdbJuFrja3hEYuA/viewform?embedded=true" width="614" height="607" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+        </div>
+        <script>
+          addGame.addEventListener('click', function (event) {
+            console.log("Suggest Game Form Opened");
+            addGameModal.style.display = "block";
+          });
+          window.addEventListener('click', function(event) {
+            if (event.target == addGameModal) {
+              console.log("Suggest Game Form Closed");
+              addGameModal.style.display = "none";
+            }
+          });
+        </script>
+      </div>
+    </div>
+    <script> //Shadow on scroll script
+      let lastKnownScrollPosition = 0;
+      let ticking = false;
+      document.addEventListener('scroll', function (e) {
+        lastKnownScrollPosition = window.scrollY;
+        if (!ticking) {
+          window.requestAnimationFrame(function () {
+            if (lastKnownScrollPosition == 0) {
+              document.getElementsByTagName("nav")[0].style.boxShadow = "";
+            } else {
+              document.getElementsByTagName("nav")[0].style.boxShadow = "0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%)";
+            }
+            ticking = false;
+					});
+          ticking = true;
+        }
+      });
+    </script>
+  </nav>
+	<div id="announcementBar">
+		<p class="announcement"></p>
+		<script>
+      var visible = new Boolean(false); //Announcement Toggle
+    </script>
+		<div id="dismiss">
+			<div class="btn d">
+	      <span class="btnText" style="top: 16.075; left: 15;">Dismiss</span>
+	      <div class="btnShadow d"></div>
+	    </div>
+		</div>
+		<script>
+			dismiss.addEventListener('click', function handleClick() {
+				announcementBar.classList.add('dismissed');
+				buttons.classList.add('dismissed');
+				content.classList.add('dismissed');
+				document.getElementById("altLinkContainer").style.marginTop = '0';
+				setTimeout(function(){
+					document.getElementById("announcementBar").style.visibility = 'hidden';
+				}, 200); 
+			});
+		</script>
+	</div>
+  <div id="buttons">
+    <div id="feedback" class="btn f">
+      <svg enable-background="new 0 0 24 24" focusable="false" height="18" viewBox="0 0 24 24" width="18" class="icon">
+        <g>
+          <g>
+            <path d="M20,3H4C2.9,3,2,3.9,2,5v14c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V5 C22,3.9,21.1,3,20,3z M20,19H4V5h16V19z" fill-rule="evenodd">
+            </path>
+            <polygon fill-rule="evenodd" points="19.41,10.42 17.99,9 14.82,12.17 13.41,10.75 12,12.16 14.82,15">
+            </polygon>
+            <rect fill-rule="evenodd" height="2" width="5" x="5" y="7"></rect>
+            <rect fill-rule="evenodd" height="2" width="5" x="5" y="11"></rect>
+            <rect fill-rule="evenodd" height="2" width="5" x="5" y="15"></rect>
+          </g>
+        </g>
+      </svg>
+      <span class="btnText">Send Feedback</span>
+      <div class="btnShadow f"></div>
+    </div>
+    <div id="chatroom" class="btn c">
+      <svg focusable="false" width="18" height="18" viewBox="0 0 24 24" class=" icon">
+        <path
+          d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z">
+        </path>
+      </svg>
+      <span class="btnText">Chatroom</span>
+      <div class="btnShadow c"></div>
+      <script>
+        chatroom.addEventListener('click', function (event) {
+          console.log("Chatroom Opened");
+          window.open("/chatroom/", "_blank");
+        });
+      </script>
+    </div>
+  </div>
+	<div id="feedbackModal" class="modal">
+		<div class="fbModalContent">
+			<iframe src="https://docs.google.com/forms/d/e/1FAIpQLScMjTZQ1EXEfOKsLsuDGZHyzNDN5btWjKeV0n-YsK2aCukcEw/viewform?embedded=true" width="614" height="880" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+			<!--<p>The feedback form has been shut down as I will no longer be updating this site. Thank you for using choobs. <a onClick="openModal()">Learn more</a></p>-->
+		</div>
+		<script>
+			feedback.addEventListener('click', function (event) {
+				console.log("Feedback Form Opened");
+				feedbackModal.style.display = "block";
+			});
+			window.addEventListener('click', function(event) {
+				if (event.target == feedbackModal) {
+					console.log("Feedback Form Closed");
+					feedbackModal.style.display = "none";
+				}
+			});
+		</script>
+	</div>
+  <div id="content">
+    <!-- A1 - Proxy -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/Math.jpg");'>
+          <a class="classText" href="/p/" style="color:white;" rel="noopener noreferrer" onclick='console.log("Clicked on Proxies")'>
+            <div class="main">Proxies</div>
+            <div class="sub">Unblock Most Sites</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/proxy.png" class="gameIcon" alt="Proxy" style="background-color: rgb(3 34 36);"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- A2 - Flappy Bird -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_code.jpg");'>
+          <a class="classText" href="/c/FlappyBird/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Flappy Bird")'>
+            <div class="main">Flappy Bird</div>
+            <div class="sub">funny birb</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/flappy.png" class="gameIcon" alt="Flappy Bird"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- A3 - Geometry Dash -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_bookclub.jpg");'>
+          <a class="classText" href="/c/GeometryDash/" style="color:white;" onclick='console.log("Clicked on Geometry Dash")'>
+            <div class="main">Geometry Dash</div>
+            <div class="sub">square go boing</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/geometry.jpg" class="gameIcon" alt="Geometry Dash"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- A4 - Retro Bowl -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_reachout.jpg");'>
+          <a class="classText" href="/c/RetroBowl/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Retro Bowl")'>
+            <div class="main">Retro Bowl</div>
+            <div class="sub">pixelated football</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/retro.jpeg" class="gameIcon" alt="Retro Bowl"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- B1 - 2048 -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/Writing.jpg");'>
+          <a class="classText" href="/c/2048/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on 2048")'>
+            <div class="main">2048</div>
+            <div class="sub">It's 2048.</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/2048.png" class="gameIcon" alt="2048"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- B2 - Cookie Clicker -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/LanguageArts.jpg");'>
+          <a class="classText" href="/c/CookieClicker/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Cookie Clicker")'>
+            <div class="main">Cookie Clicker</div>
+            <div class="sub">buy those grandmas</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/cookie.png" class="gameIcon" alt="Cookie Clicker"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- B3 - Subway Surfers -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/Chemistry.jpg");'>
+          <a class="classText" href="/c/SubwaySurfers/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Subway Surfers")'>
+            <div class="main">Subway Surfers</div>
+            <div class="sub">not dollar store version</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/subwaysurfers.png" class="gameIcon" alt="Subway Surfers"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- B4 - A Dark Room -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/Biology.jpg");'>
+          <a class="classText" href="/c/ADarkRoom/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on A Dark Room")'>
+            <div class="main">A Dark Room</div>
+            <div class="sub">Double Speak Games</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/dark.png" class="gameIcon" alt="A Dark Room"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- C1 - Wordle -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_mealfamily.jpg");'>
+          <a class="classText" href="/c/Wordle/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Wordle")'>
+            <div class="main">Wordle</div>
+            <div class="sub">Refresh in: <span id="timer"></span></div>
+            <script>
+              var countDownDate = new Date("March 27, 2023");
+              var x = setInterval(function() {
+                const d = new Date();
+                var distance = countDownDate - d;
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                if (d <= countDownDate) {
+                  document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+                }else {
+                  var distance = countDownDate - d;
+                  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                  d.setDate(d.getDate() + 1);
+                  document.getElementById("timer").innerHTML = hours + "h " + minutes + "m " + seconds + "s ";
+                }
+              }, 1000);
+            </script>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/wordle.jpeg" class="gameIcon" alt="Wordle"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- C2 - Cut The Rope -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/Physics.jpg");'>
+          <a class="classText" href="/c/CutTheRope/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Cut The Rope")'>
+            <div class="main">Cut The Rope</div>
+            <div class="sub">is that thing a frog?</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/cuttherope.png" class="gameIcon" alt="Cut The Rope"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- C3 - First-Person Tetris -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_cooking.jpg");'>
+          <a class="classText" href="/c/FPtetris/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on First-Person Tetris")'>
+            <div class="main">First-Person Tetris</div>
+            <div class="sub">Tetris, but first-person.</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/tetris.png" class="gameIcon" alt="First-Person Tetris"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- C4 - Block The Pig -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_bbq.jpg");'>
+          <a class="classText" href="/c/BlockThePig/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Block The Pig")'>
+            <div class="main">Block The Pig</div>
+            <div class="sub">oink oink</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/blockthepig.png" class="gameIcon" alt="Block The Pig"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- D1 - Duck Life 4 -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_learninstrument.jpg");'>
+          <a class="classText" href="/c/DuckLife4/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Duck Life 4")'>
+            <div class="main">Duck Life 4</div>
+            <div class="sub">quack quack</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/ducklife4.jpeg" class="gameIcon" alt="Duck Life 4"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- D2 - Low's Adventures 2 -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/SocialStudies.jpg");'>
+          <a class="classText" href="/c/LowsAdventures2/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Low&#x27ss Adventures 2")'>
+            <div class="main">Low's Adventures 2</div>
+            <div class="sub">literally just super mario</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/lowsadventures.jpeg" class="gameIcon" alt="Low's Adventures 2"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- D3 - Stick Ninka -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/Geography.jpg");'>
+          <a class="classText" href="/c/StickNinja/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Stick Ninja")'>
+            <div class="main">Stick Ninja</div>
+            <div class="sub">that mobile game</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/stickninja.png" class="gameIcon" alt="Stick Ninja"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- D4 - Stack -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_karate.jpg");'>
+          <a class="classText" href="/c/Stack/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Stack")'>
+            <div class="main">Stack</div>
+            <div class="sub">that other mobile game</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/stack.png" class="gameIcon" alt="Stack"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- E1 - 0h h1 -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_swimming.jpg");'>
+          <a class="classText" href="/c/0hh1/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on 0h h1")'>
+            <div class="main">0h h1</div>
+            <div class="sub">A little logic game.</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/0hh1.png" class="gameIcon" alt="Low's Adventures 2"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- E2 - Drift Boss -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_read.jpg");'>
+          <a class="classText" href="/c/DriftBoss/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Drift Boss")'>
+            <div class="main">Drift Boss</div>
+            <div class="sub">vroom</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/driftboss.png" class="gameIcon" alt="Drift Boss"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- E3 - Doctor Acorn 3 -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_volleyball.jpg");'>
+          <a class="classText" href="/c/DoctorAcorn3/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Doctor Acorn 3")'>
+            <div class="main">Doctor Acorn 3</div>
+            <div class="sub">acorns are nuts</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/doctoracorn.jpeg" class="gameIcon" alt="Doctor Acorn 3"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- E4 - Getting Over It -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_athleticsjumping.jpg");'>
+          <a class="classText" href="/c/GettingOverIt/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Getting Over It")'>
+            <div class="main">Getting Over It</div>
+            <div class="sub">dont scream too loud</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/gettingoverit.png" class="gameIcon" alt="Getting Over It"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <!-- F1 - Papa's Pizzeria -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_wrestling.jpg");'>
+          <a class="classText" href="/c/PapasPizzeria/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Papa&#x27
+s Pizzeria")'>
+            <div class="main">Papa's Pizzeria</div>
+            <div class="sub">it's a pizza, mario</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="https://pocket-image-cache.com/255x255/https://img.poki.com/3e7dee10c57b99057fd6f9668ccdfe06.png" class="gameIcon" alt="Papa's Pizzeria"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+		<!-- F2 - Stickman Boost 2 - PROXY -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_theatreopera.jpg");'>
+          <a class="classText" href="/c/StickmanBoost2/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Stickman Boost 2")'>
+            <div class="main">Stickman Boost 2</div>
+            <div class="sub">another stickman game</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/stickmanboost2.png" class="gameIcon" alt="Appel"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+		<!-- F3 - Appel -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/Honors.jpg");'>
+          <a class="classText" href="/c/Appel/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Appel")'>
+            <div class="main">Appel</div>
+            <div class="sub">not apple</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/appel.png" class="gameIcon" alt="Appel"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+		<!-- F4 - Slope -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/USHistory.jpg");'>
+          <a class="classText" href="/c/Slope/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Slope")'>
+            <div class="main">Slope</div>
+            <div class="sub">s p e e d</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/slope.png" class="gameIcon" alt="Slope"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+		<!-- G1 - Jetpack Joyride - PROXY -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_concert.jpg");'>
+          <a class="classText" href="/c/JetpackJoyride/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Fb&Wg")'>
+            <div class="main">Jetpack Joyride</div>
+            <div class="sub">no, the other mobile game</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/jetpackjoyride.png" class="gameIcon" alt="Jetpack Joyride"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+		<!-- G2 - Doodle Jump - PROXY -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_birthday.jpg");'>
+          <a class="classText" href="/c/DoodleJump/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Doodle Jump")'>
+            <div class="main">Doodle Jump</div>
+            <div class="sub">one of the mobile games</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/doodlejump.png" class="gameIcon" alt="Doodle Jump"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+		<!-- G3 - Run 3 -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_videogaming.jpg");'>
+          <a class="classText" href="/c/Run3/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Run 3")'>
+            <div class="main">Run 3</div>
+            <div class="sub">bouncing blob</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/run3.jpeg" class="gameIcon" alt="Run 3"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+		<!-- G4 - 1v1.lol -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_cyclingbmx.jpg");'>
+          <a class="classText" href="/c/1v1lol/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on 1v1.lol")'>
+            <div class="main">1v1.lol</div>
+            <div class="sub">fortnite, but bad</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/1v1lol.png" class="gameIcon" alt="1v1.lol"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+		<!-- H1 - Temple Run -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/WorldHistory.jpg");'>
+          <a class="classText" href="/c/TempleRun/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Temple Run")'>
+            <div class="main">Temple Run</div>
+            <div class="sub">dollar store version</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/templerun.jpeg" class="gameIcon" alt="Temple Run"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+		<!-- H2 - Crossy Road -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_bowling.jpg");'>
+          <a class="classText" href="/c/CrossyRoad/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Crossy Road")'>
+            <div class="main">Crossy Road</div>
+            <div class="sub">cluck cluck</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/crossyroad.png" class="gameIcon" alt="Crossy Road"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+		<!-- H3 - Happy Wheels - PROXY -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_coffee.jpg");'>
+          <a class="classText" href="/c/HappyWheels/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Happy Wheels")'>
+            <div class="main">Happy Wheels</div>
+            <div class="sub">an old classic</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/happywheels.jpeg" class="gameIcon" alt="Happy Wheels"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+		<!-- H4 - Basketball Stars -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_gym.jpg");'>
+          <a class="classText" href="/c/BasketballStars/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Basketball Stars")'>
+            <div class="main">Basketball Stars</div>
+            <div class="sub">🏀 🗑️ ✨</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/basketballstars.png" class="gameIcon" alt="Basketball Stars"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+		<!-- I1 - Sugar, Sugar 3 -->
+    <div class="classroom">
+      <div class="a">
+        <div class="banner" style='background-image: url("https://www.gstatic.com/classroom/themes/img_handcraft.jpg");'>
+          <a class="classText" href="/c/SugarSugar3/" style="color:white;" target="_blank" rel="noopener noreferrer" onclick='console.log("Clicked on Sugar, Sugar 3")'>
+            <div class="main">Sugar, Sugar 3</div>
+            <div class="sub">also a mobile game</div>
+          </a>
+        </div>
+        <svg focusable="false" width="24" height="24" viewBox="0 0 24 24" style="fill:white; position:relative; padding: 12px; bottom: 95px; left: 245px;">
+          <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path>
+        </svg>
+        <img src="/img/sugarsugar3.png" class="gameIcon" alt="Sugar Sugar 3"/>
+      </div>
+      <div class="b">
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.55 0c.14-.15.33-.25.55-.25s.41.1.55.25c.12.13.2.31.2.5 0 .41-.34.75-.75.75s-.75-.34-.75-.75c0-.19.08-.37.2-.5zM19 5v10.79C16.52 14.37 13.23 14 12 14s-4.52.37-7 1.79V5h14zM5 19v-.77C6.74 16.66 10.32 16 12 16s5.26.66 7 2.23V19H5z">
+            </path>
+            <path d="M12 13c1.94 0 3.5-1.56 3.5-3.5S13.94 6 12 6 8.5 7.56 8.5 9.5 10.06 13 12 13zm0-5c.83 0 1.5.67 1.5 1.5S12.83 11 12 11s-1.5-.67-1.5-1.5S11.17 8 12 8z">
+            </path>
+          </svg>
+        </div>
+        <div class="icon">
+          <svg focusable="false" width="24" height="24" viewBox="0 0 24 24">
+          <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z">
+          </path>
+          </svg>
+        </div>
+      </div>
+    </div>
+	</div>
+	<div id="altLinkContainer">
+		Blocked? Here's <a id="altLinks">some alternatives</a>.
+		<div id="altLinksModal" class="modal">
+			<div class="altModalContent">
+				<div>Official Choobs Links</div>
+				<ul>
+					<li>
+						<a target="_blank" href="https://choobs.repl.co">choobs.repl.co</a>
+					</li>
+					<li>
+						<a target="_blank" href="https://choobs--choobs.repl.co">choobs--choobs.repl.co</a>
+					</li>
+					<li>
+						<a target="_blank" href="https://notchoobs.tk">notchoobs.tk</a>
+					</li>
+					<li>
+						<a target="_blank" href="https://choobs.ga">choobs.ga</a>
+					</li>
+					<li>
+						<a target="_blank" href="https://choobs.gq">choobs.gq</a>
+					</li>
+					<li>
+						<a target="_blank" href="https://choobs.cf">choobs.cf</a>
+					</li>
+				</ul>
+				<div>Similar Sites</div>
+				<ul>
+					<li>
+						<a target="_blank" href="https://cuegvzg.org/13.html">Holy Unblocker</a>
+					</li>
+					<li>
+						<a target="_blank" href="https://watchdocumentaries.com/">WatchDocumentaries.com</a>
+					</li>
+					<li>
+						<a target="_blank" href="https://xlegends.github.io/gxmehub/gxmes/">Game Hub</a>
+					</li>
+				</ul>
+				<div>Made By Students</div>
+				<ul>
+					<li>
+						<a target="_blank" href="https://www.lexma.cf">lexma.cf</a>
+					</li>
+					<li>
+						<a target="_blank" href="https://sebastian105.repl.co/game/">sebastian105</a>
+					</li>
+				</ul>
+				<div class="ALM_moreInfo">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-question-circle" id="ALM_moreInfo--btn" viewBox="0 0 16 16" onmouseenter="showMoreInfo(this)">
+	 				 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+					  <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"></path>
+						</svg>
+					<div id="ALM_moreInfo--popUp"  onmouseleave="hideMoreInfo(this)">
+						<div onmouseleave="hideMoreInfo(this)">
+							Want to see your site on here? Send a request on the feedback form or <a href="mailto:Jeff@choobsapp.com?subject=Choobs Partnership Request" target="_blank">shoot me an email</a>!
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		const element = document.getElementById("announcementBar");
+		if (visible == false) {
+			element.style.visibility = "hidden";
+			const visible = element.style.visibility;
+		}
+		else {
+			element.style.visibility = "visible";
+			const visible = element.style.visibility;
+			element.style.top = '66';
+			document.getElementById("buttons").style.top = '66';
+			document.getElementById("content").style.top = '66';
+			document.getElementById("altLinkContainer").style.marginTop = '66';
+		};
+		
+		altLinks.addEventListener('click', function (event) {
+			altLinksModal.style.display = "block";
+		});
+		window.addEventListener('click', function(event) {
+			if (event.target == altLinksModal) {
+				altLinksModal.style.display = "none";
+			}
+		});
+		
+    adios.style.display = "none";
+		window.addEventListener('click', function(event) {
+			if (event.target == adios) {
+				adios.style.display = "none";
+			}
+		});
+		function openModal() {
+			document.getElementById("addGameModal").style.display = "none";
+			document.getElementById("feedbackModal").style.display = "none";
+			document.getElementById("adios").style.display = "block";
+		}
+
+		function showMoreInfo(x) {
+			document.getElementById("ALM_moreInfo--popUp").style.display = "block";
+			document.getElementById("ALM_moreInfo--popUp").lastElementChild.classList.add('show');
+			document.getElementById("ALM_moreInfo--popUp").classList.add('show');
+		}
+		function hideMoreInfo(x) {
+			document.getElementById("ALM_moreInfo--popUp").lastElementChild.classList.remove('show');
+			document.getElementById("ALM_moreInfo--popUp").classList.remove('show');
+			setTimeout(function() {
+			  document.getElementById("ALM_moreInfo--popUp").style.display = "none";
+			}, 400);
+		}
+		</script>
+  </div>
+</body>
+
+</html>

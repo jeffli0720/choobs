@@ -1,0 +1,208 @@
+
+.modalContainer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+	opacity: 1;
+	display: flex;
+	align-items: center;
+    justify-content: center;
+}
+
+.modalContainer.fade {
+	animation: fadeIn 0.2s ease-in-out forwards;
+}
+
+.modalContainer:not(.fade) {
+	animation: fadeOut 0.2s ease-in-out forwards;
+}
+
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+
+@keyframes slideIn {
+	from {
+		opacity: 0;
+		bottom: 2.5rem;
+	}
+	to {
+		opacity: 1;
+		bottom: 3.5rem;
+	}
+}
+
+@keyframes slideOut {
+	from {
+		opacity: 1;
+        bottom: 3.5rem;
+	}
+	to {
+		opacity: 0;
+		bottom: 2.5rem;
+	}
+}
+
+.modalContent.slide {
+	animation: slideIn 0.2s ease-in-out forwards;
+}
+
+.modalContent:not(.slide) {
+	animation: slideOut 0.2s ease-in-out forwards;
+}
+
+.modalContent {
+	background-color: rgb(62, 64, 69);
+    display: flex;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 16rem;
+    overflow: scroll;
+    position: fixed;
+    bottom: 3.5rem;
+    right: 1rem;
+}
+
+.modalContainer.mobileModal {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.modalContainer.mobileModal > div {
+	margin: 1rem;
+	width: calc(100% - 6rem);
+}
+
+.modalContainer > .modalContent > div {
+	display: flex;
+	gap: 1rem;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.modalContainer > .modalContent > div > button {
+	background-color: transparent;
+	border: none;
+	color: #9d9d9d;
+}
+
+.modalContainer > .modalContent > div > button:last-child {
+	background-color: #54808c;
+	border-radius: 0.5rem;
+	padding: 0.5rem 1rem;
+	color: white;
+}
+
+.userInfo > .modalContainer > .modalContent > img {
+	width: 6rem;
+    border-radius: 50%;
+}
+
+.feedbackButton {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+}
+
+.feedbackButton > button {
+	border: none;
+    background-color: #54808c;
+    line-height: 1.5rem;
+    border-radius: 0.5rem;
+    color: white;
+}
+
+.feedbackButton.mobile > button {
+	height: 2.375rem;
+    width: 2.375rem;
+    padding: 0;
+}
+
+.form {
+	display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form > textarea {
+	height: 12rem;
+	border-radius: 0.5rem;
+	font-family: sans-serif;
+	padding: 1rem;
+	background: hsla(0, 0%, 100%, 0.1);
+    border: 1px solid hsla(0, 0%, 100%, 0.3);
+    color: #fff;
+    line-height: 1.25rem;
+	resize: none;
+}
+
+.form > button {
+	height: 2rem;
+    border-radius: 0.5rem;
+    border: none;
+    background-color: #54808c;
+    color: white;
+}
+
+.icon {
+	font-size: 1.25rem;
+    width: 2.375rem;
+    line-height: 2.375rem;
+    height: 2.375rem;
+}
+
+@supports (-webkit-touch-callout: none) {
+	.feedbackButton {
+		margin-bottom: max(env(safe-area-inset-bottom), 1rem);
+		bottom: 0 !important;
+	}
+
+	.modalContent {
+		bottom: max(calc(3.5rem + env(safe-area-inset-bottom)), 3.5rem);
+	}
+
+	@keyframes slideIn {
+		from {
+			opacity: 0;
+			bottom: max(calc(2.5rem + env(safe-area-inset-bottom)), 2.5rem);
+		}
+		to {
+			opacity: 1;
+			bottom: max(calc(3.5rem + env(safe-area-inset-bottom)), 3.5rem);
+		}
+	}
+	
+	@keyframes slideOut {
+		from {
+			opacity: 1;
+			bottom: max(calc(3.5rem + env(safe-area-inset-bottom)), 3.5rem);
+		}
+		to {
+			opacity: 0;
+			bottom: max(calc(2.5rem + env(safe-area-inset-bottom)), 2.5rem);
+		}
+	}
+}

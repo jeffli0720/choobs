@@ -1,0 +1,235 @@
+.settings {
+    padding: 1rem 1.5rem;
+    margin-bottom: 5rem;
+	display: flex;
+	gap: 1rem;
+	flex-direction: column;
+}
+
+@supports (-webkit-touch-callout: none) {
+	.settings {
+		margin-top: env(safe-area-inset-top);
+	}
+
+	.mobileModal > .modalContent {
+		margin-top: calc(env(safe-area-inset-top)) !important;
+	}
+}
+
+.userInfo {
+	display: flex;
+	gap: 1rem;
+}
+
+.userInfo > div {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+    gap: 0.5rem;
+}
+
+.name, .name > form {
+	display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.editButton {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+	font-size: 0.5rem;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editButton > span {
+	font-size: 1.2rem;
+}
+
+
+.userInfo > button > img {
+	border-radius: 50%;
+	width: 4rem;
+    height: 4rem;
+}
+
+.pfp {
+	background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-user-select: none;
+    user-select: none;
+	display: flex;
+    align-items: center;
+    justify-content: center;
+	border-radius: 50%;
+}
+
+.pfp > span {
+	background-color: rgb(51, 54, 60);
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(1.5rem, 1.5rem);
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.logout {
+	background-color: #54808c;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    color: white;
+    border: none;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 7rem;
+    justify-content: center;
+}
+
+.logout > span {
+	font-size: 1.2rem;
+}
+
+.modalContainer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+	opacity: 1;
+	display: flex;
+	align-items: center;
+    justify-content: center;
+}
+
+.modalContainer.fade {
+	animation: fadeIn 0.2s ease-in-out forwards;
+}
+
+.modalContainer:not(.fade) {
+	animation: fadeOut 0.2s ease-in-out forwards;
+}
+
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+
+@keyframes slideIn {
+	from {
+		opacity: 0;
+		margin-top: 0;
+	}
+	to {
+		opacity: 1;
+		margin-top: 1;
+	}
+}
+
+@keyframes slideOut {
+	from {
+		opacity: 1;
+		margin-top: 1;
+	}
+	to {
+		opacity: 0;
+		margin-top: 0;
+	}
+}
+
+.modalContent.slide {
+	animation: slideIn 0.2s ease-in-out forwards;
+}
+
+.modalContent:not(.slide) {
+	animation: slideOut 0.2s ease-in-out forwards;
+}
+
+.modalContent {
+	background-color: rgb(62, 64, 69);
+    display: flex;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 24rem;
+    overflow: scroll;
+    max-height: 70vh;
+}
+
+.modalContainer.mobileModal {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.modalContainer.mobileModal > div {
+	margin: 1rem;
+	width: calc(100% - 6rem);
+}
+
+.modalContainer > .modalContent > div {
+	display: flex;
+	gap: 1rem;
+	flex-direction: row;
+	justify-content: flex-end;
+}
+
+.modalContainer > .modalContent > div > button {
+	background-color: transparent;
+	border: none;
+	color: #9d9d9d;
+}
+
+.modalContainer > .modalContent > div > button:last-child {
+	background-color: #54808c;
+	border-radius: 0.5rem;
+	padding: 0.5rem 1rem;
+	color: white;
+}
+
+.userInfo > .modalContainer > .modalContent > img {
+	width: 6rem;
+    border-radius: 50%;
+}
+
+
+@supports (-webkit-touch-callout: none) {
+	.mobileModal > .modalContent {
+		margin-top: calc(env(safe-area-inset-top));
+	}
+}

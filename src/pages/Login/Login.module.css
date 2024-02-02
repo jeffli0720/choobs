@@ -1,0 +1,184 @@
+.page {
+	max-width: 300px;
+    margin: auto;
+}
+
+.button {
+	background-color: #54808c;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem;
+    color: white;
+    margin: 0.5rem 0;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.button:hover {
+    opacity: .75;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(.4,0,.2,1);
+    transition-duration: .15s;
+}
+
+.input {
+	padding: 0.5rem;
+	color: white;
+	background: rgba(255, 255, 255, 0.1);
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+	backdrop-filter: blur(15px);
+	-webkit-backdrop-filter: blur(15px);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 5px;
+}
+
+.errorPopup {
+    max-width: calc(100% - 2rem);
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	right: 0.5rem;
+	background-color: #3c3839;
+	border: 1px solid red;
+	color: rgb(255, 100, 100);
+	padding: 0.5rem;
+	padding-top: 0.7rem;
+	padding-bottom: 0;
+	bottom: 2rem;
+	border-radius: 0.5rem;
+	align-items: center;
+	animation: errorAppearAnimation 3s forwards;
+}
+
+.errorTimer {
+	margin-top: 0.5rem;
+	border-radius: 0 0 1rem;
+	width: calc(100% + 1rem);
+	height: 5px;
+	background-color: red;
+	animation: errorAnimation 3s linear forwards;
+}
+
+.errorMessage {
+	fill: red;
+	display: flex;
+	align-items: center;
+}
+
+.errorMessage > svg {
+	margin-right: 0.5rem;
+	fill: rgb(255, 100, 100);
+}
+
+@keyframes errorAppearAnimation {
+	0% {
+		opacity: 0;
+		transform: translateY(50%);
+	}
+	15% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+    90% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+    100% {
+		opacity: 0;
+		transform: translateY(50%);
+	}
+}
+
+@keyframes errorAnimation {
+	0% {
+		width: calc(100% + 1rem);
+		margin-left: 0;
+	}
+
+    5% {
+		width: calc(100% + 1rem);
+		margin-left: 0;
+	}
+
+    95% {
+		width: 0%;
+		margin-left: calc(100% + 1rem);
+	}
+
+	100% {
+		width: 0%;
+		margin-left: calc(100% + 1rem);
+	}
+}
+
+.page > form {
+	padding: 10vh 0;
+}
+
+.loginContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.loginContainer > h2 {
+	margin: 2rem 0;
+}
+
+@supports (-webkit-touch-callout: none) {
+	.loginPage {
+		margin-top: env(safe-area-inset-top);
+	}
+}
+
+.toggleLoginSignup {
+	left: 0;
+    position: fixed;
+    bottom: 25px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	font-size: 14px;
+}
+
+.toggleLoginSignup > p {
+	padding-left: 6px;
+}
+
+.toggleLoginSignup > button {
+	background: none;
+    border: none;
+    color: #80a4ae;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 0 6px;
+}
+
+.wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    overflow: hidden;
+    z-index: -1;
+    height: 400px;
+}
+
+.wave > svg {
+    position: sticky;
+    bottom: 0;
+}
+
+.back {
+	display: flex;
+    align-items: center;
+    position: absolute;
+    color: #6e747a;
+    flex-direction: row;
+    text-decoration: none;
+	margin-top: 5vh;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+

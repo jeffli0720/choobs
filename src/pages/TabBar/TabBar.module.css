@@ -1,0 +1,66 @@
+.TabBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    padding: 0 0.5rem;
+    border-radius: 1rem;
+    margin: 1rem max(calc(((100vw - 3 * 15vw) - 2.5rem) / 2), calc(((100vw - 3 * 4rem) - 2.5rem) / 2));
+    /* From https://css.glass */
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+@supports (-webkit-touch-callout: none) {
+	.TabBar {
+		margin-bottom: max(env(safe-area-inset-bottom), 1rem);
+	}
+}
+
+body {
+	user-select: none;
+}
+
+.link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    width: 15vw;
+    max-width: 4rem;
+    margin: 0.5rem 0.25rem;
+    color: #abbac7;
+    padding: 0.5rem 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    user-select: none;
+    transition: all .1s ease-in-out;
+}
+
+.link:active {
+	transform: scale(1.05);
+	transition: .05s;
+}
+
+
+.link > p {
+    margin: 0;
+}
+
+.icon {
+    display: flex;
+    width: 2rem;
+    height: 2rem;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+
+.highlight {
+    background-color: #4c5963;
+    border-radius: 0.8rem;
+    color: white;
+    position: relative;
+}

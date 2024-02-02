@@ -1,0 +1,74 @@
+.page {
+    display: flex;
+    justify-content: center;
+    gap: 1vw;
+}
+
+.page > div::-webkit-scrollbar {
+    display: none;
+    background-color: rgb(51, 54, 60);
+} 
+
+.SideBar {
+    width: 25vw;
+    display: flex;
+    justify-content: center;
+}
+
+.SideBar > div {
+    position: fixed;
+    top: 3rem;
+}
+
+.schedule {
+    width: 22rem;
+    height: 100vh;
+    max-width: 25rem;
+    overflow-y: scroll;
+}
+
+.social {
+    width: 25vw;
+    height: 100vh;
+    max-width: 25rem;
+    overflow-y: scroll;
+}
+
+.settings {
+    height: 100vh;
+    width: calc(26vw + 22rem);
+    max-width: calc(47rem + 1vw);
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    margin: 0.5rem 1rem 0.5rem calc((25vw - 13rem));
+    color: #d7e2ec;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    user-select: none;
+    border-radius: 0.5rem;
+    width: calc(25vw - 1rem);
+    max-width: 12rem;
+    border: 1px solid #ffffff00;
+    transition: all 0.2s ease-in-out;
+}
+
+.link:last-of-type {
+    position: fixed;
+    bottom: 1rem;
+    width: 20vw;
+}
+
+.link > p {
+    margin-left: 1rem;
+}
+
+.highlight {
+    border: 1px solid #4c5963;
+    background-color: #4c5963;
+    color: white;
+}

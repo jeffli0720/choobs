@@ -1,0 +1,267 @@
+.button,
+input[type="submit"],
+input[type="reset"] {
+	background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	user-select: none;
+	transition: all .2s ease-in-out;
+}
+
+.button:active {
+	transform: scale(2);
+	transition: .1s;
+}
+
+.calendar > .button:active {
+	transform: scale(1.2);
+	transition: .1s;
+}
+
+.week > .button:active {
+	transform: scale(1.1);
+	transition: .1s;
+}
+
+.ul {
+	padding: 0;
+	list-style-type: none;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.info {
+	text-align: right;
+	min-width: 5rem;
+	margin-left: 1rem;
+	user-select: none;
+}
+
+.li {
+	width: calc(100% - 3rem); /* 3 rem = 1.5rem (padding) times 2 */
+	padding: 1.5rem;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+	border-radius: 16px;
+	margin: 0.5rem 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 1rem;
+	align-items: center;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 0.2s;
+}
+
+.li > div > p > i {
+	font-weight: 300;
+}
+
+.blockContent {
+	display: flex;
+    width: 100%;
+    justify-content: space-between;
+	align-items: center;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	10% {
+		opacity: 0.5;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+p,
+h3,
+h4 {
+	margin: 0;
+}
+
+.li > div > div > p,
+.li > div > div > h3,
+.li > div > div > h4 {
+	margin: 0;
+	padding: 0.2rem 0;
+}
+
+.header {
+	position: sticky;
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 1rem 7vw;
+	background: rgba(255, 255, 255, 0.05);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	width: 86vw;
+	height: 3rem;
+	z-index: 10;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+@supports (padding-top: env(safe-area-inset-top)) {
+	body > div> div.header {
+		padding-top: max(env(safe-area-inset-top), 1rem);
+	}
+}
+
+.desktopHeader {
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 1rem 0;
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	height: 3rem;
+	z-index: 10;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	position: sticky;
+	width: 100%;
+}
+
+.date {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	height: 90%;
+	padding: 1rem;
+}
+
+.date > h4 {
+	font-weight: 300;
+}
+
+.schedule {
+	padding: 1rem 10vw;
+	max-width: 20rem;
+    margin: 0 auto 5rem;
+	/* min-height: calc(100vh - (env(safe-area-inset-top) + 5rem)); */
+}
+
+@supports (-webkit-touch-callout: none) {
+	.schedule {
+		margin-bottom: calc(4rem + env(safe-area-inset-bottom));
+	}
+}
+
+.desktopSchedule {
+	margin: 0 1rem 1rem 1rem;
+}
+
+.desktopSchedule::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.calendar {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 80%;
+	max-width: 20rem;
+	margin: 0 1rem;
+	align-items: center;
+}
+
+.week {
+	margin: 0 0.5rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	width: 100%;
+}
+
+.day {
+	width: 20%;
+	height: 3rem;
+}
+
+.today {
+	background-color: #4c5963;
+	border-radius: 10%;
+	border: 1px solid #4c5963;
+	color: white;
+}
+
+.grayed {
+	color: #747474;
+}
+
+.highlighted {
+	background-color: #4c5963;
+    color: white;
+    width: calc(100% - 2rem);
+}
+
+.fullDayEvent {
+	text-align: center;
+	white-space: nowrap;
+	padding: 0.5rem 0;
+}
+
+.countdown {
+	width: 100%;
+	display: flex;
+    flex-direction: column;
+	gap: 0.5rem;
+}
+
+.countdownText {
+	display: flex;
+    justify-content: space-between;
+	padding-top: 0.5rem;
+}
+
+.progressBarContainer {
+	background-color: rgb(51, 54, 60);
+	height: 1rem;
+	border-radius: 1rem;
+}
+
+.progressBar {
+	background-color: rgb(128, 164, 174);
+	height: 100%;
+	float: left;
+    border-radius: 1rem;
+}
+
+.warning {
+	display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: red;
+	width: 100%;
+}
+
+.lunchError {
+	padding: 0.5rem 0.5rem 0;
+    width: calc(100% - 1rem);
+}
+
+.subtext {
+	margin-top: 0.5rem;
+	color: #d7e2ec70;
+    font-size: small;
+    text-align: center;
+	display: flex;
+    flex-direction: column;
+	gap: 0.25rem;
+}

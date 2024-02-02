@@ -1,0 +1,198 @@
+button:hover {
+    cursor: pointer;
+}
+
+.disabled:hover {
+    cursor: not-allowed;
+}
+
+.table {
+	display: flex;
+	justify-content: space-between;
+	padding: 1rem 0;
+}
+
+.column {
+	display: flex;
+	flex-direction: column;
+    align-items: center;
+    width: 15%;
+}
+
+.column > h4 {
+    line-height: 2rem;
+}
+
+.schedule > .table > .column {
+    width: calc((100% - 1.5rem) / 6);
+}
+
+.schedule {
+    width: calc(100% + 3rem);
+    margin-left: -1.5rem;
+}
+
+.scheduleItem {
+    border: 1px solid;
+    height: 4rem;
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-overflow: ellipsis;
+}
+
+.modalContainer {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 999;
+	opacity: 1;
+}
+
+.modalContainer.fade {
+	animation: fadeIn 0.2s ease-in-out forwards;
+}
+
+.modalContainer:not(.fade) {
+	animation: fadeOut 0.2s ease-in-out forwards;
+}
+
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+
+.modalTitle {
+    margin: 1.5rem 0 1rem;
+}
+
+.modalContent {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 300px;
+	padding: 0 2rem;
+	background: rgb(62, 64, 69);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    border: none;
+	border-radius: 0.5rem;
+}
+
+.modalContent > div {
+    width: 100%;
+    padding-bottom: 1.5rem;
+}
+
+.inputs {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.buttons > button {
+    background-color: #54808c;
+    color: #d7e2ec;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    border: none;
+	border-radius: 5px;
+    padding: 0.5rem;
+}
+
+button {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+.modalContent input {
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 5px;
+    width: 40%;
+    color: #d7e2ec;
+}
+
+.modalContent input::placeholder {
+    color: #d7e2ec90;
+}
+
+.modalClose {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	cursor: pointer;
+}
+
+.cell {
+    height: 2rem;
+    margin: 0.2rem 0;
+    background: rgb(175 175 175 / 40%);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+    border: none;
+	border-radius: 5px;
+    width: 100%;
+    color: #d7e2ec;
+}
+
+.selected {
+    background-color: #4c5963;
+}
+
+.disabled {
+    background: rgba(255, 255, 255, 0);
+    color: #646464;
+}
+
+.subtext {
+    color: #d7e2ec70;
+    font-size: small;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.missingData {
+    background-color: red;
+}
+
+.labels {
+    padding-top: 2rem;
+    width: 1.4rem !important;
+}
+
+.labels > div {
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    width: 1.5rem;
+}

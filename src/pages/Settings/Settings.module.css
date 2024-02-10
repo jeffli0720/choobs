@@ -202,20 +202,20 @@
 	width: calc(100% - 6rem);
 }
 
-.modalContainer > .modalContent > div {
+.modalButtons {
 	display: flex;
 	gap: 1rem;
 	flex-direction: row;
 	justify-content: flex-end;
 }
 
-.modalContainer > .modalContent > div > button {
+.modalButtons > button {
 	background-color: transparent;
 	border: none;
 	color: #9d9d9d;
 }
 
-.modalContainer > .modalContent > div > button:last-child {
+.modalButtons > button:last-child {
 	background-color: #54808c;
 	border-radius: 0.5rem;
 	padding: 0.5rem 1rem;
@@ -227,6 +227,56 @@
     border-radius: 50%;
 }
 
+.pfpModal {
+	align-items: center;
+}
+
+.modalContainer > .modalContent.pfpModal > div {
+	width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+
+.modalContainer > .modalContent.pfpModal > div > em-emoji-picker {
+	width: 100%;
+	max-height: calc(70vh - 11rem);
+}
+
+.colorPicker {
+	display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+	gap: 5%;
+	width: 100%;
+	align-content: space-between;
+	height: 100%;
+}
+
+.colorPicker > button {
+	border: none;
+	padding: 0;
+	height: 40%;
+	width: 16%;
+	border-radius: 0.5rem;
+}
+
+.colorPicker > button > span {
+	color: white;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    line-height: 100%;
+}
+
+.modalContainer > .modalContent.pfpModal > div > div:last-child{
+	display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.5rem;
+	width: calc(100% - 7rem);
+}
 
 @supports (-webkit-touch-callout: none) {
 	.mobileModal > .modalContent {

@@ -11,10 +11,10 @@ function Schedule(props) {
 		if (sessionStorage.getItem("displayDate")) {
 			return new Date(sessionStorage.getItem("displayDate"));
 		} else {
-		const date = new Date();
-		date.setHours(0, 0, 0, 0);
-		sessionStorage.setItem("displayDate", date);
-		return date;
+			const date = new Date();
+			date.setHours(0, 0, 0, 0);
+			sessionStorage.setItem("displayDate", date);
+			return date;
 		}
 	});
 	const [events, setEvents] = useState([]);
@@ -53,12 +53,13 @@ function Schedule(props) {
 					);
 				});
 				setEvents(currentDayEvents);
+
+				if (scheduleData) {
+					setLoading(false);
+				}
 			} catch (error) {
 				console.error("Error fetching calendar events:", error);
-			}
-
-			if (scheduleData) {
-				setLoading(false);
+				fetchData();
 			}
 		};
 
@@ -508,7 +509,7 @@ function Schedule(props) {
 								if (isHalfDay) {
 									const lastBlock = events.find((event) => ["F1", "D2", "C2", "F3", "D4", "C4"].includes(event.summary)).summary;
 
-									if (lastBlock) {
+									if (lastBlock && scheduleData.length > 0) {
 										const lastBlockRoom = scheduleData.find((event) => event.block === lastBlock).classNames[1];
 
 										if (!(lastBlockRoom > 899 || lastBlockRoom < 100)) {
@@ -563,7 +564,8 @@ function Schedule(props) {
 														</div>
 														{isHighlightedEvent(event) && countdown(event)}
 													</div>
-													{currentDay && currentDay.includes("Half Day") &&
+													{currentDay &&
+														currentDay.includes("Half Day") &&
 														["F1", "D2", "C2", "F3", "D4", "C4"].includes(event.summary) &&
 														blocksRendered.every((str) => !str.includes("Lunch")) && (
 															<div className={`${styles.lunchError}`}>
@@ -623,7 +625,8 @@ function Schedule(props) {
 														</div>
 														{isHighlightedEvent(event) && countdown(event)}
 													</div>
-													{currentDay && currentDay.includes("Half Day") &&
+													{currentDay &&
+														currentDay.includes("Half Day") &&
 														["F1", "D2", "C2", "F3", "D4", "C4"].includes(event.summary) &&
 														blocksRendered.every((str) => !str.includes("Lunch")) && (
 															<div className={`${styles.lunchError}`}>

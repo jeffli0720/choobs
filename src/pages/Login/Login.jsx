@@ -52,20 +52,21 @@ function Login(props) {
 				);
 				const uid = userCredential.user.uid;
 				const userCollectionRef = doc(db, "users", uid);
+				const pfp = [["#ff3c3c", "#f68729", "#41e241", "#6be56b", "#40e0d0", "#9c3900", "#ff9494", "#407f40", "#4764ae", "#54808c"][Math.floor(Math.random() * 10)], '🙂'];
+				console.log("pfp", pfp);
 				setDoc(userCollectionRef, {
 					classes: {},
 					email: email,
 					name: name,
 					friends: {},
-					photoURL: `https://ui-avatars.com/api/?name=${name
-						.trim()
-						.replace(/\s+/g, "+")}&background=random&size=128`,
+					pfp: pfp,
 				});
 				setErrorMessage(
 					"Please check your email to verify your account."
 				);
 				navigate("/");
 			} catch (error) {
+				console.error(error);
 				setErrorMessage(error.message);
 			}
 		}

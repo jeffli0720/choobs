@@ -27,7 +27,7 @@ function FeedbackForm(props) {
 							JSON.stringify({
 								email: userData.email,
 								name: userData.name,
-								photoURL: userData.photoURL,
+								pfp: userData.pfp,
 							})
 						);
 						setUserData(userData);

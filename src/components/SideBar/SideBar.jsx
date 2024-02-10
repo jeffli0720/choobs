@@ -1,8 +1,8 @@
 import { Link, useLocation } from "react-router-dom";
 
-import Social from "../Social/Social";
-import Schedule from "../Schedule/Schedule";
-import Settings from "../Settings/Settings";
+import Social from "../../pages/Social/Social";
+import Schedule from "../../pages/Schedule/Schedule";
+import Settings from "../../pages/Settings/Settings";
 
 import FeedbackForm from "../FeedbackForm/FeedbackForm";
 

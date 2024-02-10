@@ -164,18 +164,18 @@ div > div > div.scheduleContainer > div:first-of-type {
 	border-radius: 50%;
 }
 
-.friendInfo > div {
+.friendInfo > span {
 	text-wrap: nowrap;
 	overflow: hidden;
 }
 
-.friendInfo > div > h4 {
+.friendInfo > span > h4 {
 	width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-.friendInfo > div > span {
+.friendInfo > span > span {
 	font-size: 0.8rem;
     color: #9d9d9d;
     width: 100%;

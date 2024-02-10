@@ -4,8 +4,8 @@ import { auth } from "./firebase";
 
 import "./index.css";
 
-import TabBar from "./pages/TabBar/TabBar";
-import SideBar from "./pages/SideBar/SideBar";
+import TabBar from "./components/TabBar/TabBar";
+import SideBar from "./components/SideBar/SideBar";
 import Schedule from "./pages/Schedule/Schedule";
 import Social from "./pages/Social/Social";
 import Settings from "./pages/Settings/Settings";

@@ -1,17 +1,11 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import React, { useState, useEffect, useCallback } from "react";
 import { db } from "../../firebase";
-import {
-	getDoc,
-	doc,
-	updateDoc,
-	deleteField,
-	collection,
-	getDocs,
-} from "firebase/firestore";
+import { getDoc, doc, updateDoc, deleteField, collection, getDocs } from "firebase/firestore";
 // import axios from "axios";
 
 import Schedule from "../Schedule/Schedule";
+import PFP from "../../components/PFP/PFP";
 
 import styles from "./Social.module.css";
 
@@ -33,7 +27,8 @@ function Social() {
 			const date = new Date();
 			date.setHours(0, 0, 0, 0);
 			return date;
-		});
+		}
+	);
 	// const [activeEvents, setActiveEvents] = useState([]);
 
 	const [friendScheduleUID, setFriendScheduleUID] = useState();
@@ -41,9 +36,7 @@ function Social() {
 	const [isMobile, setIsMobile] = useState(isMobileDevice());
 
 	function isMobileDevice() {
-		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-			navigator.userAgent
-		);
+		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 	}
 
 	useEffect(() => {
@@ -75,13 +68,11 @@ function Social() {
 			const dataSnapshot = (await getDoc(userRef)).data();
 
 			if (dataSnapshot.friends) {
-				const friendDataPromises = Object.entries(
-					dataSnapshot.friends
-				).map(async ([friendUID, status, photo]) => {
+				const friendDataPromises = Object.entries(dataSnapshot.friends).map(async ([friendUID, status, photo]) => {
 					const friendUserRef = doc(db, "users", friendUID);
 					const friendDataSnapshot = await getDoc(friendUserRef);
 					const friendName = friendDataSnapshot.data().name;
-					const friendPhoto = friendDataSnapshot.data().photoURL;
+					const friendPhoto = friendDataSnapshot.data().pfp;
 
 					return [friendName, friendUID, status, friendPhoto];
 				});
@@ -175,14 +166,11 @@ function Social() {
 				[`friends.${uid}`]: 1,
 			});
 
-			fetch(
-				"https://script.google.com/a/macros/lexingtonma.org/s/AKfycbxjylH8GOl-3YsNzMn03j5MwkMaCDWWf6t2jhYOt9ZjY776CHYJWF8deJ-THuQx_ILPgg/exec",
-				{
-					method: "POST",
-					mode: "no-cors",
-					body: JSON.stringify({ "sender": "alice", "recipientEmail": "26stu252@lexingtonma.org" }),
-				}
-			)
+			fetch("https://script.google.com/a/macros/lexingtonma.org/s/AKfycbxjylH8GOl-3YsNzMn03j5MwkMaCDWWf6t2jhYOt9ZjY776CHYJWF8deJ-THuQx_ILPgg/exec", {
+				method: "POST",
+				mode: "no-cors",
+				body: JSON.stringify({ sender: `${uid}`, recipientEmail: "26stu252@lexingtonma.org" }),
+			})
 				.then((res) => res.json())
 				.then((data) => {
 					console.log(data);
@@ -222,27 +210,12 @@ function Social() {
 
 			querySnapshot.forEach((doc) => {
 				if (
-					(doc
-						.data()
-						.name.toLowerCase()
-						.includes(searchedUser.toLowerCase()) ||
-						doc
-							.data()
-							.email.toLowerCase()
-							.substring(
-								0,
-								doc.data().email.toLowerCase().indexOf("@")
-							)
-							.includes(searchedUser.toLowerCase())) &&
+					(doc.data().name.toLowerCase().includes(searchedUser.toLowerCase()) ||
+						doc.data().email.toLowerCase().substring(0, doc.data().email.toLowerCase().indexOf("@")).includes(searchedUser.toLowerCase())) &&
 					!friendData.some((friend) => friend[1] === doc.id) &&
 					doc.id !== uid
 				) {
-					results.push([
-						doc.data().name,
-						doc.data().email,
-						doc.id,
-						doc.data().photoURL,
-					]);
+					results.push([doc.data().name, doc.data().email, doc.id, doc.data().photoURL]);
 				}
 			});
 
@@ -393,125 +366,53 @@ function Social() {
 
 	return (
 		<>
-			<div
-				className={`${isMobile ? styles.header : styles.desktopHeader
-					} ${friendScheduleUID ? styles.active : ""}`}
-			>
+			<div className={`${isMobile ? styles.header : styles.desktopHeader} ${friendScheduleUID ? styles.active : ""}`}>
 				{!friendScheduleUID ? (
 					<div>
 						<div>
 							<h3>Friends</h3>
 						</div>
-						<button
-							className={styles.button}
-							onClick={openModal}
-							disabled={loading}
-						>
-							{friendData &&
-								friendData.some((item) => item[2] === 1) ? (
-								<span
-									className={`${"material-symbols-rounded"}`}
-								>
+						<button className={styles.button} onClick={openModal} disabled={loading}>
+							{friendData && friendData.some((item) => item[2] === 1) ? (
+								<span className={`${"material-symbols-rounded"}`}>
 									&#xe7f0;
-									<div
-										className={styles.requestNotification}
-									/>
+									<div className={styles.requestNotification} />
 								</span>
 							) : (
-								<span
-									className={`${"material-symbols-rounded"}`}
-								>
-									&#xe7f0;
-								</span>
+								<span className={`${"material-symbols-rounded"}`}>&#xe7f0;</span>
 							)}
 						</button>
 					</div>
 				) : (
 					<>
 						<div>
-							<button
-								className={styles.button}
-								onClick={() => setFriendScheduleUID(null)}
-							>
-								<span
-									className={`${"material-symbols-rounded"}`}
-								>
-									&#xe5cb;
-								</span>
+							<button className={styles.button} onClick={() => setFriendScheduleUID(null)}>
+								<span className={`${"material-symbols-rounded"}`}>&#xe5cb;</span>
 							</button>
 							<div className={styles.currentlyViewing}>
 								Currently viewing
-								<h4>
-									{
-										friendData.find(
-											(friend) =>
-												friend[1] === friendScheduleUID
-										)[0]
-									}
-								</h4>
+								<h4>{friendData.find((friend) => friend[1] === friendScheduleUID)[0]}</h4>
 							</div>
-							<button
-								className={styles.button}
-								onClick={openModal}
-							>
-								<span
-									className={`${"material-symbols-rounded"}`}
-								>
-									&#xe872;
-								</span>
+							<button className={styles.button} onClick={openModal}>
+								<span className={`${"material-symbols-rounded"}`}>&#xe872;</span>
 							</button>
 						</div>
 					</>
 				)}
 			</div>
 			{showModal && friendScheduleUID && (
-				<div
-					className={`${styles.modalContainer} ${modalFade && styles.fade
-						} ${isMobile && styles.mobileModal} ${styles.unfriendModal
-						}`}
-					onClick={closeModal}
-				>
-					<div
-						className={`${styles.modalContent} ${modalFade ? styles.slide : ""
-							}`}
-						onClick={(e) => e.stopPropagation()}
-					>
-						<h3>
-							Unfriend{" "}
-							{
-								friendData.find(
-									(friend) => friend[1] === friendScheduleUID
-								)[0]
-							}
-						</h3>
-						<p>
-							Are you sure you want to remove{" "}
-							{
-								friendData.find(
-									(friend) => friend[1] === friendScheduleUID
-								)[0]
-							}{" "}
-							from your friends list?
-						</p>
+				<div className={`${styles.modalContainer} ${modalFade && styles.fade} ${isMobile && styles.mobileModal} ${styles.unfriendModal}`} onClick={closeModal}>
+					<div className={`${styles.modalContent} ${modalFade ? styles.slide : ""}`} onClick={(e) => e.stopPropagation()}>
+						<h3>Unfriend {friendData.find((friend) => friend[1] === friendScheduleUID)[0]}</h3>
+						<p>Are you sure you want to remove {friendData.find((friend) => friend[1] === friendScheduleUID)[0]} from your friends list?</p>
 						<div>
 							<button onClick={closeModal}>Cancel</button>
-							<button onClick={() => unfriend(friendScheduleUID)}>
-								Unfriend{" "}
-								{
-									friendData.find(
-										(friend) =>
-											friend[1] === friendScheduleUID
-									)[0]
-								}
-							</button>
+							<button onClick={() => unfriend(friendScheduleUID)}>Unfriend {friendData.find((friend) => friend[1] === friendScheduleUID)[0]}</button>
 						</div>
 					</div>
 				</div>
 			)}
-			<div
-				className={`${isMobile ? styles.social : styles.desktopSocial
-					} ${friendScheduleUID ? styles.ios : ""}`}
-			>
+			<div className={`${isMobile ? styles.social : styles.desktopSocial} ${friendScheduleUID ? styles.ios : ""}`}>
 				{!friendScheduleUID ? (
 					<div className={styles.friendsList}>
 						{loading ? (
@@ -521,17 +422,10 @@ function Social() {
 								<div></div>
 								<div></div>
 							</div>
-						) : friendData &&
-							friendData.some((item) => item[2] === 0) ? (
+						) : friendData && friendData.some((item) => item[2] === 0) ? (
 							friendData
 								.sort((a, b) => {
-									return friendData
-										.find((friend) => friend[1] === a[1])[0]
-										.localeCompare(
-											friendData.find(
-												(friend) => friend[1] === b[1]
-											)[0]
-										);
+									return friendData.find((friend) => friend[1] === a[1])[0].localeCompare(friendData.find((friend) => friend[1] === b[1])[0]);
 								})
 								.filter((friend) => {
 									return friend[2] === 0;
@@ -546,18 +440,8 @@ function Social() {
 											}}
 										>
 											<div className={styles.friendInfo}>
-												<img
-													src={
-														friend[3]
-															? friend[3]
-															: `${process.env
-																.PUBLIC_URL +
-															"/static/maskable_icon_x144.png"
-															}`
-													}
-													alt={friend[0]}
-												></img>
-												<div>
+												{Array.isArray(friend[3]) ? <PFP pfp={friend[3]} size={2.5} /> : <img src={`https://ui-avatars.com/api/?name=${friend[0].trim().replace(/\s+/g, "+")}&background=random&size=128`} alt={friend[0]} />}
+												<span>
 													<h4>{friend[0]}</h4>
 													{/* {activeEvents
 														.filter(
@@ -581,14 +465,10 @@ function Social() {
 															);
 														})
 													} */}
-												</div>
+												</span>
 											</div>
 
-											<span
-												className={`${"material-symbols-rounded"}`}
-											>
-												&#xe5cc;
-											</span>
+											<span className={`${"material-symbols-rounded"}`}>&#xe5cc;</span>
 										</button>
 									);
 								})
@@ -596,10 +476,7 @@ function Social() {
 							<div className={styles.noFriends}>
 								<h3>Scheduling is better with friends!</h3>
 								<p>
-									Invite your friends to sign up at{" "}
-									<span>choobs.app</span> and send them a
-									friend request using the button in the top
-									right.
+									Invite your friends to sign up at <span>choobs.app</span> and send them a friend request using the button in the top right.
 								</p>
 							</div>
 						)}
@@ -611,16 +488,8 @@ function Social() {
 				)}
 			</div>
 			{showModal && !friendScheduleUID && (
-				<div
-					className={`${styles.modalContainer} ${modalFade && styles.fade
-						} ${isMobile && styles.mobileModal}`}
-					onClick={closeModal}
-				>
-					<div
-						className={`${styles.modalContent} ${modalFade ? styles.slide : ""
-							}`}
-						onClick={(e) => e.stopPropagation()}
-					>
+				<div className={`${styles.modalContainer} ${modalFade && styles.fade} ${isMobile && styles.mobileModal}`} onClick={closeModal}>
+					<div className={`${styles.modalContent} ${modalFade ? styles.slide : ""}`} onClick={(e) => e.stopPropagation()}>
 						<div>
 							<h3>Add friends</h3>
 							<div className={styles.searchBox}>
@@ -636,16 +505,10 @@ function Social() {
 										value={searchedUser}
 										className={styles.input}
 										autoComplete="off"
-										onChange={(e) =>
-											setSearchedUser(e.target.value)
-										}
+										onChange={(e) => setSearchedUser(e.target.value)}
 									/>
 									<button type="submit">
-										<span
-											className={`${"material-symbols-rounded"}`}
-										>
-											&#xe8b6;
-										</span>
+										<span className={`${"material-symbols-rounded"}`}>&#xe8b6;</span>
 									</button>
 								</form>
 							</div>
@@ -654,22 +517,9 @@ function Social() {
 							<div className={styles.pendingFriends}>
 								{searchResults.length > 0 ? (
 									searchResults.map((user) => (
-										<div
-											key={user[1]}
-											className={styles.searchedFriend}
-										>
+										<div key={user[1]} className={styles.searchedFriend}>
 											<div>
-												<img
-													src={
-														user[3]
-															? user[3]
-															: `${process.env
-																.PUBLIC_URL +
-															"/static/maskable_icon_x144.png"
-															}`
-													}
-													alt={user[0]}
-												></img>
+												<img src={user[3] ? user[3] : `${process.env.PUBLIC_URL + "/static/maskable_icon_x144.png"}`} alt={user[0]}></img>
 												<div>
 													<span>{user[0]}</span>
 													<span>{user[1]}</span>
@@ -680,11 +530,7 @@ function Social() {
 													sendRequest(user[2]);
 												}}
 											>
-												<span
-													className={`${"material-symbols-rounded"}`}
-												>
-													&#xe7f0;
-												</span>
+												<span className={`${"material-symbols-rounded"}`}>&#xe7f0;</span>
 												Add
 											</button>
 										</div>
@@ -699,49 +545,20 @@ function Social() {
 								<h3>Incoming requests</h3>
 								{friendData
 									.sort((a, b) => {
-										return friendData
-											.find(
-												(friend) => friend[1] === a[1]
-											)[0]
-											.localeCompare(
-												friendData.find(
-													(friend) =>
-														friend[1] === b[1]
-												)[0]
-											);
+										return friendData.find((friend) => friend[1] === a[1])[0].localeCompare(friendData.find((friend) => friend[1] === b[1])[0]);
 									})
 									.filter((friend) => {
 										return friend[2] === 1;
 									})
 									.map((friend) => {
 										return (
-											<div
-												className={styles.pendingFriend}
-												key={friend[1]}
-											>
+											<div className={styles.pendingFriend} key={friend[1]}>
 												<div>
 													<div>{friend[0]}</div>
 												</div>
 												<div className={styles.buttons}>
-													<button
-														onClick={() =>
-															dismissRequest(
-																friend[1],
-																true
-															)
-														}
-													>
-														Ignore
-													</button>
-													<button
-														onClick={() =>
-															acceptRequest(
-																friend[1]
-															)
-														}
-													>
-														Accept
-													</button>
+													<button onClick={() => dismissRequest(friend[1], true)}>Ignore</button>
+													<button onClick={() => acceptRequest(friend[1])}>Accept</button>
 												</div>
 											</div>
 										);
@@ -753,40 +570,19 @@ function Social() {
 								<h3>Outgoing requests</h3>
 								{friendData
 									.sort((a, b) => {
-										return friendData
-											.find(
-												(friend) => friend[1] === a[1]
-											)[0]
-											.localeCompare(
-												friendData.find(
-													(friend) =>
-														friend[1] === b[1]
-												)[0]
-											);
+										return friendData.find((friend) => friend[1] === a[1])[0].localeCompare(friendData.find((friend) => friend[1] === b[1])[0]);
 									})
 									.filter((friend) => {
 										return friend[2] === 2;
 									})
 									.map((friend) => {
 										return (
-											<div
-												className={styles.pendingFriend}
-												key={friend[1]}
-											>
+											<div className={styles.pendingFriend} key={friend[1]}>
 												<div>
 													<div>{friend[0]}</div>
 												</div>
 												<div className={styles.buttons}>
-													<button
-														onClick={() =>
-															dismissRequest(
-																friend[1],
-																false
-															)
-														}
-													>
-														Cancel
-													</button>
+													<button onClick={() => dismissRequest(friend[1], false)}>Cancel</button>
 												</div>
 											</div>
 										);

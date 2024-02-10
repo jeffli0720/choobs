@@ -215,7 +215,7 @@ function Social() {
 					!friendData.some((friend) => friend[1] === doc.id) &&
 					doc.id !== uid
 				) {
-					results.push([doc.data().name, doc.data().email, doc.id, doc.data().photoURL]);
+					results.push([doc.data().name, doc.data().email, doc.id, doc.data().pfp]);
 				}
 			});
 
@@ -440,7 +440,11 @@ function Social() {
 											}}
 										>
 											<div className={styles.friendInfo}>
-												{Array.isArray(friend[3]) ? <PFP pfp={friend[3]} size={2.5} /> : <img src={`https://ui-avatars.com/api/?name=${friend[0].trim().replace(/\s+/g, "+")}&background=random&size=128`} alt={friend[0]} />}
+												{Array.isArray(friend[3]) ? (
+													<PFP pfp={friend[3]} size={2.5} />
+												) : (
+													<img src={`https://ui-avatars.com/api/?name=${friend[0].trim().replace(/\s+/g, "+")}&background=random&size=128`} alt={friend[0]} />
+												)}
 												<span>
 													<h4>{friend[0]}</h4>
 													{/* {activeEvents
@@ -516,25 +520,32 @@ function Social() {
 						{activeSearch && (
 							<div className={styles.pendingFriends}>
 								{searchResults.length > 0 ? (
-									searchResults.map((user) => (
-										<div key={user[1]} className={styles.searchedFriend}>
-											<div>
-												<img src={user[3] ? user[3] : `${process.env.PUBLIC_URL + "/static/maskable_icon_x144.png"}`} alt={user[0]}></img>
+									searchResults.map((user) => {
+										console.log(user);
+										return (
+											<div key={user[1]} className={styles.searchedFriend}>
 												<div>
-													<span>{user[0]}</span>
-													<span>{user[1]}</span>
+													{Array.isArray(user[3]) ? (
+														<PFP pfp={user[3]} size={2.5} />
+													) : (
+														<img src={`https://ui-avatars.com/api/?name=${user[0].trim().replace(/\s+/g, "+")}&background=random&size=128`} alt={user[0]} />
+													)}
+													<div>
+														<span>{user[0]}</span>
+														<span>{user[1]}</span>
+													</div>
 												</div>
+												<button
+													onClick={() => {
+														sendRequest(user[2]);
+													}}
+												>
+													<span className={`${"material-symbols-rounded"}`}>&#xe7f0;</span>
+													Add
+												</button>
 											</div>
-											<button
-												onClick={() => {
-													sendRequest(user[2]);
-												}}
-											>
-												<span className={`${"material-symbols-rounded"}`}>&#xe7f0;</span>
-												Add
-											</button>
-										</div>
-									))
+										);
+									})
 								) : (
 									<>No matches found for "{searchedUser}"</>
 								)}
@@ -551,9 +562,15 @@ function Social() {
 										return friend[2] === 1;
 									})
 									.map((friend) => {
+										console.log(friend);
 										return (
 											<div className={styles.pendingFriend} key={friend[1]}>
 												<div>
+													{Array.isArray(friend[3]) ? (
+														<PFP pfp={friend[3]} size={2.5} />
+													) : (
+														<img src={`https://ui-avatars.com/api/?name=${friend[0].trim().replace(/\s+/g, "+")}&background=random&size=128`} alt={friend[0]} />
+													)}
 													<div>{friend[0]}</div>
 												</div>
 												<div className={styles.buttons}>

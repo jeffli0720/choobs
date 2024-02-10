@@ -43,9 +43,9 @@ function Settings(props) {
 	useEffect(() => {
 		const fetchUserData = async () => {
 			try {
-				if (localStorage.getItem("userData")) {
-					setUserData(JSON.parse(localStorage.getItem("userData")));
-					setPreviewPFP(JSON.parse(localStorage.getItem("userData")).pfp);
+				if (sessionStorage.getItem("userData")) {
+					setUserData(JSON.parse(sessionStorage.getItem("userData")));
+					setPreviewPFP(JSON.parse(sessionStorage.getItem("userData")).pfp);
 				} else {
 					const userRef = doc(db, "users", uid);
 					const userDataSnapshot = await getDoc(userRef);
@@ -58,7 +58,7 @@ function Settings(props) {
 					if (userData) {
 						setUserData(userData);
 						setPreviewPFP(userData.pfp);
-						localStorage.setItem("userData", JSON.stringify(userData));
+						sessionStorage.setItem("userData", JSON.stringify(userData));
 					} else {
 						console.error("User data not available");
 					}
@@ -72,19 +72,6 @@ function Settings(props) {
 			fetchUserData();
 		}
 	}, [uid]);
-
-	useEffect(() => {
-		if (userData) {
-			if (!userData.pfp) {
-				const userCollectionRef = doc(db, "users", uid);
-				const pfp = [["#ff3c3c", "#f68729", "#41e241", "#6be56b", "#40e0d0", "#9c3900", "#ff9494", "#407f40", "#4764ae", "#54808c"][Math.floor(Math.random() * 10)], '🙂'];
-				updateDoc(userCollectionRef, {
-					photoURL: deleteField(),
-					pfp: pfp,
-				});
-			}
-		}
-	}, [userData, uid]);
 
 	function logout() {
 		const auth = getAuth();
@@ -139,7 +126,7 @@ function Settings(props) {
 	}, [showLogoutModal, showPFPModal]);
 
 	const ColorPicker = () => {
-		const colors = ["#ff3c3c", "#f68729", "#41e241", "#6be56b", "#40e0d0", "#9c3900", "#ff9494", "#407f40", "#4764ae", "#54808c"];
+		const colors = ["#ff3c3c", "#f68729", "#6be56b", "#8c3cc8", "#68d2c8", "#9c3900", "#ff9494", "#407f40", "#4764ae", "#54808c"];
 
 		return (
 			<div className={styles.colorPicker}>
@@ -174,7 +161,7 @@ function Settings(props) {
 				name: userData.name,
 				pfp: previewPFP,
 			});
-			localStorage.setItem(
+			sessionStorage.setItem(
 				"userData",
 				JSON.stringify({
 					email: userData.email,

@@ -14,15 +14,15 @@ function FeedbackForm(props) {
 	useEffect(() => {
 		const fetchUserData = async () => {
 			try {
-				if (localStorage.getItem("userData")) {
-					setUserData(JSON.parse(localStorage.getItem("userData")));
+				if (sessionStorage.getItem("userData")) {
+					setUserData(JSON.parse(sessionStorage.getItem("userData")));
 				} else {
 					const userRef = doc(db, "users", uid);
 					const userDataSnapshot = await getDoc(userRef);
 					const userData = userDataSnapshot.data();
 
 					if (userData) {
-						localStorage.setItem(
+						sessionStorage.setItem(
 							"userData",
 							JSON.stringify({
 								email: userData.email,

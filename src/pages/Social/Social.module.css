@@ -317,6 +317,13 @@ div > div > div.scheduleContainer > div:first-of-type {
 	font-size: 1.125rem;
 }
 
+.pendingFriend :first-child {
+	display: flex;
+    gap: 0.5rem;
+    width: 100%;
+	align-items: center;
+}
+
 .buttons {
 	display: flex;
 	flex-direction: row;

@@ -42,8 +42,9 @@ function Settings(props) {
 
 	useEffect(() => {
 		const fetchUserData = async () => {
+			window.localStorage.clear();
 			try {
-				if (sessionStorage.getItem("userData")) {
+				if (sessionStorage.getItem("userData").pfp) {
 					setUserData(JSON.parse(sessionStorage.getItem("userData")));
 					setPreviewPFP(JSON.parse(sessionStorage.getItem("userData")).pfp);
 				} else {
@@ -54,6 +55,15 @@ function Settings(props) {
 						name: userDataSnapshot.data().name,
 						pfp: userDataSnapshot.data().pfp,
 					};
+
+					if (!userData.pfp) {
+						userData.pfp = [["#ff3c3c", "#f68729", "#41e241", "#6be56b", "#40e0d0", "#9c3900", "#ff9494", "#407f40", "#4764ae", "#54808c"][Math.floor(Math.random() * 10)], '🙂'];
+						const userCollectionRef = doc(db, "users", uid);
+						updateDoc(userCollectionRef, {
+							photoURL: deleteField(),
+							pfp: userData.pfp,
+						})
+					}
 
 					if (userData) {
 						setUserData(userData);

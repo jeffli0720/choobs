@@ -521,7 +521,6 @@ function Social() {
 							<div className={styles.pendingFriends}>
 								{searchResults.length > 0 ? (
 									searchResults.map((user) => {
-										console.log(user);
 										return (
 											<div key={user[1]} className={styles.searchedFriend}>
 												<div>
@@ -562,7 +561,6 @@ function Social() {
 										return friend[2] === 1;
 									})
 									.map((friend) => {
-										console.log(friend);
 										return (
 											<div className={styles.pendingFriend} key={friend[1]}>
 												<div>
@@ -596,6 +594,11 @@ function Social() {
 										return (
 											<div className={styles.pendingFriend} key={friend[1]}>
 												<div>
+													{Array.isArray(friend[3]) ? (
+														<PFP pfp={friend[3]} size={2.5} />
+													) : (
+														<img src={`https://ui-avatars.com/api/?name=${friend[0].trim().replace(/\s+/g, "+")}&background=random&size=128`} alt={friend[0]} />
+													)}
 													<div>{friend[0]}</div>
 												</div>
 												<div className={styles.buttons}>

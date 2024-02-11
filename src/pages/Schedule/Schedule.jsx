@@ -321,6 +321,7 @@ function Schedule(props) {
 							date.setHours(0, 0, 0, 0);
 							sessionStorage.setItem("displayDate", date);
 							setDisplayDate(date);
+							setCurrentDay("");
 						}}
 						disabled={displayDate.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0)}
 					>
@@ -514,9 +515,12 @@ function Schedule(props) {
 
 										if (!(lastBlockRoom > 899 || lastBlockRoom < 100)) {
 											if (lastBlockRoom >= 500) {
+												// if 1st lunch start last block at 11:30
 												events[events.findIndex((event) => event.summary === lastBlock)].start.dateTime = new Date(displayDate.setHours(11, 30, 0, 0)).toISOString();
 											} else if (lastBlockRoom < 500) {
+												// if 2nd lunch end last block at 11:25, start lunch at 11:25
 												events[events.findIndex((event) => event.summary === lastBlock)].end.dateTime = new Date(displayDate.setHours(11, 25, 0, 0)).toISOString();
+												events[events.findIndex((event) => event.summary === "Lunch 2")].start.dateTime = new Date(displayDate.setHours(11, 25, 0, 0)).toISOString();
 											}
 										}
 									}
@@ -645,8 +649,12 @@ function Schedule(props) {
 					)}
 					{fullDayEvent && currentDay && currentDay.includes("Half Day") && !loading && (
 						<div className={styles.subtext}>
-							<span>Math + Language -&gt; 1st Lunch</span>
-							<span>Main + Science -&gt; 2nd Lunch</span>
+							<span>
+								<b>1st Lunch:</b> Math & Language Buildings
+							</span>
+							<span>
+								<b>2nd Lunch:</b> Main & Science Buildings{" "}
+							</span>
 						</div>
 					)}
 				</div>

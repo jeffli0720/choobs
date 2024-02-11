@@ -155,7 +155,7 @@ h4 {
 	padding: 1rem 10vw;
 	max-width: 20rem;
     margin: 0 auto 5rem;
-	/* min-height: calc(100vh - (env(safe-area-inset-top) + 5rem)); */
+	min-height: calc(100vh - (env(safe-area-inset-top) + 14.625rem));
 }
 
 @supports (-webkit-touch-callout: none) {

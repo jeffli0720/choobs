@@ -278,6 +278,11 @@
 	width: calc(100% - 7rem);
 }
 
+.save:disabled {
+	background-color: #515151 !important;
+    color: #1010104d !important;
+}
+
 @supports (-webkit-touch-callout: none) {
 	.mobileModal > .modalContent {
 		margin-top: calc(env(safe-area-inset-top));

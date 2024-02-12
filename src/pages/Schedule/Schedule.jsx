@@ -28,9 +28,10 @@ function Schedule(props) {
 		moved: false,
 		touchEnd: 0,
 		touchStart: 0,
-	})
+	});
 	const { moved, touchEnd, touchStart } = swipe;
-	const [SWIPE_SENSITIVITY, setSWIPE_SENSITIVITY] = useState(window.innerWidth * 0.15);
+	const [swipeOffset, setSwipeOffset] = useState(0);
+	const SWIPE_SENSITIVITY = 80; // number of pixels to trigger swipe
 
 	const [blocksRendered, setBlocksRendered] = useState([]);
 	const fullDayEvent = useMemo(() => [], []);
@@ -94,7 +95,6 @@ function Schedule(props) {
 	useEffect(() => {
 		const handleResize = () => {
 			setIsMobile(isMobileDevice());
-			setSWIPE_SENSITIVITY(window.innerWidth * 0.15);
 		};
 
 		window.addEventListener("resize", handleResize);
@@ -316,24 +316,32 @@ function Schedule(props) {
 
 	const handleTouchStart = (e) => {
 		let touchStartX = e.targetTouches[0].clientX;
-		setSwipe(swipe => ({...swipe, touchStart: touchStartX}));
-	}
+		setSwipe((swipe) => ({ ...swipe, touchStart: touchStartX, moved: false }));
+	};
 
 	const handleTouchMove = (e) => {
 		let touchEndX = e.targetTouches[0].clientX;
-		setSwipe(swipe => ({...swipe, touchEnd: touchEndX, moved: true}));
-	}
+		if (Math.abs(touchStart - touchEndX) > 30) {
+			if (touchStart - touchEndX > 0) {
+				setSwipeOffset(touchStart - touchEndX - (30));
+			} else {
+				setSwipeOffset(touchStart - touchEndX + (30));
+			}
+		}
+		setSwipe((swipe) => ({ ...swipe, touchEnd: touchEndX, moved: true }));
+	};
 
 	const handleTouchEnd = () => {
 		let distanceSwiped = touchStart - touchEnd;
+		setSwipeOffset(0);
 		if (Math.abs(distanceSwiped) > SWIPE_SENSITIVITY && moved) {
-			 if (distanceSwiped < 0) {
+			if (distanceSwiped < 0) {
 				handleDateChange(-1);
-			 } else if (distanceSwiped > 0) {
+			} else if (distanceSwiped > 0) {
 				handleDateChange(1);
-			 }
+			}
 		}
-	}
+	};
 
 	return (
 		<>
@@ -407,7 +415,16 @@ function Schedule(props) {
 					<span className={`${"material-symbols-rounded"} ${styles.icon}`}>&#xe5cc;</span>
 				</button>
 			</div>
-			<div className={isMobile ? styles.schedule : styles.desktopSchedule} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove} onTouchEnd={handleTouchEnd} >
+			<div
+				className={isMobile ? styles.schedule : styles.desktopSchedule}
+				style={{
+					right: swipeOffset > 0 ? `${swipeOffset}px` : `${swipeOffset}px`,
+					left: swipeOffset > 0 ? `-${swipeOffset}px` : `${Math.abs(swipeOffset)}px`,
+				}}
+				onTouchStart={handleTouchStart}
+				onTouchMove={handleTouchMove}
+				onTouchEnd={handleTouchEnd}
+			>
 				<div className={styles.date}>
 					<h4>
 						{displayDate.toLocaleDateString(undefined, {
@@ -423,7 +440,7 @@ function Schedule(props) {
 						</div>
 					) : events.length === 0 ? (
 						<div className={`${styles.fullDayEvent}`}>
-							<h3>No school</h3>
+							<h3>No School</h3>
 						</div>
 					) : (
 						events

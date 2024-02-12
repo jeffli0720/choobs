@@ -396,6 +396,11 @@ div > div > div.scheduleContainer > div:first-of-type {
 	border-radius: 50%;
 }
 
+.pendingFriend > div > img {
+	width: 2.5rem !important;
+	border-radius: 50%;
+}
+
 .searchedFriend > div {
 	display: flex;
 	gap: 0.5rem;
@@ -515,7 +520,7 @@ div > .button > span {
 
 	.social {
 		margin-top: calc(env(safe-area-inset-top) + 4rem);
-		min-height: calc(100vh - (env(safe-area-inset-top) + 4rem + env(safe-area-inset-bottom)));
+		min-height: calc(100vh - (env(safe-area-inset-top) + 8rem + env(safe-area-inset-bottom)));
 		padding-bottom: calc(4rem + env(safe-area-inset-bottom));
 		margin-bottom: 0;
 	}

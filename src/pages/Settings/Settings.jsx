@@ -1,5 +1,5 @@
 import EditClasses from "../EditClasses/EditClasses";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import { db } from "../../firebase";
 import { doc, getDoc, updateDoc, deleteField } from "firebase/firestore";
@@ -21,6 +21,7 @@ function Settings(props) {
 	const [modalFade, setModalFade] = useState(true);
 
 	const [previewPFP, setPreviewPFP] = useState([]);
+	const colors = useMemo(() => ["#ff3c3c", "#f68729", "#6be56b", "#8c3cc8", "#68d2c8", "#9c3900", "#ff9494", "#407f40", "#4764ae", "#54808c"], []);
 
 	const [isMobile, setIsMobile] = useState(isMobileDevice());
 
@@ -57,7 +58,7 @@ function Settings(props) {
 					};
 
 					if (!userData.pfp) {
-						userData.pfp = [["#ff3c3c", "#f68729", "#41e241", "#6be56b", "#40e0d0", "#9c3900", "#ff9494", "#407f40", "#4764ae", "#54808c"][Math.floor(Math.random() * 10)], '🙂'];
+						userData.pfp = [colors[Math.floor(Math.random() * 10)], '🙂'];
 						const userCollectionRef = doc(db, "users", uid);
 						updateDoc(userCollectionRef, {
 							photoURL: deleteField(),
@@ -81,7 +82,7 @@ function Settings(props) {
 		if (uid) {
 			fetchUserData();
 		}
-	}, [uid]);
+	}, [uid, colors]);
 
 	function logout() {
 		const auth = getAuth();
@@ -136,8 +137,6 @@ function Settings(props) {
 	}, [showLogoutModal, showPFPModal]);
 
 	const ColorPicker = () => {
-		const colors = ["#ff3c3c", "#f68729", "#6be56b", "#8c3cc8", "#68d2c8", "#9c3900", "#ff9494", "#407f40", "#4764ae", "#54808c"];
-
 		return (
 			<div className={styles.colorPicker}>
 				{colors.map((color, index) => (
@@ -219,7 +218,7 @@ function Settings(props) {
 											>
 												Discard Changes
 											</button>
-											<button className={styles.save} onClick={savePreviewPFP}>
+											<button className={styles.save} onClick={savePreviewPFP} disabled={userData.pfp === previewPFP}>
 												Save
 											</button>
 										</div>

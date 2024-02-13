@@ -140,7 +140,7 @@
 }
 
 div > div > div.scheduleContainer > div:first-of-type {
-	position: sticky;
+	position: fixed;
 	top: 42px;
 }
 
@@ -505,7 +505,7 @@ div > .button > span {
 }
 
 .social > .scheduleContainer > div:last-child {
-	margin-bottom: 0;
+	margin-bottom: 5rem;
 	padding-bottom: 0;
 }
 

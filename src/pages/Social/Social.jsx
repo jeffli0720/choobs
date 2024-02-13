@@ -19,17 +19,13 @@ function Social() {
 	const [searchResults, setSearchResults] = useState([]);
 	const [activeSearch, setActiveSearch] = useState(false);
 
-	// const [events, setEvents] = useState([]);
 	const [displayDate, setDisplayDate] = useState(
-		// 	new Date("2024-01-08T13:05:00")
-		// );
 		() => {
 			const date = new Date();
 			date.setHours(0, 0, 0, 0);
 			return date;
 		}
 	);
-	// const [activeEvents, setActiveEvents] = useState([]);
 
 	const [friendScheduleUID, setFriendScheduleUID] = useState();
 
@@ -87,16 +83,6 @@ function Social() {
 			console.error("Error fetching friend data:", error);
 		}
 	}, [uid]);
-
-	// useEffect(() => {
-	// 	const interval = setInterval(() => {
-	// 		refreshFriendData();
-	// 	}, 1000); // Update every second
-
-	// 	return () => {
-	// 		clearInterval(interval);
-	// 	};
-	// });
 
 	useEffect(() => {
 		if (uid) {
@@ -229,10 +215,6 @@ function Social() {
 		setActiveSearch(false);
 	}, [searchedUser]);
 
-	// useEffect(() => {
-	// 	console.log(friendData);
-	// }, [friendData]);
-
 	useEffect(() => {
 		const handleKeyDown = (event) => {
 			if (event.key === "Escape" && showModal) {
@@ -246,55 +228,6 @@ function Social() {
 			window.removeEventListener("keydown", handleKeyDown);
 		};
 	}, [showModal]);
-
-	// useEffect(() => {
-	// 	const fetchData = async () => {
-	// 		setLoading(true);
-	// 		try {
-	// 			const response = await axios.get(
-	// 				"https://www.googleapis.com/calendar/v3/calendars/lexingtonma.org_qud45cvitftvgc317tsd2vqctg%40group.calendar.google.com/events",
-	// 				{
-	// 					params: {
-	// 						calendarId:
-	// 							"lexingtonma.org_qud45cvitftvgc317tsd2vqctg@group.calendar.google.com",
-	// 						singleEvents: true,
-	// 						timeZone: "America/New_York",
-	// 						maxResults: 20,
-	// 						timeMin: `${
-	// 							displayDate.toISOString().split("T")[0]
-	// 						}T04:00:00-04:00`,
-	// 						timeMax: `${
-	// 							displayDate.toISOString().split("T")[0]
-	// 						}T23:59:59-04:00`,
-	// 						key: "AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs",
-	// 					},
-	// 				}
-	// 			);
-
-	// 			const currentDayEvents = response.data.items.filter((event) => {
-	// 				const eventStartDate = new Date(
-	// 					event.start.dateTime || event.start.date
-	// 				);
-	// 				const isFullDayEvent =
-	// 					!event.start.dateTime && !event.end.dateTime;
-
-	// 				return (
-	// 					(eventStartDate.getDate() === displayDate.getDate() &&
-	// 						eventStartDate.getMonth() ===
-	// 							displayDate.getMonth() &&
-	// 						eventStartDate.getFullYear() ===
-	// 							displayDate.getFullYear()) ||
-	// 					isFullDayEvent
-	// 				);
-	// 			});
-	// 			setEvents(currentDayEvents);
-	// 		} catch (error) {
-	// 			console.error("Error fetching calendar events:", error);
-	// 		}
-	// 	};
-
-	// 	fetchData();
-	// }, [displayDate]);
 
 	useEffect(() => {
 		if (displayDate.getTime() !== new Date().setHours(0, 0, 0, 0)) {
@@ -310,59 +243,6 @@ function Social() {
 			};
 		}
 	}, [displayDate]);
-
-	// useEffect(() => {
-	// 	const interval = setInterval(() => {
-	// 		const isHighlightedEvent = (event) => {
-	// 			const startTime = new Date(event.start.dateTime);
-	// 			const endTime = new Date(event.end.dateTime);
-	// 			const currentTime = new Date(); //new Date();
-
-	// 			if (event.summary.includes("Lunch")) {
-	// 				return (
-	// 					currentTime >= startTime.getTime() &&
-	// 					currentTime <= endTime.getTime()
-	// 				);
-	// 			} else {
-	// 				return (
-	// 					currentTime >= startTime.getTime() - 5 * 60 * 1000 &&
-	// 					currentTime <= endTime.getTime()
-	// 				);
-	// 			}
-	// 		};
-
-	// 		setActiveEvents(
-	// 			events.filter((event) => isHighlightedEvent(event))
-	// 		);
-	// 	}, 1000); // Update every second
-
-	// 	// Clean up the interval on component unmount
-	// 	return () => clearInterval(interval);
-
-	// 	// Include dependencies in the array if needed
-	// }, [events, displayDate, setActiveEvents]);
-
-	// const friendHasClass = async (event, uid) => {
-	// 	const userRef = doc(db, "users", uid);
-	// 	const scheduleDataSnapshot = (await getDoc(userRef)).data();
-
-	// 	// Extract the 'classes' data from the snapshot
-	// 	const classesData = scheduleDataSnapshot.classes;
-
-	// 	// Map the 'classes' data into the 'scheduleData' array
-	// 	const scheduleData = Object.entries(classesData).map(
-	// 		([block, classNames]) => ({
-	// 			block,
-	// 			classNames,
-	// 		})
-	// 	);
-
-	// 	// console.log(scheduleData);
-	// 	// console.log(event.summary);
-	// 	// console.log(scheduleData.some((item) => item.block === event.summary));
-
-	// 	return scheduleData.some((item) => item.block === event.summary);
-	// };
 
 	return (
 		<>

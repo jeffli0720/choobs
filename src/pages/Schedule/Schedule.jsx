@@ -155,6 +155,7 @@ function Schedule(props) {
 		[displayDate]
 	);
 
+	// Arrow key functionality
 	useEffect(() => {
 		const handleKeyDown = (event) => {
 			if (event.key === "ArrowRight") {

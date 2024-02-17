@@ -155,6 +155,23 @@ function Schedule(props) {
 		[displayDate]
 	);
 
+	useEffect(() => {
+		const handleKeyDown = (event) => {
+			if (event.key === "ArrowRight") {
+				handleDateChange(1);
+			}
+			if (event.key === "ArrowLeft") {
+				handleDateChange(-1);
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	});
+
 	/*
 	 * Resets displayDate every 4 hours
 	 */
@@ -261,7 +278,7 @@ function Schedule(props) {
 			return (
 				<div className={styles.countdown}>
 					<div className={styles.countdownText}>
-						<i>{minutesUntilStart + 1 + " minutes until start"}</i>
+						<i>{minutesUntilStart + 1 + (minutesUntilStart !== 0 ? " minutes" : " minute") + " until start"}</i>
 						<i>0%</i>
 					</div>
 					<div className={styles.progressBarContainer}>
@@ -297,7 +314,7 @@ function Schedule(props) {
 				return (
 					<div className={styles.countdown}>
 						<div className={styles.countdownText}>
-							<i>{Math.floor(timeDifference / 1000) + 1 + " seconds remaining"}</i>
+							<i>{Math.floor(timeDifference / 1000) + 1 + (Math.floor(timeDifference / 1000) !== 0 ? " seconds" : " second") + " remaining"}</i>
 							<i>{percentCompleted.toFixed(0) + "%"}</i>
 						</div>
 						<div className={styles.progressBarContainer}>
@@ -323,9 +340,9 @@ function Schedule(props) {
 		let touchEndX = e.targetTouches[0].clientX;
 		if (Math.abs(touchStart - touchEndX) > 30) {
 			if (touchStart - touchEndX > 0) {
-				setSwipeOffset(touchStart - touchEndX - (30));
+				setSwipeOffset(touchStart - touchEndX - 30);
 			} else {
-				setSwipeOffset(touchStart - touchEndX + (30));
+				setSwipeOffset(touchStart - touchEndX + 30);
 			}
 		}
 		setSwipe((swipe) => ({ ...swipe, touchEnd: touchEndX, moved: true }));
@@ -354,7 +371,7 @@ function Schedule(props) {
 						className={`${styles.button} ${displayDate.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0) ? styles.grayed : ""}`}
 						onClick={() => {
 							setLoading(true);
-							// setBlocksRendered([]);
+							setBlocksRendered([]);
 							const date = new Date();
 							date.setHours(0, 0, 0, 0);
 							sessionStorage.setItem("displayDate", date);

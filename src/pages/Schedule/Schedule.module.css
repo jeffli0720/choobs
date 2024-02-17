@@ -134,7 +134,7 @@ h4 {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-	position: sticky;
+	position: sticky !important;
 	width: 100%;
 }
 
@@ -156,14 +156,18 @@ h4 {
 	padding: 1rem 10vw;
 	max-width: 20rem;
     margin: 0 auto 10rem;
-	min-height: calc(100vh - (env(safe-area-inset-top) + 14.625rem));
+	min-height: calc(100vh - 12rem);
 	position: relative;
 	transition: all 0.1s;
 }
 
 @supports (-webkit-touch-callout: none) {
 	.schedule {
-		margin-bottom: calc(4rem + env(safe-area-inset-bottom));
+		top: calc(4rem + env(safe-area-inset-top)) !important;
+		/* i dont know why min-height need an extra pixel but it does so dont touch it */
+		min-height: calc(100vh - (env(safe-area-inset-top) + 12rem - 1px)); 
+		padding-bottom: calc(4rem + env(safe-area-inset-top));
+		margin-bottom: 0;
 	}
 }
 

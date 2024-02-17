@@ -507,6 +507,7 @@ div > .button > span {
 .social > .scheduleContainer > div:last-child {
 	margin-bottom: 5rem;
 	padding-bottom: 0;
+	min-height: calc(100vh - (12rem + 42px));
 }
 
 .desktopSocial .scheduleContainer > div:last-child > div:last-child > div:global(.lds-ring) {
@@ -533,13 +534,17 @@ div > .button > span {
 		margin-top: calc(env(safe-area-inset-top));
 	}
 
+	/* .header */
 	div > div > div.scheduleContainer > div:first-of-type {
-		position: sticky;
+		position: fixed;
 		top: calc(env(safe-area-inset-top) + 34px);
 	}
 
-	.social > .scheduleContainer > div:last-child {
-		margin-bottom: calc(3rem + env(safe-area-inset-bottom));
+	/* .schedule */
+	.social > .scheduleContainer > div:last-child { 
+		margin-bottom: calc(7rem + env(safe-area-inset-top));
+		top: calc(2rem + env(safe-area-inset-top)) !important;
+		min-height: calc(100vh - (12rem + 42px + env(safe-area-inset-top)));
 	}
 
 	.scheduleContainer {

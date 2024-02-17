@@ -18,7 +18,7 @@ html {
 		margin-top: env(safe-area-inset-top);
 	} */
 	body {
-		min-height: calc(100vh - (4rem + env(safe-area-inset-bottom)));		
+		min-height: calc(100vh - (4rem + env(safe-area-inset-top)));		
 	}
 }
 

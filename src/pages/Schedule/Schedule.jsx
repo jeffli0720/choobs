@@ -1,5 +1,5 @@
 import styles from "./Schedule.module.css";
-import React, { useState, useEffect, forwardRef, useCallback, useMemo } from "react";
+import React, { useState, useEffect, forwardRef, useCallback, useMemo, useRef } from "react";
 import axios from "axios";
 import { db, auth } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
@@ -35,6 +35,8 @@ function Schedule(props) {
 
 	const [blocksRendered, setBlocksRendered] = useState([]);
 	const fullDayEvent = useMemo(() => [], []);
+
+	const highlighted = useRef();
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -226,6 +228,14 @@ function Schedule(props) {
 			return currentTime >= startTime.getTime() - 5 * 60 * 1000 && currentTime <= endTime.getTime();
 		}
 	};
+
+	useEffect(() => {
+		setTimeout(() => {
+			if (highlighted && highlighted.current) {
+				highlighted.current.scrollIntoView({ behavior: "smooth", block: "center" });
+			}
+		}, 100);
+	}, [displayDate, highlighted, loading]);
 
 	function getShortDayOfWeek(date) {
 		const daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"];
@@ -598,7 +608,11 @@ function Schedule(props) {
 											matchingData ? (
 												// Not a lunch block
 												<>
-													<div className={`${styles.li}${isHighlightedEvent(event) ? " " + styles.highlighted : ""}`} key={event.id}>
+													<div
+														className={`${styles.li}${isHighlightedEvent(event) ? " " + styles.highlighted : ""}`}
+														key={event.id}
+														ref={isHighlightedEvent(event) ? highlighted : null}
+													>
 														<div className={styles.blockContent}>
 															<div>
 																<h3>{matchingData.classNames[0]}</h3>
@@ -654,7 +668,7 @@ function Schedule(props) {
 													(value) => value.block === event.summary.replace(/([A-Z])(\d+)/, "$1$$$2") || value.block === event.summary.replace("$", "")
 											  ) ? null : (
 												<>
-													<div className={`${styles.li}${isHighlightedEvent(event) ? " " + styles.highlighted : ""}`} key={event.id}>
+													<div className={`${styles.li}${isHighlightedEvent(event) ? " " + styles.highlighted : ""}`} key={event.id} ref={isHighlightedEvent(event) ? highlighted : null}>
 														{/[A-Za-z]\$?[0-9]/g.test(event.summary) && (
 															<div className={styles.warning}>
 																<span className={`${"material-symbols-rounded"}`}>&#xe000;</span>

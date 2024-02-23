@@ -668,7 +668,11 @@ function Schedule(props) {
 													(value) => value.block === event.summary.replace(/([A-Z])(\d+)/, "$1$$$2") || value.block === event.summary.replace("$", "")
 											  ) ? null : (
 												<>
-													<div className={`${styles.li}${isHighlightedEvent(event) ? " " + styles.highlighted : ""}`} key={event.id} ref={isHighlightedEvent(event) ? highlighted : null}>
+													<div
+														className={`${styles.li}${isHighlightedEvent(event) ? " " + styles.highlighted : ""}`}
+														key={event.id}
+														ref={isHighlightedEvent(event) ? highlighted : null}
+													>
 														{/[A-Za-z]\$?[0-9]/g.test(event.summary) && (
 															<div className={styles.warning}>
 																<span className={`${"material-symbols-rounded"}`}>&#xe000;</span>

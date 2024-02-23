@@ -39,7 +39,7 @@ function LandingPage() {
 					<h4>choobs</h4>
 				</div>
 				<div className={styles.schedulingSimplified}>
-					<h2>Scheduling, Simplified</h2>
+					<h2>Scheduling, simplified.</h2>
 					<p>A better way to view your schedule</p>
 				</div>
 				<div className={styles.buttons}>

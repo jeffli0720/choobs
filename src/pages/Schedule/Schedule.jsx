@@ -25,13 +25,16 @@ function Schedule(props) {
 	const [isMobile, setIsMobile] = useState(isMobileDevice());
 
 	const [swipe, setSwipe] = useState({
-		moved: false,
+		swipeTriggeredX: false,
+		swipeTriggeredY: false,
 		touchEnd: 0,
-		touchStart: 0,
+		touchStartX: 0,
+		touchStartY: 0,
 	});
-	const { moved, touchEnd, touchStart } = swipe;
+	const { swipeTriggeredX, swipeTriggeredY, touchEnd, touchStartX, touchStartY } = swipe;
 	const [swipeOffset, setSwipeOffset] = useState(0);
-	const SWIPE_SENSITIVITY = 80; // number of pixels to trigger swipe
+	const SWIPE_SENSITIVITY = 60; // number of pixels to trigger swipe
+	const SWIPE_DEADZONE = 30;
 
 	const [blocksRendered, setBlocksRendered] = useState([]);
 	const fullDayEvent = useMemo(() => [], []);
@@ -344,30 +347,50 @@ function Schedule(props) {
 
 	const handleTouchStart = (e) => {
 		let touchStartX = e.targetTouches[0].clientX;
-		setSwipe((swipe) => ({ ...swipe, touchStart: touchStartX, moved: false }));
+		let touchStartY = e.targetTouches[0].clientY;
+		setSwipe((swipe) => ({ ...swipe, touchStartX: touchStartX, touchStartY: touchStartY, swipeTriggeredX: false, swipeTriggeredY: false }));
 	};
 
 	const handleTouchMove = (e) => {
 		let touchEndX = e.targetTouches[0].clientX;
-		if (Math.abs(touchStart - touchEndX) > 30) {
-			if (touchStart - touchEndX > 0) {
-				setSwipeOffset(touchStart - touchEndX - 30);
+		let touchEndY = e.targetTouches[0].clientY;
+
+		if (Math.abs(touchStartY - touchEndY) > (SWIPE_DEADZONE / 3)) {
+			setSwipe((swipe) => ({ ...swipe, swipeTriggeredY: true }));
+		}
+		if (!swipeTriggeredY) {
+			if (!swipeTriggeredX) {
+				if (Math.abs(touchStartX - touchEndX) > SWIPE_DEADZONE) {
+					if (touchEndX - touchStartX < 0) {
+						setSwipeOffset(touchEndX - touchStartX + SWIPE_DEADZONE);
+					} else {
+						setSwipeOffset(touchEndX - touchStartX - SWIPE_DEADZONE);
+					}
+				}
 			} else {
-				setSwipeOffset(touchStart - touchEndX + 30);
+				setSwipeOffset(touchEndX - touchStartX);
+			}
+			setSwipe((swipe) => ({ ...swipe, touchEnd: touchEndX, swipeTriggeredX: true }));
+		} else {
+			if (!swipeTriggeredX) {
+				setSwipeOffset(0);
 			}
 		}
-		setSwipe((swipe) => ({ ...swipe, touchEnd: touchEndX, moved: true }));
 	};
 
 	const handleTouchEnd = () => {
-		let distanceSwiped = touchStart - touchEnd;
-		setSwipeOffset(0);
-		if (Math.abs(distanceSwiped) > SWIPE_SENSITIVITY && moved) {
+		let distanceSwiped = touchStartX - touchEnd;
+		if (Math.abs(distanceSwiped) > SWIPE_SENSITIVITY && swipeTriggeredX) {
 			if (distanceSwiped < 0) {
 				handleDateChange(-1);
 			} else if (distanceSwiped > 0) {
 				handleDateChange(1);
 			}
+			setTimeout(() => {
+				setSwipeOffset(0);
+			}, 100);
+		} else {
+			setSwipeOffset(0);
 		}
 	};
 
@@ -446,8 +469,7 @@ function Schedule(props) {
 			<div
 				className={isMobile ? styles.schedule : styles.desktopSchedule}
 				style={{
-					right: swipeOffset > 0 ? `${swipeOffset}px` : `${swipeOffset}px`,
-					left: swipeOffset > 0 ? `-${swipeOffset}px` : `${Math.abs(swipeOffset)}px`,
+					translate: `${swipeOffset}px`,
 				}}
 				onTouchStart={handleTouchStart}
 				onTouchMove={handleTouchMove}

@@ -115,12 +115,6 @@ h4 {
 	align-items: center;
 }
 
-@supports (padding-top: env(safe-area-inset-top)) {
-	body > div> div.header {
-		padding-top: max(env(safe-area-inset-top), 1rem);
-	}
-}
-
 .desktopHeader {
 	top: 0;
 	left: 0;
@@ -162,10 +156,14 @@ h4 {
 }
 
 @supports (-webkit-touch-callout: none) {
+	body > div > div.header {
+		padding-top: max(env(safe-area-inset-top), 2rem);
+	}
+
 	.schedule {
-		top: calc(4rem + env(safe-area-inset-top)) !important;
+		top: calc(4rem + max(2rem, env(safe-area-inset-top))) !important;
 		/* i dont know why min-height need an extra pixel but it does so dont touch it */
-		min-height: calc(100vh - (env(safe-area-inset-top) + 12rem - 1px)); 
+		min-height: calc(100vh + max(1rem, env(safe-area-inset-top)) - (env(safe-area-inset-top) + 12rem - 1px)); 
 		padding-bottom: calc(4rem + env(safe-area-inset-top));
 		margin-bottom: 0;
 	}

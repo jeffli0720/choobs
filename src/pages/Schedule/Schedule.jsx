@@ -355,7 +355,7 @@ function Schedule(props) {
 		let touchEndX = e.targetTouches[0].clientX;
 		let touchEndY = e.targetTouches[0].clientY;
 
-		if (Math.abs(touchStartY - touchEndY) > (SWIPE_DEADZONE / 3)) {
+		if (Math.abs(touchStartY - touchEndY) > SWIPE_DEADZONE / 3) {
 			setSwipe((swipe) => ({ ...swipe, swipeTriggeredY: true }));
 		}
 		if (!swipeTriggeredY) {
@@ -468,9 +468,13 @@ function Schedule(props) {
 			</div>
 			<div
 				className={isMobile ? styles.schedule : styles.desktopSchedule}
-				style={{
-					translate: `${swipeOffset}px`,
-				}}
+				style={
+					!loading
+						? {
+								translate: `${swipeOffset}px`,
+						  }
+						: null
+				}
 				onTouchStart={handleTouchStart}
 				onTouchMove={handleTouchMove}
 				onTouchEnd={handleTouchEnd}
@@ -605,21 +609,25 @@ function Schedule(props) {
 								});
 
 								if (isHalfDay) {
-									const lastBlock = events.find((event) => ["F1", "D2", "C2", "F3", "D4", "C4"].includes(event.summary)).summary;
+									try {
+										const lastBlock = events.find((event) => ["F1", "D2", "C2", "F3", "D4", "C4"].includes(event.summary)).summary;
 
-									if (lastBlock && scheduleData.length > 0) {
-										const lastBlockRoom = scheduleData.find((event) => event.block === lastBlock).classNames[1];
+										if (lastBlock && scheduleData.length > 0) {
+											const lastBlockRoom = scheduleData.find((event) => event.block === lastBlock).classNames[1];
 
-										if (!(lastBlockRoom > 899 || lastBlockRoom < 100)) {
-											if (lastBlockRoom >= 500) {
-												// if 1st lunch start last block at 11:30
-												events[events.findIndex((event) => event.summary === lastBlock)].start.dateTime = new Date(displayDate.setHours(11, 30, 0, 0)).toISOString();
-											} else if (lastBlockRoom < 500) {
-												// if 2nd lunch end last block at 11:25, start lunch at 11:25
-												events[events.findIndex((event) => event.summary === lastBlock)].end.dateTime = new Date(displayDate.setHours(11, 25, 0, 0)).toISOString();
-												events[events.findIndex((event) => event.summary === "Lunch 2")].start.dateTime = new Date(displayDate.setHours(11, 25, 0, 0)).toISOString();
+											if (!(lastBlockRoom > 899 || lastBlockRoom < 100)) {
+												if (lastBlockRoom >= 500) {
+													// if 1st lunch start last block at 11:30
+													events[events.findIndex((event) => event.summary === lastBlock)].start.dateTime = new Date(displayDate.setHours(11, 30, 0, 0)).toISOString();
+												} else if (lastBlockRoom < 500) {
+													// if 2nd lunch end last block at 11:25, start lunch at 11:25
+													events[events.findIndex((event) => event.summary === lastBlock)].end.dateTime = new Date(displayDate.setHours(11, 25, 0, 0)).toISOString();
+													events[events.findIndex((event) => event.summary === "Lunch 2")].start.dateTime = new Date(displayDate.setHours(11, 25, 0, 0)).toISOString();
+												}
 											}
 										}
+									} catch (e) {
+										console.error(e);
 									}
 								}
 

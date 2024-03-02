@@ -34,7 +34,7 @@ function Schedule(props) {
 	const { swipeTriggeredX, swipeTriggeredY, touchEnd, touchStartX, touchStartY } = swipe;
 	const [swipeOffset, setSwipeOffset] = useState(0);
 	const SWIPE_SENSITIVITY = 60; // number of pixels to trigger swipe
-	const SWIPE_DEADZONE = 30;
+	const SWIPE_DEADZONE = 10;
 
 	const [blocksRendered, setBlocksRendered] = useState([]);
 	const fullDayEvent = useMemo(() => [], []);
@@ -355,10 +355,10 @@ function Schedule(props) {
 		let touchEndX = e.targetTouches[0].clientX;
 		let touchEndY = e.targetTouches[0].clientY;
 
-		if (Math.abs(touchStartY - touchEndY) > SWIPE_DEADZONE / 3) {
+		if (!swipeTriggeredX && Math.abs(touchStartY - touchEndY) > SWIPE_DEADZONE) {
 			setSwipe((swipe) => ({ ...swipe, swipeTriggeredY: true }));
 		}
-		if (!swipeTriggeredY) {
+		if (!swipeTriggeredY && Math.abs(touchStartX - touchEndX) > SWIPE_DEADZONE) {
 			if (!swipeTriggeredX) {
 				if (Math.abs(touchStartX - touchEndX) > SWIPE_DEADZONE) {
 					if (touchEndX - touchStartX < 0) {

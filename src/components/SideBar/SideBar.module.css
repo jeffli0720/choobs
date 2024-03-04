@@ -46,7 +46,7 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    margin: 0.5rem 1rem 0.5rem calc((min(22rem, 25vw) - 13rem));
+    margin: 0.5rem 1rem 0.5rem calc(min(22rem, 25vw) - 13rem);
     color: #d7e2ec;
     padding: 0.5rem;
     box-sizing: border-box;

@@ -10,7 +10,8 @@
 } 
 
 .SideBar {
-    width: 25vw;
+    max-width: 25vw;
+    width: 22rem;
     display: flex;
     justify-content: center;
 }
@@ -18,6 +19,7 @@
 .SideBar > div {
     position: fixed;
     top: 3rem;
+    width: min(22rem, 25vw);
 }
 
 .schedule {
@@ -30,13 +32,13 @@
 .social {
     width: 25vw;
     height: 100vh;
-    max-width: 25rem;
+    max-width: 22rem;
     overflow-y: scroll;
 }
 
 .settings {
     height: 100vh;
-    width: calc(26vw + 22rem);
+    width: calc(min(22rem, 25vw) + 22rem + 1vw);
     max-width: calc(47rem + 1vw);
 }
 
@@ -44,7 +46,7 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    margin: 0.5rem 1rem 0.5rem calc((25vw - 13rem));
+    margin: 0.5rem 1rem 0.5rem calc((min(22rem, 25vw) - 13rem));
     color: #d7e2ec;
     padding: 0.5rem;
     box-sizing: border-box;

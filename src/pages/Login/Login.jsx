@@ -77,6 +77,9 @@ function Login(props) {
 
 	useEffect(() => {
 		if (errorMessage) {
+			if (errorMessage.includes("auth/invalid-login-credentials")) {
+				setErrorMessage("Username or password is incorrect.");
+			}
 			if (errorMessage.includes("auth/invalid-email")) {
 				setErrorMessage("Email invalid. Please try again.");
 			}

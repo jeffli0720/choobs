@@ -18,14 +18,13 @@ function Social() {
 	const [searchedUser, setSearchedUser] = useState("");
 	const [searchResults, setSearchResults] = useState([]);
 	const [activeSearch, setActiveSearch] = useState(false);
+	const [userData, setUserData] = useState();
 
-	const [displayDate, setDisplayDate] = useState(
-		() => {
-			const date = new Date();
-			date.setHours(0, 0, 0, 0);
-			return date;
-		}
-	);
+	const [displayDate, setDisplayDate] = useState(() => {
+		const date = new Date();
+		date.setHours(0, 0, 0, 0);
+		return date;
+	});
 
 	const [friendScheduleUID, setFriendScheduleUID] = useState();
 
@@ -34,6 +33,40 @@ function Social() {
 	function isMobileDevice() {
 		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 	}
+
+	useEffect(() => {
+		const fetchUserData = async () => {
+			try {
+				if (sessionStorage.getItem("userData")) {
+					setUserData(JSON.parse(sessionStorage.getItem("userData")));
+				} else {
+					const userRef = doc(db, "users", uid);
+					const userDataSnapshot = await getDoc(userRef);
+					const userData = userDataSnapshot.data();
+
+					if (userData) {
+						sessionStorage.setItem(
+							"userData",
+							JSON.stringify({
+								email: userData.email,
+								name: userData.name,
+								pfp: userData.pfp,
+							})
+						);
+						setUserData(userData);
+					} else {
+						console.error("User data not available");
+					}
+				}
+			} catch (error) {
+				console.error("Error fetching user data:", error);
+			}
+		};
+
+		if (uid) {
+			fetchUserData();
+		}
+	}, [uid, isMobile]);
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -152,10 +185,19 @@ function Social() {
 				[`friends.${uid}`]: 1,
 			});
 
-			fetch("https://script.google.com/a/macros/lexingtonma.org/s/AKfycbxjylH8GOl-3YsNzMn03j5MwkMaCDWWf6t2jhYOt9ZjY776CHYJWF8deJ-THuQx_ILPgg/exec", {
+			const formDatab = new FormData();
+
+			const friendRef = doc(db, "users", friendUID);
+			const friendDataSnapshot = await getDoc(friendRef);
+			const friendData = friendDataSnapshot.data();
+
+			formDatab.set("senderName", userData.name);
+			formDatab.set("recipientName", friendData.name);
+			formDatab.set("recipientEmail", friendData.email);
+
+			fetch("https://script.google.com/macros/s/AKfycbyD-LlTav4EIE3bsIAigpf-54LR-S_X6E581Ua8Wi01RevWF2HvEeGXspuPGBlM-Ixu/exec", {
 				method: "POST",
-				mode: "no-cors",
-				body: JSON.stringify({ sender: `${uid}`, recipientEmail: "26stu252@lexingtonma.org" }),
+				body: formDatab,
 			})
 				.then((res) => res.json())
 				.then((data) => {

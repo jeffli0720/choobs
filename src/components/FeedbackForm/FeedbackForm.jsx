@@ -69,13 +69,10 @@ function FeedbackForm(props) {
 			formDatab.set("email", userData.email);
 			formDatab.set("uid", uid);
 
-			fetch(
-				"https://script.google.com/macros/s/AKfycbzphgkALt2G8jUwN2c1YYq7kvLyLpMlXsiszJ3xWs9N3Ts5V5eT8zA2x7pFSfe0htKu0w/exec",
-				{
-					method: "POST",
-					body: formDatab,
-				}
-			)
+			fetch("https://script.google.com/macros/s/AKfycbzphgkALt2G8jUwN2c1YYq7kvLyLpMlXsiszJ3xWs9N3Ts5V5eT8zA2x7pFSfe0htKu0w/exec", {
+				method: "POST",
+				body: formDatab,
+			})
 				.then((res) => res.json())
 				.then((data) => {
 					console.log(data);
@@ -88,9 +85,7 @@ function FeedbackForm(props) {
 	}
 
 	function isMobileDevice() {
-		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-			navigator.userAgent
-		);
+		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 	}
 
 	useEffect(() => {
@@ -122,40 +117,14 @@ function FeedbackForm(props) {
 	return (
 		<>
 			<div className={`${styles.feedbackButton}${isMobile ? " " + styles.mobile : ""}`}>
-				<button onClick={openModal}>
-					{!isMobile ? (
-						`Send Feedback`
-					) : (
-						<span
-							className={`${"material-symbols-rounded"} ${
-								styles.icon
-							}`}
-						>
-							&#xf054;
-						</span>
-					)}
-				</button>
+				<button onClick={openModal}>{!isMobile ? `Send Feedback` : <span className={`${"material-symbols-rounded"} ${styles.icon}`}>&#xf054;</span>}</button>
 			</div>
 			{showModal && (
-				<div
-					className={`${styles.modalContainer} ${
-						modalFade ? styles.fade : ""
-					}`}
-					onClick={closeModal}
-				>
-					<div
-						className={`${styles.modalContent} ${
-							modalFade ? styles.slide : ""
-						}`}
-						onClick={(e) => e.stopPropagation()}
-					>
+				<div className={`${styles.modalContainer} ${modalFade ? styles.fade : ""}`} onClick={closeModal}>
+					<div className={`${styles.modalContent} ${modalFade ? styles.slide : ""}`} onClick={(e) => e.stopPropagation()}>
 						<form className={styles.form}>
 							<h3>Got feedback or questions?</h3>
-							<textarea
-								placeholder="Start typing..."
-								name="Message"
-								type="text"
-							/>
+							<textarea placeholder="Start typing..." name="Message" type="text" />
 							<button onClick={(e) => Submit(e)}>Submit</button>
 						</form>
 					</div>

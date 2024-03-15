@@ -23,6 +23,8 @@ function Settings(props) {
 	const [previewPFP, setPreviewPFP] = useState([]);
 	const colors = useMemo(() => ["#ff3c3c", "#f68729", "#6be56b", "#8c3cc8", "#68d2c8", "#9c3900", "#ff9494", "#407f40", "#4764ae", "#54808c"], []);
 
+	const [emailNotifications, setEmailNotifications] = useState(!!false);
+
 	const [isMobile, setIsMobile] = useState(isMobileDevice());
 
 	function isMobileDevice() {
@@ -45,7 +47,7 @@ function Settings(props) {
 		const fetchUserData = async () => {
 			window.localStorage.clear();
 			try {
-				if (sessionStorage.getItem("userData").pfp) {
+				if (sessionStorage.getItem("userData") && sessionStorage.getItem("userData").pfp) {
 					setUserData(JSON.parse(sessionStorage.getItem("userData")));
 					setPreviewPFP(JSON.parse(sessionStorage.getItem("userData")).pfp);
 				} else {
@@ -58,16 +60,17 @@ function Settings(props) {
 					};
 
 					if (!userData.pfp) {
-						userData.pfp = [colors[Math.floor(Math.random() * 10)], '🙂'];
+						userData.pfp = [colors[Math.floor(Math.random() * 10)], "🙂"];
 						const userCollectionRef = doc(db, "users", uid);
 						updateDoc(userCollectionRef, {
 							photoURL: deleteField(),
 							pfp: userData.pfp,
-						})
+						});
 					}
 
 					if (userData) {
 						setUserData(userData);
+						setEmailNotifications(userDataSnapshot.data().emailNotifications);
 						setPreviewPFP(userData.pfp);
 						sessionStorage.setItem("userData", JSON.stringify(userData));
 					} else {
@@ -182,6 +185,14 @@ function Settings(props) {
 		closeModal();
 	};
 
+	const toggleEmailNotifcations = () => {
+		setEmailNotifications(!!!emailNotifications);
+		const userCollectionRef = doc(db, "users", uid);
+		updateDoc(userCollectionRef, {
+			emailNotifications: !!!emailNotifications,
+		});
+	};
+
 	return (
 		<>
 			<div className={styles.settings}>
@@ -251,6 +262,16 @@ function Settings(props) {
 						</div>
 					</>
 				)}
+				<div className={styles.category}>
+					<h2>Notifications</h2>
+					<label className={styles.setting} onClick={toggleEmailNotifcations}>
+						<span onClick={(e) => e.preventDefault()}>Receive friend request email notifications</span>
+						<label className={styles.switch} onClick={(e) => e.preventDefault()}>
+							<input type="checkbox" onChange={(e) => setEmailNotifications(!!e.target.value)} checked={!!emailNotifications} />
+							<span className={styles.switchSlider} />
+						</label>
+					</label>
+				</div>
 				<EditClasses />
 				<button className={styles.logout} onClick={() => openModal("logout")}>
 					<span className={`${"material-symbols-rounded"}`}>&#xe9ba;</span>

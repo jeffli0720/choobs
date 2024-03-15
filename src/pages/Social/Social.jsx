@@ -185,27 +185,29 @@ function Social() {
 				[`friends.${uid}`]: 1,
 			});
 
-			const formDatab = new FormData();
-
 			const friendRef = doc(db, "users", friendUID);
 			const friendDataSnapshot = await getDoc(friendRef);
 			const friendData = friendDataSnapshot.data();
 
-			formDatab.set("senderName", userData.name);
-			formDatab.set("recipientName", friendData.name);
-			formDatab.set("recipientEmail", friendData.email);
+			if (friendData.emailNotifications) {
+				const formDatab = new FormData();
 
-			fetch("https://script.google.com/macros/s/AKfycbyD-LlTav4EIE3bsIAigpf-54LR-S_X6E581Ua8Wi01RevWF2HvEeGXspuPGBlM-Ixu/exec", {
-				method: "POST",
-				body: formDatab,
-			})
-				.then((res) => res.json())
-				.then((data) => {
-					console.log(data);
+				formDatab.set("senderName", userData.name);
+				formDatab.set("recipientName", friendData.name);
+				formDatab.set("recipientEmail", friendData.email);
+
+				fetch("https://script.google.com/macros/s/AKfycbyD-LlTav4EIE3bsIAigpf-54LR-S_X6E581Ua8Wi01RevWF2HvEeGXspuPGBlM-Ixu/exec", {
+					method: "POST",
+					body: formDatab,
 				})
-				.catch((error) => {
-					console.error(error);
-				});
+					.then((res) => res.json())
+					.then((data) => {
+						console.log(data);
+					})
+					.catch((error) => {
+						console.error(error);
+					});
+			}
 
 			await refreshFriendData();
 			setActiveSearch(false);

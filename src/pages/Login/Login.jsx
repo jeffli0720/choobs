@@ -56,6 +56,7 @@ function Login(props) {
 					name: name,
 					friends: {},
 					pfp: pfp,
+					emailNotifications: true,
 				});
 				setErrorMessage("Please check your email to verify your account.");
 				navigate("/");

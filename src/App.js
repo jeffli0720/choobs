@@ -20,7 +20,11 @@ export default function App() {
 
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
+			if (!user) {
+				window.sessionStorage.clear();
+			}
 			setUser(user);
+
 			setLoading(false);
 		});
 
@@ -40,9 +44,7 @@ export default function App() {
 	}, []);
 
 	function isMobileDevice() {
-		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-			navigator.userAgent
-		);
+		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 	}
 
 	if (loading) {
@@ -67,15 +69,10 @@ export default function App() {
 						<Route path="/login" element={<Login isLogin={true} />} />
 					</>
 				) : (
-					<Route
-						path="/"
-						element={
-							isMobile ? <TabBar  uid={user.uid} /> : <SideBar uid={user.uid} />
-						}
-					>
+					<Route path="/" element={isMobile ? <TabBar uid={user.uid} /> : <SideBar uid={user.uid} />}>
 						<Route index element={<Schedule uid={user.uid} />} />
 						<Route path="social" element={isMobile ? <Social /> : <Navigate to="/" replace />} />
-						<Route path="settings" element={<Settings uid={user.uid}/>} />
+						<Route path="settings" element={<Settings uid={user.uid} />} />
 					</Route>
 				)}
 				<Route path="/" element={<LandingPage />} />

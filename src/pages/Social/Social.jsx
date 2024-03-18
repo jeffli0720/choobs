@@ -189,7 +189,7 @@ function Social() {
 			const friendDataSnapshot = await getDoc(friendRef);
 			const friendData = friendDataSnapshot.data();
 
-			if (friendData.emailNotifications) {
+			if (friendData.preferences.emailNotifications) {
 				const formDatab = new FormData();
 
 				formDatab.set("senderName", userData.name);

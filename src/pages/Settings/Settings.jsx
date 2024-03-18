@@ -70,7 +70,7 @@ function Settings(props) {
 
 					if (userData) {
 						setUserData(userData);
-						setEmailNotifications(userDataSnapshot.data().emailNotifications);
+						setEmailNotifications(userDataSnapshot.data().preferences.emailNotifications);
 						setPreviewPFP(userData.pfp);
 						sessionStorage.setItem("userData", JSON.stringify(userData));
 					} else {
@@ -187,9 +187,8 @@ function Settings(props) {
 
 	const toggleEmailNotifcations = () => {
 		setEmailNotifications(!!!emailNotifications);
-		const userCollectionRef = doc(db, "users", uid);
-		updateDoc(userCollectionRef, {
-			emailNotifications: !!!emailNotifications,
+		updateDoc(doc(db, "users", uid), {
+			[`preferences.emailNotifications`]: !!!emailNotifications,
 		});
 	};
 

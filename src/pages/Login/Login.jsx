@@ -49,14 +49,15 @@ function Login(props) {
 				const uid = userCredential.user.uid;
 				const userCollectionRef = doc(db, "users", uid);
 				const pfp = [["#ff3c3c", "#f68729", "#41e241", "#6be56b", "#40e0d0", "#9c3900", "#ff9494", "#407f40", "#4764ae", "#54808c"][Math.floor(Math.random() * 10)], "🙂"];
-				console.log("pfp", pfp);
 				setDoc(userCollectionRef, {
 					classes: {},
 					email: email,
 					name: name,
 					friends: {},
 					pfp: pfp,
-					emailNotifications: true,
+					preferences: {
+						emailNotifications: true,
+					},
 				});
 				setErrorMessage("Please check your email to verify your account.");
 				navigate("/");

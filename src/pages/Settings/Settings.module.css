@@ -1,9 +1,42 @@
 .settings {
 	padding: 1rem 1.5rem;
-	margin-bottom: 5rem;
+	margin: 5rem 0;
 	display: flex;
 	gap: 1rem;
 	flex-direction: column;
+}
+
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 1rem 7vw;
+	background: rgba(255, 255, 255, 0.05);
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	width: 86vw;
+	height: 3rem;
+	z-index: 11;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.header.desktop {
+	padding: 0;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    height: 3rem;
+    z-index: 10;
+    position: unset;
+    width: 100%;
+    background: none;
+}
+
+.settings.desktop {
+	margin-top: 0;
+	padding: 3rem 0;
 }
 
 @supports (-webkit-touch-callout: none) {

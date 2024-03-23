@@ -1,9 +1,9 @@
 button:hover {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .disabled:hover {
-    cursor: not-allowed;
+	cursor: not-allowed;
 }
 
 .table {
@@ -15,35 +15,94 @@ button:hover {
 .column {
 	display: flex;
 	flex-direction: column;
-    align-items: center;
-    width: 15%;
-}
-
-.column > h4 {
-    line-height: 2rem;
+	align-items: center;
+	width: 15%;
 }
 
 .schedule > .table > .column {
-    width: calc((100% - 1.5rem) / 6);
+	width: calc((100% - 2rem) / 6);
+	background-color: rgba(255, 255, 255, 0.05);
+	border-radius: 0 0 0.5rem 0;
+}
+
+.table > .column:last-child > button:last-child:not(.cell) {
+	border-radius: 0 0 0.5rem 0;
+}
+
+.table > .column:last-child > button:first-child:not(.cell) {
+	border-radius: 0 0.5rem 0 0;
+}
+
+.table > .column:nth-child(2) > button:first-child:not(.cell) {
+	border-radius: 0.5rem 0 0 0;
+}
+
+.table > .column:nth-child(2) > button:last-child:not(.cell) {
+	border-radius: 0 0 0 0.5rem;
 }
 
 .schedule {
-    width: calc(100% + 3rem);
-    margin-left: -1.5rem;
+	width: 100%;
+}
+
+.editClasses {
+	border-bottom: 1px rgb(255 255 255 / 30%) solid;
+}
+
+.dayLabels {
+	background-color: rgba(255, 255, 255, 0.05);
+	border-radius: 0.5rem 0.5rem 0 0;
+	display: flex;
+	justify-content: space-between;
+	line-height: 1.5rem;
+	align-items: center;
+	margin: 1rem 0 -1rem;
+}
+
+.dayLabels > span {
+	width: calc(((100% - 1.5rem) / 6) + 1px);
+	display: flex;
+	justify-content: center;
+	font-weight: bold;
+	border-left: 2px solid #ffffff1a;
+	line-height: 2rem;
+}
+
+.dayLabels > span:nth-child(2) {
+	border: 1px #ffffff00;
+	border-style: solid none none;
 }
 
 .scheduleItem {
-    border: 1px solid;
-    height: 4rem;
-    width: 100%;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    padding: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    text-overflow: ellipsis;
+	border: 1px solid #ffffff1a;
+	height: 4rem;
+	width: 100%;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	padding: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	text-overflow: ellipsis;
+}
+
+.scheduleItem:disabled {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.scheduleItem:disabled > i {
+    color: #343434 !important;
+}
+
+.scheduleItem > p {
+	height: 1rem;
+}
+
+.scheduleItem > i:last-child {
+	text-align: left;
+	width: 100%;
+    color: #9d9d9d;
 }
 
 .modalContainer {
@@ -65,7 +124,6 @@ button:hover {
 	animation: fadeOut 0.2s ease-in-out forwards;
 }
 
-
 @keyframes fadeIn {
 	from {
 		opacity: 0;
@@ -85,7 +143,7 @@ button:hover {
 }
 
 .modalTitle {
-    margin: 1.5rem 0 1rem;
+	margin: 1.5rem 0 1rem;
 }
 
 .modalContent {
@@ -100,51 +158,51 @@ button:hover {
 	width: 300px;
 	padding: 0 2rem;
 	background: rgb(62, 64, 69);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-    border: none;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+	border: none;
 	border-radius: 0.5rem;
 }
 
 .modalContent > div {
-    width: 100%;
-    padding-bottom: 1.5rem;
+	width: 100%;
+	padding-bottom: 1.5rem;
 }
 
 .inputs {
-    display: flex;
-    justify-content: space-evenly;
+	display: flex;
+	justify-content: space-evenly;
 }
 
 .buttons {
-    display: flex;
-    justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
 }
 
 .buttons > button {
-    background-color: #54808c;
-    color: #d7e2ec;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-    border: none;
+	background-color: #54808c;
+	color: #d7e2ec;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+	border: none;
 	border-radius: 5px;
-    padding: 0.5rem;
+	padding: 0.5rem;
 }
 
 button {
-    -webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .modalContent input {
-    padding: 0.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+	padding: 0.5rem;
+	background: rgba(255, 255, 255, 0.05);
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+	border: 1px solid rgba(255, 255, 255, 0.3);
 	border-radius: 5px;
-    width: 40%;
-    color: #d7e2ec;
+	width: 40%;
+	color: #d7e2ec;
 }
 
 .modalContent input::placeholder {
-    color: #d7e2ec90;
+	color: #d7e2ec90;
 }
 
 .modalClose {
@@ -155,44 +213,64 @@ button {
 }
 
 .cell {
-    height: 2rem;
-    margin: 0.2rem 0;
-    background: rgb(175 175 175 / 40%);
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-    border: none;
+	height: 2rem;
+	margin: 0.2rem 0;
+	background: rgb(175 175 175 / 40%);
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+	border: none;
 	border-radius: 5px;
-    width: 100%;
-    color: #d7e2ec;
+	width: 100%;
+	color: #d7e2ec;
 }
 
 .selected {
-    background-color: #4c5963;
+	background-color: #4c5963;
+	border: 3px solid #54808c;
 }
 
 .disabled {
-    background: rgba(255, 255, 255, 0);
-    color: #646464;
+	background: rgba(255, 255, 255, 0);
+	color: #646464;
 }
 
 .subtext {
-    color: #d7e2ec70;
-    font-size: small;
-    text-align: center;
-    margin-top: 0.5rem;
+	color: #d7e2ec70;
+	font-size: small;
+	text-align: center;
+	margin-top: 0.5rem;
 }
 
 .missingData {
-    background-color: red;
+	background-color: #747474;
+}
+
+.missingData > i {
+    color: #d7e2ec !important;
 }
 
 .labels {
-    padding-top: 2rem;
-    width: 1.4rem !important;
+	width: 2rem !important;
+	background-color: rgba(255, 255, 255, 0.05);
+	border-radius: 0 0 0 0.5rem !important;
 }
 
 .labels > div {
-    height: 4rem;
-    display: flex;
-    align-items: center;
-    width: 1.5rem;
+	height: calc(4rem - 2px);
+	display: flex;
+	width: 2rem;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	border-top: 2px #ffffff1a solid;
+	flex-direction: column;
+}
+
+.labels > div:first-child {
+	border: 1px #ffffff00;
+	border-style: solid none none;
+}
+
+.labels > div > span {
+	font-weight: lighter;
+	color: #9d9d9d;
 }

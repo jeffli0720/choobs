@@ -194,8 +194,8 @@ function Settings(props) {
 
 	return (
 		<>
-			<div className={styles.settings}>
-				<h1>Settings</h1>
+			<div className={`${styles.settings} ${!isMobile ? styles.desktop : ""}`}>
+				<div className={`${styles.header} ${!isMobile ? styles.desktop : ""}`}>{isMobile ? <h3>Settings</h3> : <h2>Settings</h2>}</div>
 				{userData && (
 					<>
 						<div className={styles.userInfo}>
@@ -262,7 +262,7 @@ function Settings(props) {
 					</>
 				)}
 				<div className={styles.category}>
-					<h2>Notifications</h2>
+					<h3>Notifications</h3>
 					<label className={styles.setting} onClick={toggleEmailNotifcations}>
 						<span onClick={(e) => e.preventDefault()}>Receive friend request email notifications</span>
 						<label className={styles.switch} onClick={(e) => e.preventDefault()}>

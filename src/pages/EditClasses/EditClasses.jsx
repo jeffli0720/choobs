@@ -1,12 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { db } from "../../firebase";
-import {
-	getDoc,
-	doc,
-	setDoc,
-	updateDoc,
-	deleteField,
-} from "firebase/firestore";
+import { getDoc, doc, setDoc, updateDoc, deleteField } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import styles from "./EditClasses.module.css";
 
@@ -30,36 +24,7 @@ function EditClasses() {
 		6: ["B4", "A4", "G4", "G$4", "H4", "H$4", "I", "C4"],
 	};
 
-	const lunchBlocks = useMemo(
-		() => [
-			"C1",
-			"C$1",
-			"G1",
-			"G$1",
-			"G2",
-			"G$2",
-			"C3",
-			"C$3",
-			"G3",
-			"G$3",
-			"G4",
-			"G$4",
-
-			"D1",
-			"D$1",
-			"H1",
-			"H$1",
-			"H2",
-			"H$2",
-			"D3",
-			"D$3",
-			"H3",
-			"H$3",
-			"H4",
-			"H$4",
-		],
-		[]
-	);
+	const lunchBlocks = useMemo(() => ["C1", "C$1", "G1", "G$1", "G2", "G$2", "C3", "C$3", "G3", "G$3", "G4", "G$4", "D1", "D$1", "H1", "H$1", "H2", "H$2", "D3", "D$3", "H3", "H$3", "H4", "H$4"], []);
 
 	useEffect(() => {
 		const auth = getAuth();
@@ -99,11 +64,7 @@ function EditClasses() {
 
 						const classesObject = Object.fromEntries(classes);
 
-						await setDoc(
-							doc(db, "users", uid),
-							{ classes: classesObject },
-							{ merge: true }
-						);
+						await setDoc(doc(db, "users", uid), { classes: classesObject }, { merge: true });
 
 						console.log("Added", block);
 					});
@@ -114,26 +75,22 @@ function EditClasses() {
 				let classesToDelete;
 
 				if (subject) {
-					classesToDelete = previouslySelected.filter(
-						(item) => !selectedClasses.includes(item)
-					);
+					classesToDelete = previouslySelected.filter((item) => !selectedClasses.includes(item));
 				} else {
 					// If there's no subject, delete everything in the selectedClasses array
 					classesToDelete = selectedClasses;
 				}
 
 				if (classesToDelete.length > 0) {
-					const deleteOperations = classesToDelete.map(
-						async (block) => {
-							const docRef = doc(db, "users", uid);
+					const deleteOperations = classesToDelete.map(async (block) => {
+						const docRef = doc(db, "users", uid);
 
-							await updateDoc(docRef, {
-								[`classes.${block}`]: deleteField(),
-							});
+						await updateDoc(docRef, {
+							[`classes.${block}`]: deleteField(),
+						});
 
-							console.log("Deleted", block);
-						}
-					);
+						console.log("Deleted", block);
+					});
 
 					await Promise.all(deleteOperations);
 				}
@@ -168,17 +125,12 @@ function EditClasses() {
 				const classesData = scheduleDataSnapshot.classes;
 
 				// Map the 'classes' data into the 'scheduleData' array
-				const scheduleData = Object.entries(classesData).map(
-					([block, classNames]) => ({
-						block,
-						classNames,
-					})
-				);
+				const scheduleData = Object.entries(classesData).map(([block, classNames]) => ({
+					block,
+					classNames,
+				}));
 
-				sessionStorage.setItem(
-					"scheduleData",
-					JSON.stringify(scheduleData)
-				);
+				sessionStorage.setItem("scheduleData", JSON.stringify(scheduleData));
 
 				setScheduleData(scheduleData);
 			}
@@ -191,9 +143,7 @@ function EditClasses() {
 		const fetchScheduleData = async () => {
 			try {
 				if (sessionStorage.getItem("scheduleData")) {
-					setScheduleData(
-						JSON.parse(sessionStorage.getItem("scheduleData"))
-					);
+					setScheduleData(JSON.parse(sessionStorage.getItem("scheduleData")));
 				} else {
 					const userRef = doc(db, "users", uid);
 					const scheduleDataSnapshot = (await getDoc(userRef)).data();
@@ -202,17 +152,12 @@ function EditClasses() {
 					const classesData = scheduleDataSnapshot.classes;
 
 					// Map the 'classes' data into the 'scheduleData' array
-					const scheduleData = Object.entries(classesData).map(
-						([block, classNames]) => ({
-							block,
-							classNames,
-						})
-					);
+					const scheduleData = Object.entries(classesData).map(([block, classNames]) => ({
+						block,
+						classNames,
+					}));
 
-					sessionStorage.setItem(
-						"scheduleData",
-						JSON.stringify(scheduleData)
-					);
+					sessionStorage.setItem("scheduleData", JSON.stringify(scheduleData));
 
 					setScheduleData(scheduleData);
 				}
@@ -242,85 +187,39 @@ function EditClasses() {
 
 		Object.entries(schedule).forEach(([day, column]) => {
 			const dayBlocks = column.map((id) => {
-				const matchingData = scheduleData.find((data) =>
-					data.block.includes(id)
-				);
+				const matchingData = scheduleData.find((data) => data.block.includes(id));
 				const isDisabled = () => {
 					if (["Adv", "I"].includes(id)) {
 						return true;
 					} else if (lunchBlocks.includes(id)) {
-						const correspondingElements = id.includes("$")
-							? [id.replace(/\$/, "")]
-							: [id.slice(0, 1) + "$" + id.slice(1)];
-						if (
-							["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"].indexOf(
-								id
-							) > -1
-						) {
-							correspondingElements.push(
-								["D1", "H1", "H2", "D3", "H3", "H4"][
-									[
-										"C$1",
-										"G$1",
-										"G$2",
-										"C$3",
-										"G$3",
-										"G$4",
-									].indexOf(id)
-								]
-							);
+						const correspondingElements = id.includes("$") ? [id.replace(/\$/, "")] : [id.slice(0, 1) + "$" + id.slice(1)];
+						if (["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"].indexOf(id) > -1) {
+							correspondingElements.push(["D1", "H1", "H2", "D3", "H3", "H4"][["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"].indexOf(id)]);
 						}
-						if (
-							["D1", "H1", "H2", "D3", "H3", "H4"].indexOf(id) >
-							-1
-						) {
-							correspondingElements.push(
-								["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"][
-									[
-										"D1",
-										"H1",
-										"H2",
-										"D3",
-										"H3",
-										"H4",
-									].indexOf(id)
-								]
-							);
+						if (["D1", "H1", "H2", "D3", "H3", "H4"].indexOf(id) > -1) {
+							correspondingElements.push(["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"][["D1", "H1", "H2", "D3", "H3", "H4"].indexOf(id)]);
 						}
-						return correspondingElements.some((element) =>
-							scheduleData.some(
-								(block) => block.block === element
-							)
-						);
+						return correspondingElements.some((element) => scheduleData.some((block) => block.block === element));
 					}
 					return false;
 				};
 				return (
 					<button
 						key={id}
-						className={`${styles.scheduleItem}${
-							!matchingData && !isDisabled()
-								? ` ${styles.missingData}`
-								: ""
-						}`}
+						className={`${styles.scheduleItem}${!matchingData && !isDisabled() ? ` ${styles.missingData}` : ""}`}
 						disabled={isDisabled()}
 						onClick={() => {
 							openModal(id);
 						}}
 					>
-						{matchingData ? (
-							<p>{matchingData.classNames[0]}</p>
-						) : (
-							<p>{"."}</p>
-						)}
-						<p>{id + ""}</p>
+						{matchingData ? <p>{matchingData.classNames[0]}</p> : <p />}
+						<i>{id + ""}</i>
 					</button>
 				);
 			});
 
 			blocks.push(
 				<div key={day} className={styles.column}>
-					<h4>D{day}</h4>
 					{dayBlocks}
 				</div>
 			);
@@ -331,10 +230,10 @@ function EditClasses() {
 				<div className={`${styles.column} ${styles.labels}`}>
 					<div>1</div>
 					<div>2</div>
-					<div>3a</div>
-					<div>3b</div>
-					<div>4a</div>
-					<div>4b</div>
+					<div>3<span>a</span></div>
+					<div>3<span>b</span></div>
+					<div>4<span>a</span></div>
+					<div>4<span>b</span></div>
 					<div>5</div>
 					<div>6</div>
 				</div>
@@ -345,89 +244,33 @@ function EditClasses() {
 
 	useEffect(() => {
 		lunchBlocks.forEach((id) => {
-			const correspondingElement = id.includes("$")
-				? document.getElementById(id.replace(/\$/, ""))
-				: document.getElementById(id.slice(0, 1) + "$" + id.slice(1));
+			const correspondingElement = id.includes("$") ? document.getElementById(id.replace(/\$/, "")) : document.getElementById(id.slice(0, 1) + "$" + id.slice(1));
 			if (selectedClasses.includes(id)) {
 				if (correspondingElement) {
 					correspondingElement.disabled = true;
 					correspondingElement.classList.add(styles.disabled);
-					if (
-						["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"].indexOf(id) >
-						-1
-					) {
-						let index = [
-							"C$1",
-							"G$1",
-							"G$2",
-							"C$3",
-							"G$3",
-							"G$4",
-						].indexOf(id);
-						document.getElementById(
-							["D1", "H1", "H2", "D3", "H3", "H4"][index]
-						).disabled = true;
-						document
-							.getElementById(
-								["D1", "H1", "H2", "D3", "H3", "H4"][index]
-							)
-							.classList.add(styles.disabled);
+					if (["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"].indexOf(id) > -1) {
+						let index = ["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"].indexOf(id);
+						document.getElementById(["D1", "H1", "H2", "D3", "H3", "H4"][index]).disabled = true;
+						document.getElementById(["D1", "H1", "H2", "D3", "H3", "H4"][index]).classList.add(styles.disabled);
 					}
 					if (["D1", "H1", "H2", "D3", "H3", "H4"].indexOf(id) > -1) {
-						let index = [
-							"D1",
-							"H1",
-							"H2",
-							"D3",
-							"H3",
-							"H4",
-						].indexOf(id);
-						document.getElementById(
-							["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"][index]
-						).disabled = true;
-						document
-							.getElementById(
-								["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"][
-									index
-								]
-							)
-							.classList.add(styles.disabled);
+						let index = ["D1", "H1", "H2", "D3", "H3", "H4"].indexOf(id);
+						document.getElementById(["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"][index]).disabled = true;
+						document.getElementById(["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"][index]).classList.add(styles.disabled);
 					}
 				}
 			} else {
 				if (correspondingElement) {
-					if (
-						!["D$1", "H$1", "H$2", "D$3", "H$3", "H$4"].includes(id)
-					) {
-						if (
-							["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"].includes(
-								id
-							)
-						) {
-							let index = [
-								"C$1",
-								"G$1",
-								"G$2",
-								"C$3",
-								"G$3",
-								"G$4",
-							].indexOf(id);
-							document.getElementById(
-								["D1", "H1", "H2", "D3", "H3", "H4"][index]
-							).disabled = false;
-							document
-								.getElementById(
-									["D1", "H1", "H2", "D3", "H3", "H4"][index]
-								)
-								.classList.remove(styles.disabled);
+					if (!["D$1", "H$1", "H$2", "D$3", "H$3", "H$4"].includes(id)) {
+						if (["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"].includes(id)) {
+							let index = ["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"].indexOf(id);
+							document.getElementById(["D1", "H1", "H2", "D3", "H3", "H4"][index]).disabled = false;
+							document.getElementById(["D1", "H1", "H2", "D3", "H3", "H4"][index]).classList.remove(styles.disabled);
 						}
 						correspondingElement.disabled = false;
 						correspondingElement.classList.remove(styles.disabled);
-					} else if (
-						["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"].every(
-							(id) => !selectedClasses.includes(id)
-						)
-					) {
+					} else if (["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"].every((id) => !selectedClasses.includes(id))) {
 						correspondingElement.disabled = false;
 						correspondingElement.classList.remove(styles.disabled);
 					}
@@ -447,9 +290,7 @@ function EditClasses() {
 					<button
 						key={id}
 						id={id}
-						className={`${styles.cell}${
-							isSelected ? ` ${styles.selected}` : ""
-						} ${isDisabled ? ` ${styles.disabled}` : ""}`}
+						className={`${styles.cell}${isSelected ? ` ${styles.selected}` : ""} ${isDisabled ? ` ${styles.disabled}` : ""}`}
 						onClick={() => handleBlockSelect(id)}
 						disabled={isDisabled}
 					>
@@ -470,39 +311,17 @@ function EditClasses() {
 	};
 
 	const openModal = (id) => {
-		const matchingData = scheduleData.find((data) =>
-			data.block.includes(id)
-		);
+		const matchingData = scheduleData.find((data) => data.block.includes(id));
 		// console.log(id, matchingData);
 		if (matchingData) {
 			// console.log(matchingData);
 			setSubject(matchingData.classNames[0]);
 			setRoomNumber(matchingData.classNames[1]);
 			setPreviouslySelected(
-				[].concat(
-					...scheduleData
-						.filter(
-							(item) =>
-								item.classNames[0] ===
-									matchingData.classNames[0] &&
-								item.classNames[1] ===
-									matchingData.classNames[1]
-						)
-						.map((item) => item.block)
-				)
+				[].concat(...scheduleData.filter((item) => item.classNames[0] === matchingData.classNames[0] && item.classNames[1] === matchingData.classNames[1]).map((item) => item.block))
 			);
 			setSelectedClasses(
-				[].concat(
-					...scheduleData
-						.filter(
-							(item) =>
-								item.classNames[0] ===
-									matchingData.classNames[0] &&
-								item.classNames[1] ===
-									matchingData.classNames[1]
-						)
-						.map((item) => item.block)
-				)
+				[].concat(...scheduleData.filter((item) => item.classNames[0] === matchingData.classNames[0] && item.classNames[1] === matchingData.classNames[1]).map((item) => item.block))
 			);
 		} else {
 			setPreviouslySelected([id]);
@@ -542,54 +361,34 @@ function EditClasses() {
 
 	return (
 		<>
-			<div>
+			<div className={styles.editClasses}>
 				<div>
-					<h2>Edit Classes</h2>
-					<span className={styles.subtext}>
-						Click a block to begin editing.
-					</span>
+					<h3>Edit Classes</h3>
+					<span className={styles.subtext}>Click a block to begin editing.</span>
 				</div>
-				<div className={styles.schedule}>{renderSchedule()}</div>
-				{/* <button onClick={() => openModal()}>Edit Classes</button> */}
+				<div className={styles.schedule}>
+					<div className={styles.dayLabels}>
+						<span className={styles.labels} />
+						<span>D1</span>
+						<span>D2</span>
+						<span>D3</span>
+						<span>D4</span>
+						<span>D5</span>
+						<span>D6</span>
+					</div>
+					{renderSchedule()}
+				</div>
 				{showClassesModal && (
-					<div
-						className={`${styles.modalContainer} ${
-							modalFade ? styles.fade : ""
-						}`}
-						onClick={closeModal}
-					>
-						<div
-							className={`${styles.modalContent}`}
-							onClick={(e) => e.stopPropagation()}
-						>
+					<div className={`${styles.modalContainer} ${modalFade ? styles.fade : ""}`} onClick={closeModal}>
+						<div className={`${styles.modalContent}`} onClick={(e) => e.stopPropagation()}>
 							<h3 className={styles.modalTitle}>Edit Classes</h3>
 							<div>
 								<div>
 									<div className={styles.inputs}>
-										<input
-											type="text"
-											value={subject}
-											id="subject"
-											placeholder="Subject"
-											autoComplete="off"
-											onChange={(e) =>
-												setSubject(e.target.value)
-											}
-										/>
-										<input
-											type="text"
-											value={roomNumber}
-											id="room"
-											placeholder="Room Number"
-											autoComplete="off"
-											onChange={(e) =>
-												setRoomNumber(e.target.value)
-											}
-										/>
+										<input type="text" value={subject} id="subject" placeholder="Subject" autoComplete="off" onChange={(e) => setSubject(e.target.value)} />
+										<input type="text" value={roomNumber} id="room" placeholder="Room Number" autoComplete="off" onChange={(e) => setRoomNumber(e.target.value)} />
 									</div>
-									<div className={styles.subtext}>
-										Leave subject empty to delete blocks.
-									</div>
+									<div className={styles.subtext}>Leave subject empty to delete blocks.</div>
 								</div>
 								<div>{renderModalSchedule()}</div>
 								<div className={styles.buttons}>
@@ -602,11 +401,7 @@ function EditClasses() {
 									>
 										Clear Selection
 									</button>
-									<button onClick={addData}>
-										{deleteMode
-											? "Delete Data"
-											: "Update Data"}
-									</button>
+									<button onClick={addData}>{deleteMode ? "Delete Data" : "Update Data"}</button>
 								</div>
 							</div>
 						</div>

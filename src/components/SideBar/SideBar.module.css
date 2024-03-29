@@ -66,7 +66,7 @@
 .link:last-of-type {
     position: fixed;
     bottom: 1rem;
-    width: 20vw;
+    width: calc(25vw - 1rem);
 }
 
 .link > p {

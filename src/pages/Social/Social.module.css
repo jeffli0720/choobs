@@ -25,6 +25,19 @@
 	transition: all 0.2s ease-in-out;
 }
 
+.desktopHeader > div > div {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.header:not(desktopHeader) > div > div {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	padding-left: 0.5rem;
+}
+
 .button:active {
 	transform: scale(1.2);
 	transition: 0.1s;

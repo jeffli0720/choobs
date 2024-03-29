@@ -2,7 +2,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import React, { useState, useEffect, useCallback } from "react";
 import { db } from "../../firebase";
 import { getDoc, doc, updateDoc, deleteField, collection, getDocs } from "firebase/firestore";
-// import axios from "axios";
+import axios from "axios";
 
 import Schedule from "../Schedule/Schedule";
 import PFP from "../../components/PFP/PFP";
@@ -25,6 +25,9 @@ function Social() {
 		date.setHours(0, 0, 0, 0);
 		return date;
 	});
+	const [events, setEvents] = useState([]);
+	const [activeBlocks, setActiveBlocks] = useState([]);
+	const [friendSchedules, setFriendSchedules] = useState({});
 
 	const [friendScheduleUID, setFriendScheduleUID] = useState();
 
@@ -90,6 +93,91 @@ function Social() {
 
 		return () => unsubscribe();
 	}, []);
+
+	useEffect(() => {
+		const fetchScheduleData = async () => {
+			try {
+				const querySnapshot = await getDocs(collection(db, "users"));
+				querySnapshot.forEach((doc) => {
+					if (friendData.some((friend) => friend[1] === doc.id && friend[2] === 0)) {
+						const scheduleData = Object.entries(doc.data().classes).map(([block, classNames]) => ({
+							block,
+							classNames,
+						}));
+
+						setFriendSchedules((prevFriendSchedules) => ({
+							...prevFriendSchedules,
+							[doc.id]: scheduleData,
+						}));
+					}
+				});
+			} catch (error) {
+				console.error("Error fetching schedule data:", error);
+			}
+		};
+
+		const fetchData = async () => {
+			try {
+				const displayDate = new Date(2024, 2, 28, 0, 0, 0);
+				const response = await axios.get("https://www.googleapis.com/calendar/v3/calendars/lexingtonma.org_qud45cvitftvgc317tsd2vqctg%40group.calendar.google.com/events", {
+					params: {
+						calendarId: "lexingtonma.org_qud45cvitftvgc317tsd2vqctg@group.calendar.google.com",
+						singleEvents: true,
+						timeZone: "America/New_York",
+						maxResults: 20,
+						timeMin: `${displayDate.toISOString().split("T")[0]}T04:00:00-04:00`,
+						timeMax: `${displayDate.toISOString().split("T")[0]}T23:59:59-04:00`,
+						key: "AIzaSyBNlYH01_9Hc5S1J9vuFmu2nUqBZJNAXxs",
+					},
+				});
+
+				const currentDayEvents = response.data.items.filter((event) => {
+					const eventStartDate = new Date(event.start.dateTime || event.start.date);
+					const isFullDayEvent = !event.start.dateTime && !event.end.dateTime;
+
+					return (
+						(eventStartDate.getDate() === displayDate.getDate() && eventStartDate.getMonth() === displayDate.getMonth() && eventStartDate.getFullYear() === displayDate.getFullYear()) ||
+						isFullDayEvent
+					);
+				});
+				setEvents(currentDayEvents);
+			} catch (error) {
+				console.error("Error fetching calendar events:", error);
+				fetchData();
+			}
+		};
+		fetchData();
+
+		if (friendData) {
+			fetchScheduleData();
+		}
+	}, [displayDate, friendData]);
+
+	useEffect(() => {
+		const updateActiveBlocks = () => {
+			const currentTime = new Date();
+			const activeEvents = events.filter((event) => {
+				const eventStartDate = new Date(event.start.dateTime);
+				const eventEndDate = new Date(event.end.dateTime);
+
+				if (event.summary.includes("Lunch")) {
+					return currentTime >= eventStartDate && currentTime <= eventEndDate;
+				} else {
+					return currentTime >= new Date(eventStartDate.getTime() - 5 * 60 * 1000) && currentTime <= eventEndDate;
+				}
+			});
+
+			setActiveBlocks(activeEvents);
+		};
+
+		const interval = setInterval(() => {
+			updateActiveBlocks();
+		}, 1000); // Update every second
+
+		return () => {
+			clearInterval(interval);
+		};
+	}, [events]);
 
 	const refreshFriendData = useCallback(async () => {
 		try {
@@ -294,6 +382,7 @@ function Social() {
 				{!friendScheduleUID ? (
 					<div>
 						<div>
+							{userData && <PFP pfp={userData.pfp} size={2.5} />}
 							<h3>Friends</h3>
 						</div>
 						<button className={styles.button} onClick={openModal} disabled={loading}>
@@ -371,28 +460,39 @@ function Social() {
 												)}
 												<span>
 													<h4>{friend[0]}</h4>
-													{/* {activeEvents
-														.filter(
-															async (event) => {
-																return await friendHasClass(
-																	event, friend[1]
-																);
-															}
-														)
-														.map((event) => {
-															return (
-																<span
-																	key={
-																		event.summary
-																	}
-																>
-																	{
-																		event.summary
-																	}
-																</span>
-															);
-														})
-													} */}
+													{activeBlocks.length > 0 && (
+														<span>
+															{activeBlocks.map((block) => {
+																const className = friendSchedules[friend[1]].find((item) => item.block === block.summary);
+																const currentTime = new Date();
+																let currently;
+																if (new Date(block.start.dateTime) > currentTime) {
+																	currently = <>Heading to </>;
+																} else {
+																	currently = <>Currently in </>;
+																}
+																if (className) {
+																	return (
+																		<React.Fragment key={block.summary}>
+																			{currently}
+																			<b key={block.summary}>{className.classNames[0]}</b>
+																		</React.Fragment>
+																	);
+																} else if (
+																	block.summary.includes("Lunch") &&
+																	!friendSchedules[friend[1]].find((item) => activeBlocks.find((activeBlock) => activeBlock.summary === item.block))
+																) {
+																	return (
+																		<React.Fragment key={block.summary}>
+																			{currently}
+																			<b key={block.summary}>{block.summary}</b>
+																		</React.Fragment>
+																	);
+																}
+																return null;
+															})}
+														</span>
+													)}
 												</span>
 											</div>
 

@@ -7,18 +7,15 @@ function PFP(props) {
 		height: `${props.size}rem`,
 		lineHeight: `${props.size}rem`,
 		fontSize: `${props.size * 0.6}rem`,
-        backgroundColor: props.pfp && `${props.pfp[0]}`,
+        backgroundColor: `${props.pfp[0]}`,
 	};
 
 	return (
 		<>
-			{props.pfp ? (
+			{props.pfp && (
 				<div style={customStyles} className={styles.pfp}>
 					{props.pfp[1]}
 				</div>
-			) : (
-				<img src={props.pfp} alt="" />
-                // `https://ui-avatars.com/api/?name=${props.friend[0].trim().replace(/\s+/g, "+")}&background=random&size=128`
 			)}
 		</>
 	);

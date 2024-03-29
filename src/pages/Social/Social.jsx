@@ -453,11 +453,7 @@ function Social() {
 											}}
 										>
 											<div className={styles.friendInfo}>
-												{Array.isArray(friend[3]) ? (
-													<PFP pfp={friend[3]} size={2.5} />
-												) : (
-													<img src={`https://ui-avatars.com/api/?name=${friend[0].trim().replace(/\s+/g, "+")}&background=random&size=128`} alt={friend[0]} />
-												)}
+												<PFP pfp={friend[3]} size={2.5} />
 												<span>
 													<h4>{friend[0]}</h4>
 													{activeBlocks.length > 0 && (
@@ -548,11 +544,7 @@ function Social() {
 										return (
 											<div key={user[1]} className={styles.searchedFriend}>
 												<div>
-													{Array.isArray(user[3]) ? (
-														<PFP pfp={user[3]} size={2.5} />
-													) : (
-														<img src={`https://ui-avatars.com/api/?name=${user[0].trim().replace(/\s+/g, "+")}&background=random&size=128`} alt={user[0]} />
-													)}
+													<PFP pfp={user[3]} size={2.5} />
 													<div>
 														<span>{user[0]}</span>
 														<span>{user[1]}</span>
@@ -588,11 +580,7 @@ function Social() {
 										return (
 											<div className={styles.pendingFriend} key={friend[1]}>
 												<div>
-													{Array.isArray(friend[3]) ? (
-														<PFP pfp={friend[3]} size={2.5} />
-													) : (
-														<img src={`https://ui-avatars.com/api/?name=${friend[0].trim().replace(/\s+/g, "+")}&background=random&size=128`} alt={friend[0]} />
-													)}
+													<PFP pfp={friend[3]} size={2.5} />
 													<div>{friend[0]}</div>
 												</div>
 												<div className={styles.buttons}>
@@ -618,11 +606,7 @@ function Social() {
 										return (
 											<div className={styles.pendingFriend} key={friend[1]}>
 												<div>
-													{Array.isArray(friend[3]) ? (
-														<PFP pfp={friend[3]} size={2.5} />
-													) : (
-														<img src={`https://ui-avatars.com/api/?name=${friend[0].trim().replace(/\s+/g, "+")}&background=random&size=128`} alt={friend[0]} />
-													)}
+													<PFP pfp={friend[3]} size={2.5} />
 													<div>{friend[0]}</div>
 												</div>
 												<div className={styles.buttons}>

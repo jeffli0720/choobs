@@ -2,7 +2,7 @@ import EditClasses from "../EditClasses/EditClasses";
 import { useEffect, useState, useMemo } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import { db } from "../../firebase";
-import { doc, getDoc, updateDoc, deleteField } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
@@ -58,15 +58,6 @@ function Settings(props) {
 						name: userDataSnapshot.data().name,
 						pfp: userDataSnapshot.data().pfp,
 					};
-
-					if (!userData.pfp) {
-						userData.pfp = [colors[Math.floor(Math.random() * 10)], "🙂"];
-						const userCollectionRef = doc(db, "users", uid);
-						updateDoc(userCollectionRef, {
-							photoURL: deleteField(),
-							pfp: userData.pfp,
-						});
-					}
 
 					if (userData) {
 						setUserData(userData);
@@ -164,7 +155,6 @@ function Settings(props) {
 		if (JSON.stringify(previewPFP) !== JSON.stringify(userData.pfp)) {
 			const userCollectionRef = doc(db, "users", uid);
 			updateDoc(userCollectionRef, {
-				photoURL: deleteField(),
 				pfp: previewPFP,
 			});
 

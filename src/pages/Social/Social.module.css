@@ -197,8 +197,8 @@ div > div > div.scheduleContainer > div:first-of-type {
 }
 
 .currentlyViewing {
-	display: flex;
-	gap: 0.3rem;
+	display: flex !important;
+	gap: 0.3rem !important;
 	white-space: nowrap;
 	overflow: hidden;
 	height: 26px;

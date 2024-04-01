@@ -118,7 +118,6 @@ function Social() {
 
 		const fetchData = async () => {
 			try {
-				const displayDate = new Date(2024, 2, 28, 0, 0, 0);
 				const response = await axios.get("https://www.googleapis.com/calendar/v3/calendars/lexingtonma.org_qud45cvitftvgc317tsd2vqctg%40group.calendar.google.com/events", {
 					params: {
 						calendarId: "lexingtonma.org_qud45cvitftvgc317tsd2vqctg@group.calendar.google.com",

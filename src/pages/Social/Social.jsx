@@ -474,7 +474,7 @@ function Social() {
 																		</React.Fragment>
 																	);
 																} else if (
-																	block.summary.includes("Lunch") &&
+																	(block.summary.includes("Lunch") || block.summary.includes("I-block") || block.summary.includes("Advisory")) &&
 																	!friendSchedules[friend[1]].find((item) => activeBlocks.find((activeBlock) => activeBlock.summary === item.block))
 																) {
 																	return (

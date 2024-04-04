@@ -536,7 +536,7 @@ function Schedule(props) {
 									}
 
 									if (!hasHalfDay) {
-										if (/^Lunch \d+$/.test(event.summary) && /^Day (\d+)$/.test(currentDay)) {
+										if (/^Lunch \d+$/.test(event.summary) && /^Day (\d+)(.*)$/.test(currentDay)										) {
 											if (blocksRendered.some((item) => /^(C|G)\$[1-4]$/.test(item))) {
 												return !(/^Lunch \d+$/.test(event.summary) && event.summary !== "Lunch 1");
 											} else if (blocksRendered.some((item) => /^(D|H)\$[1-4]$/.test(item))) {

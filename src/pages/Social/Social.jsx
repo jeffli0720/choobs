@@ -458,7 +458,6 @@ function Social() {
 													{activeBlocks.length > 0 && (
 														<span>
 															{activeBlocks.map((block) => {
-																const className = friendSchedules[friend[1]].find((item) => item.block === block.summary);
 																const currentTime = new Date();
 																let currently;
 																if (new Date(block.start.dateTime) > currentTime) {
@@ -466,23 +465,49 @@ function Social() {
 																} else {
 																	currently = <>Currently in </>;
 																}
-																if (className) {
-																	return (
-																		<React.Fragment key={block.summary}>
-																			{currently}
-																			<b key={block.summary}>{className.classNames[0]}</b>
-																		</React.Fragment>
-																	);
-																} else if (
-																	(block.summary.includes("Lunch") || block.summary.includes("I-block") || block.summary.includes("Advisory")) &&
-																	!friendSchedules[friend[1]].find((item) => activeBlocks.find((activeBlock) => activeBlock.summary === item.block))
-																) {
-																	return (
-																		<React.Fragment key={block.summary}>
-																			{currently}
-																			<b key={block.summary}>{block.summary}</b>
-																		</React.Fragment>
-																	);
+																if (!events[0].summary.includes("Half Day")) {
+																	const className = friendSchedules[friend[1]].find((item) => item.block === block.summary);
+																	if (className) {
+																		return (
+																			<React.Fragment key={block.summary}>
+																				{currently}
+																				<b key={block.summary}>{className.classNames[0]}</b>
+																			</React.Fragment>
+																		);
+																	} else if (
+																		(block.summary.includes("Lunch") || block.summary.includes("I-block") || block.summary.includes("Advisory")) &&
+																		!friendSchedules[friend[1]].find((item) => activeBlocks.find((activeBlock) => activeBlock.summary === item.block))
+																	) {
+																		return (
+																			<React.Fragment key={block.summary}>
+																				{currently}
+																				<b key={block.summary}>{block.summary}</b>
+																			</React.Fragment>
+																		);
+																	}
+																} else {
+																	const className =
+																		friendSchedules[friend[1]].find((item) => item.block === block.summary.replace(/([A-Z])(\d)/, "$1$$$2")) ||
+																		friendSchedules[friend[1]].find((item) => item.block === block.summary.replace("$", ""));
+																	console.log(className);
+																	if (className) {
+																		return (
+																			<React.Fragment key={block.summary}>
+																				{currently}
+																				<b key={block.summary}>{className.classNames[0]}</b>
+																			</React.Fragment>
+																		);
+																	} else if (
+																		(block.summary.includes("Lunch") || block.summary.includes("I-block") || block.summary.includes("Advisory")) &&
+																		!friendSchedules[friend[1]].find((item) => activeBlocks.find((activeBlock) => activeBlock.summary === item.block))
+																	) {
+																		return (
+																			<React.Fragment key={block.summary}>
+																				{currently}
+																				<b key={block.summary}>{block.summary}</b>
+																			</React.Fragment>
+																		);
+																	}
 																}
 																return null;
 															})}

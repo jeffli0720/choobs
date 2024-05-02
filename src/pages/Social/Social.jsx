@@ -366,7 +366,7 @@ function Social() {
 				const date = new Date();
 				date.setHours(0, 0, 0, 0);
 				setDisplayDate(date);
-			}, 4 * 60 * 60 * 1000); // 4 hours in milliseconds
+			}, 1000);
 
 			return () => {
 				// Clear the interval when the component unmounts

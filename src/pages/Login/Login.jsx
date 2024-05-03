@@ -13,7 +13,8 @@ import styles from "./Login.module.css";
 function Login(props) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const [name, setName] = useState("");
+	const [firstName, setFirstName] = useState("");
+	const [lastName, setLastName] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isLogin, setIsLogin] = useState(props.isLogin);
@@ -32,7 +33,7 @@ function Login(props) {
 
 	const handleSignup = async (e) => {
 		e.preventDefault();
-		if (!name || !email || !password || !confirmPassword) {
+		if (!firstName || !lastName || !email || !password || !confirmPassword) {
 			setErrorMessage("Please fill in all required fields.");
 			return;
 		} else {
@@ -51,8 +52,8 @@ function Login(props) {
 				const pfp = [["#ff3c3c", "#f68729", "#41e241", "#6be56b", "#40e0d0", "#9c3900", "#ff9494", "#407f40", "#4764ae", "#54808c"][Math.floor(Math.random() * 10)], "🙂"];
 				setDoc(userCollectionRef, {
 					classes: {},
-					email: email,
-					name: name,
+					email: email.trim(),
+					name: (firstName.trim() + " " + lastName.trim()).trim(),
 					friends: {},
 					pfp: pfp,
 					preferences: {
@@ -160,7 +161,8 @@ function Login(props) {
 							<form>
 								<div className={styles.loginContainer}>
 									<h2>Create an account</h2>
-									<input type="text" placeholder="Full Name" value={name} className={styles.input} onChange={(e) => setName(e.target.value)} />
+									<input type="text" placeholder="First Name" value={firstName} className={styles.input} onChange={(e) => setFirstName(e.target.value)} />
+									<input type="text" placeholder="Last Name" value={lastName} className={styles.input} onChange={(e) => setLastName(e.target.value)} />
 									<input type="email" placeholder="Email" value={email} className={styles.input} onChange={handleEmailAutofill} />
 									<input type="password" placeholder="Password" value={password} autoComplete="new-password" className={styles.input} onChange={(e) => setPassword(e.target.value)} />
 									<input

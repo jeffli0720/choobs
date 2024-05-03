@@ -163,11 +163,13 @@ function Schedule(props) {
 	// Arrow key functionality
 	useEffect(() => {
 		const handleKeyDown = (event) => {
-			if (event.key === "ArrowRight") {
-				handleDateChange(1);
-			}
-			if (event.key === "ArrowLeft") {
-				handleDateChange(-1);
+			if (event.target.tagName.toLowerCase() !== "textarea") {
+				if (event.key === "ArrowRight") {
+					handleDateChange(1);
+				}
+				if (event.key === "ArrowLeft") {
+					handleDateChange(-1);
+				}
 			}
 		};
 
@@ -402,17 +404,31 @@ function Schedule(props) {
 				</button>
 				<div className={styles.calendar}>
 					<button
-						className={`${styles.button} ${displayDate.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0) ? styles.grayed : ""}`}
+						className={`${styles.button} ${
+							!displayDate.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0) || (displayDate.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0) && !highlighted.current)
+								? styles.grayed
+								: ""
+						}`}
 						onClick={() => {
-							setLoading(true);
-							setBlocksRendered([]);
-							const date = new Date();
-							date.setHours(0, 0, 0, 0);
-							sessionStorage.setItem("displayDate", date);
-							setDisplayDate(date);
-							setCurrentDay("");
+							if (displayDate.setHours(0, 0, 0, 0) !== new Date().setHours(0, 0, 0, 0)) {
+								setLoading(true);
+								setBlocksRendered([]);
+								const date = new Date();
+								date.setHours(0, 0, 0, 0);
+								sessionStorage.setItem("displayDate", date);
+								setDisplayDate(date);
+								setCurrentDay("");
+							} else {
+								setTimeout(() => {
+									if (highlighted && highlighted.current) {
+										highlighted.current.scrollIntoView({ behavior: "smooth", block: "center" });
+									}
+								}, 100);
+							}
 						}}
-						disabled={displayDate.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0)}
+						disabled={
+							!displayDate.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0) || (displayDate.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0) && !highlighted.current)
+						}
 					>
 						<span className={`${"material-symbols-rounded"}`}>&#xf053;</span>
 					</button>
@@ -536,7 +552,7 @@ function Schedule(props) {
 									}
 
 									if (!hasHalfDay) {
-										if (/^Lunch \d+$/.test(event.summary) && /^Day (\d+)(.*)$/.test(currentDay)										) {
+										if (/^Lunch \d+$/.test(event.summary) && /^Day (\d+)(.*)$/.test(currentDay)) {
 											if (blocksRendered.some((item) => /^(C|G)\$[1-4]$/.test(item))) {
 												return !(/^Lunch \d+$/.test(event.summary) && event.summary !== "Lunch 1");
 											} else if (blocksRendered.some((item) => /^(D|H)\$[1-4]$/.test(item))) {
@@ -558,7 +574,10 @@ function Schedule(props) {
 													return false;
 												}
 
-												if ((event.summary === "Lunch 1" && lastBlockRoom >= 500) || (event.summary === "Lunch 2" && (lastBlockRoom < 500 || lastBlockRoom.toLowerCase() === "gym"))) {
+												if (
+													(event.summary === "Lunch 1" && lastBlockRoom >= 500) ||
+													(event.summary === "Lunch 2" && (lastBlockRoom < 500 || lastBlockRoom.toLowerCase() === "gym"))
+												) {
 													if (!blocksRendered.includes(event.summary)) {
 														blocksRendered.push(event.summary);
 													}

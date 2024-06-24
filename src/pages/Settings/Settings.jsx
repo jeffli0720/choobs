@@ -184,8 +184,8 @@ function Settings(props) {
 
 	return (
 		<>
+			<div className={`${styles.header} ${!isMobile ? styles.desktop : ""}`}>{isMobile ? <h3>Settings</h3> : <h2>Settings</h2>}</div>
 			<div className={`${styles.settings} ${!isMobile ? styles.desktop : ""}`}>
-				<div className={`${styles.header} ${!isMobile ? styles.desktop : ""}`}>{isMobile ? <h3>Settings</h3> : <h2>Settings</h2>}</div>
 				{userData && (
 					<>
 						<div className={styles.userInfo}>

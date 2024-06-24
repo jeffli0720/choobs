@@ -388,4 +388,15 @@ input:checked + .switchSlider:before {
 	.mobileModal > .modalContent {
 		margin-top: calc(env(safe-area-inset-top));
 	}
+
+	.header {
+		padding-top: max(env(safe-area-inset-top), 2rem);
+	}
+
+	.settings {
+		margin-top: calc(4rem + max(2rem, env(safe-area-inset-top))) !important;
+		min-height: calc(100vh - 10.5rem - env(safe-area-inset-bottom) - env(safe-area-inset-top)); 
+		padding-bottom: calc(4rem + env(safe-area-inset-top));
+		margin-bottom: 0;
+	}
 }

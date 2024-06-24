@@ -162,8 +162,7 @@ h4 {
 
 	.schedule {
 		top: calc(4rem + max(2rem, env(safe-area-inset-top))) !important;
-		/* i dont know why min-height need an extra pixel but it does so dont touch it */
-		min-height: calc(100vh + max(1rem, env(safe-area-inset-top)) - (env(safe-area-inset-top) + 12rem - 1px)); 
+		min-height: calc(100vh - 10.5rem - env(safe-area-inset-bottom) - env(safe-area-inset-top)); 
 		padding-bottom: calc(4rem + env(safe-area-inset-top));
 		margin-bottom: 0;
 	}

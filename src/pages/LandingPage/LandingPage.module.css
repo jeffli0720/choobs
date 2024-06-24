@@ -80,3 +80,9 @@
     box-shadow: none;
     max-width: 75%;
 }
+
+@supports (-webkit-touch-callout: none) {
+    .page {
+        margin-top: env(safe-area-inset-top);
+    }
+}

@@ -252,7 +252,7 @@ h4 {
 	display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: red;
+    color: rgb(218, 54, 60);
 	width: 100%;
 }
 

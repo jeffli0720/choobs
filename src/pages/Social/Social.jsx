@@ -1,5 +1,5 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { db } from "../../firebase";
 import { getDoc, doc, updateDoc, deleteField, collection, getDocs } from "firebase/firestore";
 import axios from "axios";
@@ -13,12 +13,22 @@ function Social() {
 	const [uid, setUid] = useState("");
 	const [friendData, setFriendData] = useState();
 	const [loading, setLoading] = useState(true);
-	const [showModal, setShowModal] = useState(false);
-	const [modalFade, setModalFade] = useState(true);
+
+	const [showAddModal, setShowAddModal] = useState(false);
+	const [addModalFade, setAddModalFade] = useState(true);
+
+	const [showRemoveModal, setShowRemoveModal] = useState(false);
+	const [removeModalFade, setRemoveModalFade] = useState(true);
+
 	const [searchedUser, setSearchedUser] = useState("");
 	const [searchResults, setSearchResults] = useState([]);
 	const [activeSearch, setActiveSearch] = useState(false);
 	const [userData, setUserData] = useState();
+
+	const [showMenu, setShowMenu] = useState(false);
+	const [menuFade, setMenuFade] = useState(true);
+	const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+	const menuRef = useRef();
 
 	const [displayDate, setDisplayDate] = useState(() => {
 		const date = new Date();
@@ -213,19 +223,26 @@ function Social() {
 	const openModal = () => {
 		refreshFriendData();
 
-		setModalFade(true);
-		setShowModal(true);
+		if (showMenu) {
+			setRemoveModalFade(true);
+			setShowRemoveModal(showMenu);
+		} else {
+			setAddModalFade(true);
+			setShowAddModal(true);
+		}
 	};
 
 	const closeModal = () => {
-		setModalFade(false);
-		const timeoutId = setTimeout(() => {
-			setShowModal(false);
+		setRemoveModalFade(false);
+		setAddModalFade(false);
+		const timeout = setTimeout(() => {
+			setShowRemoveModal(false);
+			setShowAddModal(false);
 			setSearchedUser("");
 			setActiveSearch(false);
 		}, 200);
 
-		return () => clearTimeout(timeoutId);
+		return () => clearTimeout(timeout);
 	};
 
 	const dismissRequest = async (friendUID, ignore) => {
@@ -348,7 +365,7 @@ function Social() {
 
 	useEffect(() => {
 		const handleKeyDown = (event) => {
-			if (event.key === "Escape" && showModal) {
+			if (event.key === "Escape" && (showAddModal || showRemoveModal)) {
 				closeModal();
 			}
 		};
@@ -358,7 +375,7 @@ function Social() {
 		return () => {
 			window.removeEventListener("keydown", handleKeyDown);
 		};
-	}, [showModal]);
+	}, [showRemoveModal, showAddModal]);
 
 	useEffect(() => {
 		if (displayDate.getTime() !== new Date().setHours(0, 0, 0, 0)) {
@@ -374,6 +391,62 @@ function Social() {
 			};
 		}
 	}, [displayDate]);
+
+	const openMenu = (e, friend) => {
+		e.stopPropagation();
+		const buttonRect = e.target.getBoundingClientRect();
+		setMenuPosition({
+			top: buttonRect.top + window.scrollY,
+			left: buttonRect.left - 9.5 * 16,
+		});
+		if (showMenu !== friend[1]) {
+			setMenuFade(true);
+			setShowMenu(friend[1]);
+		} else {
+			closeMenu();
+		}
+	};
+
+	const closeMenu = () => {
+		setMenuFade(false);
+		const timeout = setTimeout(() => {
+			setShowMenu(false);
+		}, 200);
+
+		return () => clearTimeout(timeout);
+	};
+
+	useEffect(() => {
+		if (showMenu) {
+			document.addEventListener("click", closeMenu);
+		} else {
+			document.removeEventListener("click", closeMenu);
+		}
+
+		return () => {
+			document.removeEventListener("click", closeMenu);
+		};
+	}, [showMenu]);
+
+	const pin = (friend) => {
+		const friendUID = friend[1];
+		try {
+			if (friend[2] === 0) {
+				updateDoc(doc(db, "users", uid), {
+					[`friends.${friendUID}`]: 3,
+				});
+				window.scrollTo(0, 0);
+			} else {
+				updateDoc(doc(db, "users", uid), {
+					[`friends.${friendUID}`]: 0,
+				});
+			}
+			refreshFriendData();
+			closeMenu();
+		} catch (error) {
+			console.error("Error pinning", friendUID, error);
+		}
+	};
 
 	return (
 		<>
@@ -402,24 +475,21 @@ function Social() {
 								<span className={`${"material-symbols-rounded"}`}>&#xe5cb;</span>
 							</button>
 							<div className={styles.currentlyViewing}>
-								Currently viewing
 								<h4>{friendData.find((friend) => friend[1] === friendScheduleUID)[0]}</h4>
 							</div>
-							<button className={styles.button} onClick={openModal}>
-								<span className={`${"material-symbols-rounded"}`}>&#xe872;</span>
-							</button>
+							<div />
 						</div>
 					</>
 				)}
 			</div>
-			{showModal && friendScheduleUID && (
-				<div className={`${styles.modalContainer} ${modalFade && styles.fade} ${isMobile && styles.mobileModal} ${styles.unfriendModal}`} onClick={closeModal}>
-					<div className={`${styles.modalContent} ${modalFade ? styles.slide : ""}`} onClick={(e) => e.stopPropagation()}>
-						<h3>Unfriend {friendData.find((friend) => friend[1] === friendScheduleUID)[0]}</h3>
-						<p>Are you sure you want to remove {friendData.find((friend) => friend[1] === friendScheduleUID)[0]} from your friends list?</p>
+			{showRemoveModal && (
+				<div className={`${styles.modalContainer} ${removeModalFade && styles.fade} ${isMobile && styles.mobileModal} ${styles.unfriendModal}`} onClick={closeModal}>
+					<div className={`${styles.modalContent} ${removeModalFade ? styles.slide : ""}`} onClick={(e) => e.stopPropagation()}>
+						<h3>Unfriend {friendData.find((friend) => friend[1] === showRemoveModal)[0]}</h3>
+						<p>Are you sure you want to remove {friendData.find((friend) => friend[1] === showRemoveModal)[0]} from your friends list?</p>
 						<div>
 							<button onClick={closeModal}>Cancel</button>
-							<button onClick={() => unfriend(friendScheduleUID)}>Unfriend {friendData.find((friend) => friend[1] === friendScheduleUID)[0]}</button>
+							<button onClick={() => unfriend(showRemoveModal)}>Unfriend {friendData.find((friend) => friend[1] === showRemoveModal)[0]}</button>
 						</div>
 					</div>
 				</div>
@@ -437,87 +507,127 @@ function Social() {
 						) : friendData && friendData.some((item) => item[2] === 0) ? (
 							friendData
 								.sort((a, b) => {
+									if (a[2] === 3 && b[2] !== 3) return -1;
+									if (a[2] !== 3 && b[2] === 3) return 1;
 									return friendData.find((friend) => friend[1] === a[1])[0].localeCompare(friendData.find((friend) => friend[1] === b[1])[0]);
 								})
 								.filter((friend) => {
-									return friend[2] === 0;
+									return friend[2] === 0 || friend[2] === 3;
 								})
 								.map((friend) => {
 									return (
-										<button
-											key={friend[1]}
-											className={`${styles.friendItem} ${styles.button}`}
-											onClick={() => {
-												setFriendScheduleUID(friend[1]);
-											}}
-										>
-											<div className={styles.friendInfo}>
-												<PFP pfp={friend[3]} size={2.5} />
+										<React.Fragment key={friend[1]}>
+											<button
+												key={friend[1]}
+												className={`${styles.friendItem} ${styles.button}`}
+												onClick={() => {
+													setFriendScheduleUID(friend[1]);
+												}}
+											>
+												<div className={styles.friendInfo}>
+													<PFP pfp={friend[3]} size={2.5} />
+													{friend[2] === 3 && <div className={`${"material-symbols-rounded"} ${styles.pin}`}>&#xe6aa;</div>}
+													<span>
+														<h4>{friend[0]}</h4>
+														{activeBlocks.length > 0 && (
+															<span>
+																{activeBlocks.map((block) => {
+																	const currentTime = new Date();
+																	let currently;
+																	if (new Date(block.start.dateTime) > currentTime) {
+																		currently = <>Heading to </>;
+																	} else {
+																		currently = <>Currently in </>;
+																	}
+																	if (!events[0].summary.includes("Half Day")) {
+																		const className = friendSchedules[friend[1]].find((item) => item.block === block.summary);
+																		if (className) {
+																			return (
+																				<React.Fragment key={block.summary}>
+																					{currently}
+																					<b key={block.summary}>{className.classNames[0]}</b>
+																				</React.Fragment>
+																			);
+																		} else if (
+																			(block.summary.includes("Lunch") || block.summary.includes("I-block") || block.summary.includes("Advisory")) &&
+																			!friendSchedules[friend[1]].find((item) => activeBlocks.find((activeBlock) => activeBlock.summary === item.block))
+																		) {
+																			return (
+																				<React.Fragment key={block.summary}>
+																					{currently}
+																					<b key={block.summary}>{block.summary}</b>
+																				</React.Fragment>
+																			);
+																		}
+																	} else {
+																		const className =
+																			friendSchedules[friend[1]].find((item) => item.block === block.summary.replace(/([A-Z])(\d)/, "$1$$$2")) ||
+																			friendSchedules[friend[1]].find((item) => item.block === block.summary.replace("$", ""));
+																		console.log(className);
+																		if (className) {
+																			return (
+																				<React.Fragment key={block.summary}>
+																					{currently}
+																					<b key={block.summary}>{className.classNames[0]}</b>
+																				</React.Fragment>
+																			);
+																		} else if (
+																			(block.summary.includes("Lunch") || block.summary.includes("I-block") || block.summary.includes("Advisory")) &&
+																			!friendSchedules[friend[1]].find((item) => activeBlocks.find((activeBlock) => activeBlock.summary === item.block))
+																		) {
+																			return (
+																				<React.Fragment key={block.summary}>
+																					{currently}
+																					<b key={block.summary}>{block.summary}</b>
+																				</React.Fragment>
+																			);
+																		}
+																	}
+																	return null;
+																})}
+															</span>
+														)}
+													</span>
+												</div>
 												<span>
-													<h4>{friend[0]}</h4>
-													{activeBlocks.length > 0 && (
-														<span>
-															{activeBlocks.map((block) => {
-																const currentTime = new Date();
-																let currently;
-																if (new Date(block.start.dateTime) > currentTime) {
-																	currently = <>Heading to </>;
-																} else {
-																	currently = <>Currently in </>;
-																}
-																if (!events[0].summary.includes("Half Day")) {
-																	const className = friendSchedules[friend[1]].find((item) => item.block === block.summary);
-																	if (className) {
-																		return (
-																			<React.Fragment key={block.summary}>
-																				{currently}
-																				<b key={block.summary}>{className.classNames[0]}</b>
-																			</React.Fragment>
-																		);
-																	} else if (
-																		(block.summary.includes("Lunch") || block.summary.includes("I-block") || block.summary.includes("Advisory")) &&
-																		!friendSchedules[friend[1]].find((item) => activeBlocks.find((activeBlock) => activeBlock.summary === item.block))
-																	) {
-																		return (
-																			<React.Fragment key={block.summary}>
-																				{currently}
-																				<b key={block.summary}>{block.summary}</b>
-																			</React.Fragment>
-																		);
-																	}
-																} else {
-																	const className =
-																		friendSchedules[friend[1]].find((item) => item.block === block.summary.replace(/([A-Z])(\d)/, "$1$$$2")) ||
-																		friendSchedules[friend[1]].find((item) => item.block === block.summary.replace("$", ""));
-																	console.log(className);
-																	if (className) {
-																		return (
-																			<React.Fragment key={block.summary}>
-																				{currently}
-																				<b key={block.summary}>{className.classNames[0]}</b>
-																			</React.Fragment>
-																		);
-																	} else if (
-																		(block.summary.includes("Lunch") || block.summary.includes("I-block") || block.summary.includes("Advisory")) &&
-																		!friendSchedules[friend[1]].find((item) => activeBlocks.find((activeBlock) => activeBlock.summary === item.block))
-																	) {
-																		return (
-																			<React.Fragment key={block.summary}>
-																				{currently}
-																				<b key={block.summary}>{block.summary}</b>
-																			</React.Fragment>
-																		);
-																	}
-																}
-																return null;
-															})}
-														</span>
-													)}
+													<div className={`${"material-symbols-rounded"}`}>&#xe8f4;</div>
+													<div className={`${"material-symbols-rounded"}`} onClick={(e) => openMenu(e, friend)}>
+														&#xe5d4;
+													</div>
 												</span>
-											</div>
-
-											<span className={`${"material-symbols-rounded"}`}>&#xe5cc;</span>
-										</button>
+											</button>
+											{showMenu === friend[1] && (
+												<div>
+													{isMobile && (
+														<div
+															className={`${styles.overlay} ${menuFade && styles.fade}`}
+															onClick={(e) => {
+																e.stopPropagation();
+																closeMenu();
+															}}
+														></div>
+													)}
+													<div
+														ref={menuRef}
+														className={`${styles.menu} ${menuFade && styles.fade} ${isMobile ? styles.mobileMenu : ""}`}
+														style={{ top: menuPosition.top, left: menuPosition.left }}
+													>
+														<button onClick={() => pin(friend)}>
+															<span>{friend[2] === 3 ? "Unpin" : "Pin"}</span>
+															{friend[2] === 3 ? (
+																<span className={`${"material-symbols-rounded"}`}>&#xe6f9;</span>
+															) : (
+																<span className={`${"material-symbols-rounded"}`}>&#xe6aa;</span>
+															)}
+														</button>
+														<button onClick={openModal}>
+															<span>Remove</span>
+															<span className={`${"material-symbols-rounded"}`}>&#xe872;</span>
+														</button>
+													</div>
+												</div>
+											)}
+										</React.Fragment>
 									);
 								})
 						) : (
@@ -535,9 +645,9 @@ function Social() {
 					</div>
 				)}
 			</div>
-			{showModal && !friendScheduleUID && (
-				<div className={`${styles.modalContainer} ${modalFade && styles.fade} ${isMobile && styles.mobileModal}`} onClick={closeModal}>
-					<div className={`${styles.modalContent} ${modalFade ? styles.slide : ""}`} onClick={(e) => e.stopPropagation()}>
+			{showAddModal && (
+				<div className={`${styles.modalContainer} ${addModalFade && styles.fade} ${isMobile && styles.mobileModal}`} onClick={closeModal}>
+					<div className={`${styles.modalContent} ${addModalFade ? styles.slide : ""}`} onClick={(e) => e.stopPropagation()}>
 						<div>
 							<h3>Add friends</h3>
 							<div className={styles.searchBox}>

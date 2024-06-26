@@ -684,6 +684,10 @@ div:not(.desktopSocial) > div > .button > span > div:active {
 		margin-bottom: calc(2.5rem + max(env(safe-area-inset-bottom), 2rem));
 	}
 
+	.social > .friendsList {
+		padding-bottom: 1rem;
+	}
+
 	.ios {
 		margin-top: calc(max(2rem, env(safe-area-inset-top)) + 34px);
 		min-height: calc(100vh - (env(safe-area-inset-top) + 5.5rem + env(safe-area-inset-bottom)));

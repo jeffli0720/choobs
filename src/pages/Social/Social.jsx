@@ -601,11 +601,11 @@ function Social() {
 													{isMobile && (
 														<div
 															className={`${styles.overlay} ${menuFade && styles.fade}`}
-															onClick={(e) => {
+															onTouchMove={(e) => {
 																e.stopPropagation();
 																closeMenu();
 															}}
-														></div>
+														/>
 													)}
 													<div
 														ref={menuRef}

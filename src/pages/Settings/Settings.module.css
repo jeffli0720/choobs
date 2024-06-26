@@ -24,7 +24,7 @@
 }
 
 .header.desktop {
-	padding: 0;
+	padding: 3rem 0 1rem;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
     height: 3rem;
@@ -36,7 +36,7 @@
 
 .settings.desktop {
 	margin-top: 0;
-	padding: 3rem 0;
+	padding: 0 0 3rem;
 }
 
 @supports (-webkit-touch-callout: none) {

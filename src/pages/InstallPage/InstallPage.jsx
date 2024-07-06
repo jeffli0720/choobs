@@ -66,7 +66,9 @@ const InstallPage = ({ setIsPWA }) => {
 
 			{/iPhone|iPad|iPod/i.test(navigator.userAgent) && <div className={styles.notice}>Note: On iOS, this app can only be installed via Safari.</div>}
 
-			<Link className={styles.link} to="/login">Use in browser</Link>
+			<Link className={styles.link} to="/login">
+				Use in browser
+			</Link>
 		</div>
 	);
 };

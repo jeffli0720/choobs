@@ -21,11 +21,11 @@
 	top: 0;
 	left: 0;
 	margin: 0;
-	padding: 1rem 7vw;
+	padding: 1rem calc(7vw + 0.5rem);
 	background: rgba(255, 255, 255, 0.05);
 	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
-	width: 86vw;
+	width: calc(100vw - 14vw - 1rem);
 	height: 3rem;
 	z-index: 11;
 	display: flex;
@@ -55,7 +55,8 @@
 	gap: 1rem;
 }
 
-.desktopHeader > div > div:last-of-type, .header > div > div:last-of-type {
+.desktopHeader > div > div:last-of-type,
+.header > div > div:last-of-type {
 	width: 1.5rem;
 }
 
@@ -87,6 +88,7 @@
 	left: 0;
 	margin: 0;
 	padding: 0.5rem 7vw;
+	width: 86vw;
 	background: rgba(255, 255, 255, 0.05);
 	line-height: 1rem;
 	height: 26px;
@@ -111,6 +113,10 @@
 	transition: all 0.2s ease-in-out;
 }
 
+.desktopHeader > div > button {
+	margin-right: 0.5rem;
+}
+
 .desktopSocial {
 	padding: 0 0;
 	margin-top: 0;
@@ -128,7 +134,6 @@
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	-webkit-user-select: none;
 	user-select: none;
-	margin-right: 0.5rem;
 }
 
 .friendItem {
@@ -628,11 +633,11 @@ div > .button > span > div {
 }
 
 .desktopSocial > div > .button > span > div:hover {
-	background-color: rgba(255, 255, 255, 0.10);
+	background-color: rgba(255, 255, 255, 0.1);
 }
 
 div:not(.desktopSocial) > div > .button > span > div:active {
-	background-color: rgba(255, 255, 255, 0.10);
+	background-color: rgba(255, 255, 255, 0.1);
 }
 
 .requestNotification {

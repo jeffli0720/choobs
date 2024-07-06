@@ -230,10 +230,18 @@ function EditClasses() {
 				<div className={`${styles.column} ${styles.labels}`}>
 					<div>1</div>
 					<div>2</div>
-					<div>3<span>a</span></div>
-					<div>3<span>b</span></div>
-					<div>4<span>a</span></div>
-					<div>4<span>b</span></div>
+					<div>
+						3<span>a</span>
+					</div>
+					<div>
+						3<span>b</span>
+					</div>
+					<div>
+						4<span>a</span>
+					</div>
+					<div>
+						4<span>b</span>
+					</div>
 					<div>5</div>
 					<div>6</div>
 				</div>

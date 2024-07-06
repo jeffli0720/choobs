@@ -25,13 +25,13 @@
 
 .header.desktop {
 	padding: 3rem 0 1rem;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    height: 3rem;
-    z-index: 10;
-    position: unset;
-    width: 100%;
-    background: none;
+	backdrop-filter: blur(6px);
+	-webkit-backdrop-filter: blur(6px);
+	height: 3rem;
+	z-index: 10;
+	position: unset;
+	width: 100%;
+	background: none;
 }
 
 .settings.desktop {
@@ -147,7 +147,7 @@
 	width: 2.5rem;
 	min-width: 2.5rem;
 	height: 1.5rem;
-	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .switch input {
@@ -180,7 +180,7 @@
 	background-color: white;
 	-webkit-transition: 0.2s;
 	transition: 0.2s;
-	border-radius: 50%
+	border-radius: 50%;
 }
 
 input:checked + .switchSlider {
@@ -395,7 +395,7 @@ input:checked + .switchSlider:before {
 
 	.settings {
 		margin-top: calc(4rem + max(2rem, env(safe-area-inset-top))) !important;
-		min-height: calc(100vh - 10.5rem - env(safe-area-inset-bottom) - env(safe-area-inset-top)); 
+		min-height: calc(100vh - 10.5rem - env(safe-area-inset-bottom) - env(safe-area-inset-top));
 		padding-bottom: calc(4rem + env(safe-area-inset-top));
 		margin-bottom: 0;
 	}

@@ -457,7 +457,15 @@ function Social() {
 							{userData && <PFP pfp={userData.pfp} size={2.5} />}
 							<h3>Friends</h3>
 						</div>
-						<button className={styles.button} onClick={openModal} disabled={loading}>
+						<button
+							className={styles.button}
+							onClick={() => {
+								refreshFriendData();
+								setAddModalFade(true);
+								setShowAddModal(true);
+							}}
+							disabled={loading}
+						>
 							{friendData && friendData.some((item) => item[2] === 1) ? (
 								<span className={`${"material-symbols-rounded"}`}>
 									&#xe7f0;

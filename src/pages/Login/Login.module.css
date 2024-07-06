@@ -1,24 +1,24 @@
 .page {
 	max-width: 300px;
-    margin: auto;
+	margin: auto;
 }
 
 .button {
 	background-color: #54808c;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-    border: none;
-    border-radius: 5px;
-    padding: 0.5rem;
-    color: white;
-    margin: 0.5rem 0;
-    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+	border: none;
+	border-radius: 5px;
+	padding: 0.5rem;
+	color: white;
+	margin: 0.5rem 0;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .button:hover {
-    opacity: .75;
-    transition-property: opacity;
-    transition-timing-function: cubic-bezier(.4,0,.2,1);
-    transition-duration: .15s;
+	opacity: 0.75;
+	transition-property: opacity;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	transition-duration: 0.15s;
 }
 
 .input {
@@ -33,7 +33,7 @@
 }
 
 .errorPopup {
-    max-width: calc(100% - 2rem);
+	max-width: calc(100% - 2rem);
 	display: flex;
 	flex-direction: column;
 	position: fixed;
@@ -79,11 +79,11 @@
 		opacity: 1;
 		transform: translateY(0);
 	}
-    90% {
+	90% {
 		opacity: 1;
 		transform: translateY(0);
 	}
-    100% {
+	100% {
 		opacity: 0;
 		transform: translateY(50%);
 	}
@@ -95,12 +95,12 @@
 		margin-left: 0;
 	}
 
-    5% {
+	5% {
 		width: calc(100% + 1rem);
 		margin-left: 0;
 	}
 
-    95% {
+	95% {
 		width: 0%;
 		margin-left: calc(100% + 1rem);
 	}
@@ -134,12 +134,12 @@
 
 .toggleLoginSignup {
 	left: 0;
-    position: fixed;
-    bottom: 25px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	position: fixed;
+	bottom: 25px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	font-size: 14px;
 }
 
@@ -149,36 +149,35 @@
 
 .toggleLoginSignup > button {
 	background: none;
-    border: none;
-    color: #80a4ae;
-    font-weight: 600;
-    font-size: 14px;
-    padding: 0 6px;
+	border: none;
+	color: #80a4ae;
+	font-weight: 600;
+	font-size: 14px;
+	padding: 0 6px;
 }
 
 .wave {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    overflow: hidden;
-    z-index: -1;
-    height: 400px;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100vw;
+	overflow: hidden;
+	z-index: -1;
+	height: 400px;
 }
 
 .wave > svg {
-    position: sticky;
-    bottom: 0;
+	position: sticky;
+	bottom: 0;
 }
 
 .back {
 	display: flex;
-    align-items: center;
-    position: absolute;
-    color: #6e747a;
-    flex-direction: row;
-    text-decoration: none;
+	align-items: center;
+	position: absolute;
+	color: #6e747a;
+	flex-direction: row;
+	text-decoration: none;
 	margin-top: 5vh;
-	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
-

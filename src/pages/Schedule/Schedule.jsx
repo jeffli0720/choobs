@@ -160,7 +160,6 @@ function Schedule(props) {
 		[displayDate]
 	);
 
-	// Arrow key functionality
 	useEffect(() => {
 		const handleKeyDown = (event) => {
 			if (event.target.tagName.toLowerCase() !== "textarea") {
@@ -180,9 +179,6 @@ function Schedule(props) {
 		};
 	});
 
-	/*
-	 * Resets displayDate every 4 hours
-	 */
 	useEffect(() => {
 		setBlocksRendered([]);
 		if (displayDate.getTime() !== new Date().setHours(0, 0, 0, 0)) {

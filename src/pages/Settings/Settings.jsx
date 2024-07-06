@@ -1,4 +1,3 @@
-import EditClasses from "../EditClasses/EditClasses";
 import { useEffect, useState, useMemo } from "react";
 import { getAuth, signOut } from "firebase/auth";
 import { db } from "../../firebase";
@@ -8,6 +7,7 @@ import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 
 import PFP from "../../components/PFP/PFP";
+import EditClasses from "../../components/EditClasses/EditClasses";
 
 import styles from "./Settings.module.css";
 

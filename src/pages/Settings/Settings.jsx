@@ -13,9 +13,11 @@ import styles from "./Settings.module.css";
 
 function Settings(props) {
 	const uid = props.uid;
+
 	const [userData, setUserData] = useState();
 	const [editName, setEditName] = useState(false);
 	const [name, setName] = useState("");
+
 	const [showLogoutModal, setShowLogoutModal] = useState(false);
 	const [showPFPModal, setShowPFPModal] = useState(false);
 	const [modalFade, setModalFade] = useState(true);
@@ -26,6 +28,7 @@ function Settings(props) {
 	const [emailNotifications, setEmailNotifications] = useState(!!false);
 
 	const [isMobile, setIsMobile] = useState(isMobileDevice());
+	const [loading, setLoading] = useState(true);
 
 	function isMobileDevice() {
 		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -68,6 +71,7 @@ function Settings(props) {
 						console.error("User data not available");
 					}
 				}
+				setLoading(false);
 			} catch (error) {
 				console.error("Error fetching user data:", error);
 			}
@@ -186,100 +190,111 @@ function Settings(props) {
 		<>
 			<div className={`${styles.header} ${!isMobile ? styles.desktop : ""}`}>{isMobile ? <h3>Settings</h3> : <h2>Settings</h2>}</div>
 			<div className={`${styles.settings} ${!isMobile ? styles.desktop : ""}`}>
-				{userData && (
+				{loading ? (
+					<div className={`lds-ring ${styles.loadingRing}`}>
+						<div></div>
+						<div></div>
+						<div></div>
+						<div></div>
+					</div>
+				) : (
 					<>
-						<div className={styles.userInfo}>
-							<button
-								className={styles.pfp}
-								onClick={() => {
-									openModal("pfp");
-								}}
-							>
-								<PFP pfp={userData.pfp} size={4} />
-								<span className={`${"material-symbols-rounded"}`}>&#xe3c9;</span>
-							</button>
-							{showPFPModal && (
-								<div className={`${styles.modalContainer} ${modalFade ? styles.fade : ""} ${isMobile && styles.mobileModal}`} onClick={closeModal}>
-									<div className={`${styles.modalContent} ${modalFade ? styles.slide : ""} ${styles.pfpModal}`} onClick={(e) => e.stopPropagation()}>
-										<div>
-											<PFP pfp={previewPFP} size={6} />
-											<div>
-												<h3>Edit Profile Picture</h3>
-												{userData && <ColorPicker />}
+						{userData && (
+							<>
+								<div className={styles.userInfo}>
+									<button
+										className={styles.pfp}
+										onClick={() => {
+											openModal("pfp");
+										}}
+									>
+										<PFP pfp={userData.pfp} size={4} />
+										<span className={`${"material-symbols-rounded"}`}>&#xe3c9;</span>
+									</button>
+									{showPFPModal && (
+										<div className={`${styles.modalContainer} ${modalFade ? styles.fade : ""} ${isMobile && styles.mobileModal}`} onClick={closeModal}>
+											<div className={`${styles.modalContent} ${modalFade ? styles.slide : ""} ${styles.pfpModal}`} onClick={(e) => e.stopPropagation()}>
+												<div>
+													<PFP pfp={previewPFP} size={6} />
+													<div>
+														<h3>Edit Profile Picture</h3>
+														{userData && <ColorPicker />}
+													</div>
+												</div>
+												<Picker data={data} theme={`dark`} navPosition={`none`} previewPosition={`none`} dynamicWidth={true} onEmojiSelect={updatePreviewPFP} />
+												<div className={styles.modalButtons}>
+													<button
+														onClick={() => {
+															setPreviewPFP(userData.pfp);
+															closeModal();
+														}}
+													>
+														Discard Changes
+													</button>
+													<button className={styles.save} onClick={savePreviewPFP} disabled={userData.pfp === previewPFP}>
+														Save
+													</button>
+												</div>
 											</div>
 										</div>
-										<Picker data={data} theme={`dark`} navPosition={`none`} previewPosition={`none`} dynamicWidth={true} onEmojiSelect={updatePreviewPFP} />
-										<div className={styles.modalButtons}>
-											<button
-												onClick={() => {
-													setPreviewPFP(userData.pfp);
-													closeModal();
-												}}
-											>
-												Discard Changes
-											</button>
-											<button className={styles.save} onClick={savePreviewPFP} disabled={userData.pfp === previewPFP}>
-												Save
-											</button>
+									)}
+									<div>
+										<div className={styles.name}>
+											{!editName ? (
+												<>
+													<h3>{userData.name}</h3>
+													{/* <button className={styles.editButton} type="submit" onClick={() => setEditName(true)}>
+														<span className={`${"material-symbols-rounded"}`}>&#xe3c9;</span>
+													</button> */}
+												</>
+											) : (
+												<form>
+													<input type="text" placeholder={userData.name} value={name} className={styles.input} onChange={(e) => setName(e.target.value)} />
+													<button className={styles.editButton} type="submit" onClick={() => setEditName(false)}>
+														<span className={`${"material-symbols-rounded"}`}>&#xe5c9;</span>
+													</button>
+													<button className={styles.editButton} type="submit" onClick={() => setEditName(false)}>
+														<span className={`${"material-symbols-rounded"}`}>&#xe161;</span>
+													</button>
+												</form>
+											)}
 										</div>
+										<p>{userData.email}</p>
 									</div>
 								</div>
-							)}
-							<div>
-								<div className={styles.name}>
-									{!editName ? (
-										<>
-											<h3>{userData.name}</h3>
-											<button className={styles.editButton} type="submit" onClick={() => setEditName(true)}>
-												<span className={`${"material-symbols-rounded"}`}>&#xe3c9;</span>
-											</button>
-										</>
-									) : (
-										<form>
-											<input type="text" placeholder={userData.name} value={name} className={styles.input} onChange={(e) => setName(e.target.value)} />
-											<button className={styles.editButton} type="submit" onClick={() => setEditName(false)}>
-												<span className={`${"material-symbols-rounded"}`}>&#xe5c9;</span>
-											</button>
-											<button className={styles.editButton} type="submit" onClick={() => setEditName(false)}>
-												<span className={`${"material-symbols-rounded"}`}>&#xe161;</span>
-											</button>
-										</form>
-									)}
+							</>
+						)}
+						<div className={styles.category}>
+							<h3>Notifications</h3>
+							<label className={styles.setting} onClick={toggleEmailNotifcations}>
+								<span onClick={(e) => e.preventDefault()}>Receive friend request email notifications</span>
+								<label className={styles.switch} onClick={(e) => e.preventDefault()}>
+									<input type="checkbox" onChange={(e) => setEmailNotifications(!!e.target.value)} checked={!!emailNotifications} />
+									<span className={styles.switchSlider} />
+								</label>
+							</label>
+						</div>
+						<EditClasses />
+						<button className={styles.logout} onClick={() => openModal("logout")}>
+							<span className={`${"material-symbols-rounded"}`}>&#xe9ba;</span>
+							Log Out
+						</button>
+						{showLogoutModal && (
+							<div className={`${styles.modalContainer} ${modalFade ? styles.fade : ""} ${isMobile && styles.mobileModal}`} onClick={closeModal}>
+								<div className={`${styles.modalContent} ${modalFade ? styles.slide : ""}`} onClick={(e) => e.stopPropagation()}>
+									<h3>Log Out</h3>
+									<p>Are you sure you want to log out?</p>
+									<div className={styles.modalButtons}>
+										<button onClick={closeModal}>Cancel</button>
+										<button className={styles.logout} onClick={logout}>
+											<span className={`${"material-symbols-rounded"}`}>&#xe9ba;</span>
+											Log Out
+										</button>
+									</div>
 								</div>
-								<p>{userData.email}</p>
 							</div>
-						</div>
+						)}
 					</>
-				)}
-				<div className={styles.category}>
-					<h3>Notifications</h3>
-					<label className={styles.setting} onClick={toggleEmailNotifcations}>
-						<span onClick={(e) => e.preventDefault()}>Receive friend request email notifications</span>
-						<label className={styles.switch} onClick={(e) => e.preventDefault()}>
-							<input type="checkbox" onChange={(e) => setEmailNotifications(!!e.target.value)} checked={!!emailNotifications} />
-							<span className={styles.switchSlider} />
-						</label>
-					</label>
-				</div>
-				<EditClasses />
-				<button className={styles.logout} onClick={() => openModal("logout")}>
-					<span className={`${"material-symbols-rounded"}`}>&#xe9ba;</span>
-					Log Out
-				</button>
-				{showLogoutModal && (
-					<div className={`${styles.modalContainer} ${modalFade ? styles.fade : ""} ${isMobile && styles.mobileModal}`} onClick={closeModal}>
-						<div className={`${styles.modalContent} ${modalFade ? styles.slide : ""}`} onClick={(e) => e.stopPropagation()}>
-							<h3>Log Out</h3>
-							<p>Are you sure you want to log out?</p>
-							<div className={styles.modalButtons}>
-								<button onClick={closeModal}>Cancel</button>
-								<button className={styles.logout} onClick={logout}>
-									<span className={`${"material-symbols-rounded"}`}>&#xe9ba;</span>
-									Log Out
-								</button>
-							</div>
-						</div>
-					</div>
 				)}
 			</div>
 		</>

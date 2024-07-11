@@ -75,7 +75,28 @@ function EditClasses() {
 				let classesToDelete;
 
 				if (subject) {
-					classesToDelete = previouslySelected.filter((item) => !selectedClasses.includes(item));
+					classesToDelete = previouslySelected.filter((id) => !selectedClasses.includes(id));
+					classesToDelete.push(
+						...selectedClasses
+							.filter((id) => lunchBlocks.includes(id))
+							.flatMap((id) => {
+								const correspondingElement = id.includes("$") ? id.replace(/\$/, "") : id.slice(0, 1) + "$" + id.slice(1);
+								if (["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"].indexOf(id) > -1) {
+									return [correspondingElement, ["D1", "H1", "H2", "D3", "H3", "H4"][["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"].indexOf(id)]];
+								}
+								if (["D1", "H1", "H2", "D3", "H3", "H4"].indexOf(id) > -1) {
+									return [correspondingElement, ["C$1", "G$1", "G$2", "C$3", "G$3", "G$4"][["D1", "H1", "H2", "D3", "H3", "H4"].indexOf(id)]];
+								}
+								return correspondingElement;
+							})
+					);
+					classesToDelete = [
+						...new Set(
+							classesToDelete.filter((id) => {
+								return scheduleData.some((data) => data.block === id);
+							})
+						),
+					];
 				} else {
 					// If there's no subject, delete everything in the selectedClasses array
 					classesToDelete = selectedClasses;

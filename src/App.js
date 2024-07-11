@@ -65,7 +65,6 @@ export default function App() {
 
 	return (
 		<>
-			{/* {!isMobile || (isMobile && isPWA) ? ( */}
 			<BrowserRouter>
 				<Routes>
 					{!user ? (
@@ -86,9 +85,6 @@ export default function App() {
 					<Route path="*" element={<ErrorPage />} />
 				</Routes>
 			</BrowserRouter>
-			{/* ) : (
-				<InstallPage setIsPWA={setIsPWA} />
-			)} */}
 		</>
 	);
 }

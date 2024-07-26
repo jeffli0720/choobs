@@ -16,37 +16,52 @@ function Login(props) {
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
+
 	const [errorMessage, setErrorMessage] = useState("");
 	const [isLogin, setIsLogin] = useState(props.isLogin);
+	const [loading, setLoading] = useState(false);
 
 	const navigate = useNavigate();
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
-		try {
-			await signInWithEmailAndPassword(auth, email, password);
-			navigate("/");
-		} catch (error) {
-			setErrorMessage(error.message);
+		setLoading(true);
+		if (!email || !password) {
+			setErrorMessage("Please fill in all required fields.");
+			setLoading(false);
+			return;
+		} else {
+			try {
+				await signInWithEmailAndPassword(auth, email, password);
+				navigate("/");
+			} catch (error) {
+				setErrorMessage(error.message);
+				setLoading(false);
+			}
 		}
 	};
 
 	const handleSignup = async (e) => {
 		e.preventDefault();
+		setLoading(true);
 		if (!firstName || !lastName || !email || !password || !confirmPassword) {
 			setErrorMessage("Please fill in all required fields.");
+			setLoading(false);
 			return;
 		} else {
 			if (!/^\d{2}stu\d{3}@lexingtonma\.org$/.test(email)) {
 				setErrorMessage("Please use your Lexington email.");
+				setLoading(false);
 				return;
 			}
 			if (password !== confirmPassword) {
 				setErrorMessage("Passwords do not match.");
+				setLoading(false);
 				return;
 			}
 			try {
 				const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+				// sendEmailVerification(auth.currentUser);
 				const uid = userCredential.user.uid;
 				const userCollectionRef = doc(db, "users", uid);
 				const pfp = [["#ff3c3c", "#f68729", "#41e241", "#6be56b", "#40e0d0", "#9c3900", "#ff9494", "#407f40", "#4764ae", "#54808c"][Math.floor(Math.random() * 10)], "🙂"];
@@ -65,6 +80,7 @@ function Login(props) {
 			} catch (error) {
 				console.error(error);
 				setErrorMessage(error.message);
+				setLoading(false);
 			}
 		}
 	};
@@ -133,7 +149,16 @@ function Login(props) {
 									<input type="email" placeholder="Email" value={email} className={styles.input} onChange={handleEmailAutofill} />
 									<input type="password" placeholder="Password" value={password} className={styles.input} onChange={(e) => setPassword(e.target.value)} />
 									<button className={styles.button} onClick={handleLogin}>
-										Log In
+										{loading ? (
+											<div className={`lds-ring ${styles.loadingRing}`}>
+												<div></div>
+												<div></div>
+												<div></div>
+												<div></div>
+											</div>
+										) : (
+											`Log In`
+										)}
 									</button>
 								</div>
 
@@ -174,7 +199,16 @@ function Login(props) {
 										onChange={(e) => setConfirmPassword(e.target.value)}
 									/>
 									<button className={styles.button} onClick={handleSignup}>
-										Sign Up
+										{loading ? (
+											<div className={`lds-ring ${styles.loadingRing}`}>
+												<div></div>
+												<div></div>
+												<div></div>
+												<div></div>
+											</div>
+										) : (
+											`Sign Up`
+										)}
 									</button>
 								</div>
 								<div className={styles.toggleLoginSignup}>

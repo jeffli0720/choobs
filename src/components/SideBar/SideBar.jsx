@@ -14,38 +14,12 @@ function SideBar(props) {
 			<div className={styles.page}>
 				<div className={styles.SideBar}>
 					<div>
-						<Link
-							to="/"
-							className={`${styles.link} ${
-								useLocation().pathname === "/"
-									? styles.highlight
-									: ""
-							}`}
-						>
-							<span
-								className={`${"material-symbols-rounded"} ${
-									styles.icon
-								}`}
-							>
-								&#xe8e9;
-							</span>
+						<Link to="/" className={`${styles.link} ${useLocation().pathname === "/" ? styles.highlight : ""}`}>
+							<span className={`${"material-symbols-rounded"} ${styles.icon}`}>&#xe8e9;</span>
 							<p>Schedule</p>
 						</Link>
-						<Link
-							to="/settings"
-							className={`${styles.link} ${
-								useLocation().pathname === "/settings"
-									? styles.highlight
-									: ""
-							}`}
-						>
-							<span
-								className={`${"material-symbols-rounded"} ${
-									styles.icon
-								}`}
-							>
-								&#xe8b8;
-							</span>
+						<Link to="/settings" className={`${styles.link} ${useLocation().pathname === "/settings" ? styles.highlight : ""}`}>
+							<span className={`${"material-symbols-rounded"} ${styles.icon}`}>&#xe8b8;</span>
 							<p>Settings</p>
 						</Link>
 					</div>

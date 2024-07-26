@@ -7,7 +7,7 @@ function PFP(props) {
 		height: `${props.size}rem`,
 		lineHeight: `${props.size}rem`,
 		fontSize: `${props.size * 0.6}rem`,
-        backgroundColor: `${props.pfp[0]}`,
+		backgroundColor: `${props.pfp[0]}`,
 	};
 
 	return (

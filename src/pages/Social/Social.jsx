@@ -54,6 +54,7 @@ function Social() {
 					setUserData(JSON.parse(sessionStorage.getItem("userData")));
 				} else {
 					const userRef = doc(db, "users", uid);
+					console.log("Social fetchUserData");
 					const userDataSnapshot = await getDoc(userRef);
 					const userData = userDataSnapshot.data();
 
@@ -107,9 +108,10 @@ function Social() {
 	useEffect(() => {
 		const fetchScheduleData = async () => {
 			try {
+				console.log("Social fetchScheduleData");
 				const querySnapshot = await getDocs(collection(db, "users"));
 				querySnapshot.forEach((doc) => {
-					if (friendData.some((friend) => friend[1] === doc.id && friend[2] === 0)) {
+					if (friendData.some((friend) => friend[1] === doc.id && (friend[2] === 0 || friend[2] === 3))) {
 						const scheduleData = Object.entries(doc.data().classes).map(([block, classNames]) => ({
 							block,
 							classNames,
@@ -155,11 +157,18 @@ function Social() {
 				fetchData();
 			}
 		};
-		fetchData();
+
+		const interval = setInterval(() => {
+			fetchData();
+		}, 1000); // Update every second
 
 		if (friendData) {
 			fetchScheduleData();
 		}
+
+		return () => {
+			clearInterval(interval);
+		};
 	}, [displayDate, friendData]);
 
 	useEffect(() => {
@@ -189,28 +198,32 @@ function Social() {
 	}, [events]);
 
 	const refreshFriendData = useCallback(async () => {
-		try {
-			const userRef = doc(db, "users", uid);
-			const dataSnapshot = (await getDoc(userRef)).data();
+		if (uid) {
+			try {
+				const userRef = doc(db, "users", uid);
+				console.log("Social refreshFriendData");
+				const dataSnapshot = (await getDoc(userRef)).data();
 
-			if (dataSnapshot.friends) {
-				const friendDataPromises = Object.entries(dataSnapshot.friends).map(async ([friendUID, status, photo]) => {
-					const friendUserRef = doc(db, "users", friendUID);
-					const friendDataSnapshot = await getDoc(friendUserRef);
-					const friendName = friendDataSnapshot.data().name;
-					const friendPhoto = friendDataSnapshot.data().pfp;
+				if (dataSnapshot.friends) {
+					const friendDataPromises = Object.entries(dataSnapshot.friends).map(async ([friendUID, status, photo]) => {
+						const friendUserRef = doc(db, "users", friendUID);
+						const friendDataSnapshot = await getDoc(friendUserRef);
+						const friendName = friendDataSnapshot.data().name;
+						const friendPhoto = friendDataSnapshot.data().pfp;
+						console.log("Social refreshFriendData (" + friendName + ")");
 
-					return [friendName, friendUID, status, friendPhoto];
-				});
+						return [friendName, friendUID, status, friendPhoto];
+					});
 
-				const friendData = await Promise.all(friendDataPromises);
+					const friendData = await Promise.all(friendDataPromises);
 
-				setFriendData(friendData);
+					setFriendData(friendData);
+				}
+
+				setLoading(false);
+			} catch (error) {
+				console.error("Error fetching friend data:", error);
 			}
-
-			setLoading(false);
-		} catch (error) {
-			console.error("Error fetching friend data:", error);
 		}
 	}, [uid]);
 
@@ -290,6 +303,7 @@ function Social() {
 			});
 
 			const friendRef = doc(db, "users", friendUID);
+			console.log("Social sendRequest");
 			const friendDataSnapshot = await getDoc(friendRef);
 			const friendData = friendDataSnapshot.data();
 
@@ -338,6 +352,7 @@ function Social() {
 				return;
 			}
 
+			console.log("Social handleSearch");
 			const querySnapshot = await getDocs(collection(db, "users"));
 
 			const results = [];
@@ -378,18 +393,18 @@ function Social() {
 	}, [showRemoveModal, showAddModal]);
 
 	useEffect(() => {
-		if (displayDate.getTime() !== new Date().setHours(0, 0, 0, 0)) {
-			const interval = setInterval(() => {
-				const date = new Date();
-				date.setHours(0, 0, 0, 0);
+		const interval = setInterval(() => {
+			const date = new Date();
+			date.setHours(0, 0, 0, 0);
+			if (date.getTime() !== displayDate.getTime()) {
 				setDisplayDate(date);
-			}, 1000);
+			}
+		}, 1000);
 
-			return () => {
-				// Clear the interval when the component unmounts
-				clearInterval(interval);
-			};
-		}
+		return () => {
+			// Clear the interval when the component unmounts
+			clearInterval(interval);
+		};
 	}, [displayDate]);
 
 	const openMenu = (e, friend) => {
@@ -494,7 +509,9 @@ function Social() {
 				<div className={`${styles.modalContainer} ${removeModalFade && styles.fade} ${isMobile && styles.mobileModal} ${styles.unfriendModal}`} onClick={closeModal}>
 					<div className={`${styles.modalContent} ${removeModalFade ? styles.slide : ""}`} onClick={(e) => e.stopPropagation()}>
 						<h3>Unfriend {friendData.find((friend) => friend[1] === showRemoveModal)[0]}</h3>
-						<p>Are you sure you want to remove {friendData.find((friend) => friend[1] === showRemoveModal)[0]} from your friends list?</p>
+						<p>
+							Are you sure you want to remove <b>{friendData.find((friend) => friend[1] === showRemoveModal)[0]}</b> from your friends list?
+						</p>
 						<div>
 							<button onClick={closeModal}>Cancel</button>
 							<button onClick={() => unfriend(showRemoveModal)}>Unfriend {friendData.find((friend) => friend[1] === showRemoveModal)[0]}</button>
@@ -506,7 +523,7 @@ function Social() {
 				{!friendScheduleUID ? (
 					<div className={styles.friendsList}>
 						{loading ? (
-							<div className={`lds-ring ${styles.loadingRing}`}>
+							<div className={`lds-ring`}>
 								<div></div>
 								<div></div>
 								<div></div>
@@ -537,7 +554,7 @@ function Social() {
 													{friend[2] === 3 && <div className={`${"material-symbols-rounded"} ${styles.pin}`}>&#xe6aa;</div>}
 													<span>
 														<h4>{friend[0]}</h4>
-														{activeBlocks.length > 0 && (
+														{activeBlocks.length > 0 && friendSchedules[friend[1]] && (
 															<span>
 																{activeBlocks.map((block) => {
 																	const currentTime = new Date();

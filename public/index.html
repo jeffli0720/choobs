@@ -1,10 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<script
-			async
-			src="https://www.googletagmanager.com/gtag/js?id=G-G2K5N8SF73"
-		></script>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-G2K5N8SF73"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
 			function gtag() {
@@ -15,37 +12,36 @@
 			gtag("config", "G-G2K5N8SF73");
 		</script>
 		<meta charset="utf-8" />
-		<link
-			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-		/>
-		<link href="https://fonts.googleapis.com/css?family=Caveat&v1" rel="stylesheet">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+		<link href="https://fonts.googleapis.com/css?family=Caveat&v1" rel="stylesheet" />
 
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"
-		/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
 		<meta name="theme-color" content="#000000" />
-		
+
 		<link rel="icon" href="/static/favicon.ico" />
 		<link rel="manifest" href="manifest.json" />
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons&amp;display=swap" media="print" onload="this.media='all'" crossorigin>
-
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons&amp;display=swap" media="print" onload="this.media='all'" crossorigin />
 
 		<title>choobs</title>
-        <meta name="description" content="The best way to keep track of your schedule at Lexington High School.">
+		<meta name="description" content="The best way to keep track of your schedule at Lexington High School." />
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-title" content="choobs" />
-		<meta
-			name="apple-mobile-web-app-status-bar-style"
-			content="black-translucent"
-		/>
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		<link rel="apple-touch-icon" href="/static/maskable_icon_x192.png" />
 	</head>
 	<body>
 		<div id="root"></div>
+		<script>
+			const element = document.getElementById("root");
+			element.addEventListener("touchstart", (e) => {
+				if (e.touches[0].pageX > 10 && e.touches[0].pageX < window.innerWidth - 10) {
+					return;
+				}
+				e.preventDefault();
+			});
+		</script>
 		<noscript>You need to enable JavaScript to run this app.</noscript>
 	</body>
 </html>

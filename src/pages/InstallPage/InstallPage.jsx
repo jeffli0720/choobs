@@ -16,7 +16,6 @@ const InstallPage = ({ setIsPWA }) => {
 				Just tap
 				<span>
 					<span className={`${"material-symbols-rounded"}`}>&#xe6b8;</span>
-					<span>Share</span>
 				</span>
 				and
 				<span>

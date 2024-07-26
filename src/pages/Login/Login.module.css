@@ -12,6 +12,7 @@
 	color: white;
 	margin: 0.5rem 0;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	width: 4rem;
 }
 
 .button:hover {
@@ -180,4 +181,27 @@
 	text-decoration: none;
 	margin-top: 5vh;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.loadingRing {
+	position: relative;
+	display: flex;
+	align-items: center;
+	width: 3rem;
+	justify-content: center;
+	background-color: rgba(255, 255, 255, 0.05);
+	border-radius: 0 0 0.5rem 0;
+	left: auto;
+}
+
+button > .loadingRing {
+	height: 1rem;
+	background: none;
+}
+
+button > .loadingRing > div {
+	height: 1rem;
+	width: 1rem;
+	border: 3px solid white;
+	border-color: white transparent transparent transparent;
 }

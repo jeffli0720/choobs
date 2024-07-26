@@ -211,6 +211,26 @@ input:checked + .switchSlider:before {
 	font-size: 1.2rem;
 }
 
+.subtext {
+	margin-bottom: 0.5rem;
+	color: #abbac7;
+	font-size: small;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.subtext > button {
+	background: none;
+	border: none;
+	color: #80a4ae;
+	font-weight: 600;
+	font-size: 14px;
+	padding: 0 6px;
+	text-decoration: none;
+}
+
 .modalContainer {
 	position: fixed;
 	top: 0;
@@ -318,15 +338,14 @@ input:checked + .switchSlider:before {
 }
 
 .modalButtons > button:last-child {
-	background-color: #54808c;
+	background-color: rgb(218, 54, 60);
 	border-radius: 0.5rem;
 	padding: 0.5rem 1rem;
 	color: white;
 }
 
-.userInfo > .modalContainer > .modalContent > img {
-	width: 6rem;
-	border-radius: 50%;
+.userInfo > .modalContainer > .modalContent > .modalButtons > button:last-child {
+	background-color: #54808c;
 }
 
 .pfpModal {
@@ -380,8 +399,8 @@ input:checked + .switchSlider:before {
 }
 
 .save:disabled {
-	background-color: #515151 !important;
-	color: #1010104d !important;
+	background-color: rgb(51, 54, 60) !important;
+	color: #646464 !important;
 }
 
 @supports (-webkit-touch-callout: none) {

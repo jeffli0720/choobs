@@ -55,6 +55,7 @@ function Settings(props) {
 					setPreviewPFP(JSON.parse(sessionStorage.getItem("userData")).pfp);
 				} else {
 					const userRef = doc(db, "users", uid);
+					console.log("Settings fetchUserData");
 					const userDataSnapshot = await getDoc(userRef);
 					const userData = {
 						email: userDataSnapshot.data().email,
@@ -78,9 +79,12 @@ function Settings(props) {
 		};
 
 		if (uid) {
-			fetchUserData();
+			const timeout = setTimeout(() => {
+				fetchUserData();
+			}, 1);
+			return () => clearTimeout(timeout);
 		}
-	}, [uid, colors]);
+	}, [uid]);
 
 	function logout() {
 		const auth = getAuth();
@@ -184,6 +188,7 @@ function Settings(props) {
 		updateDoc(doc(db, "users", uid), {
 			[`preferences.emailNotifications`]: !!!emailNotifications,
 		});
+		console.log("Settings toggleEmailNotifcations", !emailNotifications);
 	};
 
 	return (
@@ -191,7 +196,7 @@ function Settings(props) {
 			<div className={`${styles.header} ${!isMobile ? styles.desktop : ""}`}>{isMobile ? <h3>Settings</h3> : <h2>Settings</h2>}</div>
 			<div className={`${styles.settings} ${!isMobile ? styles.desktop : ""}`}>
 				{loading ? (
-					<div className={`lds-ring ${styles.loadingRing}`}>
+					<div className={`lds-ring`}>
 						<div></div>
 						<div></div>
 						<div></div>
@@ -279,6 +284,10 @@ function Settings(props) {
 							<span className={`${"material-symbols-rounded"}`}>&#xe9ba;</span>
 							Log Out
 						</button>
+						<div className={styles.subtext}>
+							<span>Made with ❤️ by Jeff Li</span>
+							{/* <button>Special Thanks</button> */}
+						</div>
 						{showLogoutModal && (
 							<div className={`${styles.modalContainer} ${modalFade ? styles.fade : ""} ${isMobile && styles.mobileModal}`} onClick={closeModal}>
 								<div className={`${styles.modalContent} ${modalFade ? styles.slide : ""}`} onClick={(e) => e.stopPropagation()}>

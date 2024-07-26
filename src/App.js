@@ -36,6 +36,12 @@ export default function App() {
 	}, []);
 
 	useEffect(() => {
+		if (user) {
+			console.log(user.emailVerified);
+		}
+	}, [user]);
+
+	useEffect(() => {
 		const handleResize = () => {
 			setIsMobile(isMobileDevice());
 		};
@@ -74,13 +80,19 @@ export default function App() {
 							<Route path="/login" element={<Login isLogin={true} />} />
 							{isMobile && <Route path="/download" element={<InstallPage />} />}
 						</>
-					) : (
+					) :
+					//  user.emailVerified ? 
+					 (
 						<Route path="/" element={isMobile ? <TabBar uid={user.uid} /> : <SideBar uid={user.uid} />}>
 							<Route index element={<Schedule uid={user.uid} />} />
 							<Route path="/social" element={isMobile ? <Social /> : <Navigate to="/" replace />} />
 							<Route path="/settings" element={<Settings uid={user.uid} />} />
 						</Route>
-					)}
+					)
+					//  : (
+					// 	<Route path="/" element={<div>verify your email</div>} />
+					// )
+					}
 					<Route path="/" element={<LandingPage isPWA={isPWA} />} />
 					<Route path="*" element={<ErrorPage />} />
 				</Routes>

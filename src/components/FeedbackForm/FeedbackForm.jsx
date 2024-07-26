@@ -18,6 +18,7 @@ function FeedbackForm(props) {
 					setUserData(JSON.parse(sessionStorage.getItem("userData")));
 				} else {
 					const userRef = doc(db, "users", uid);
+					console.log("FeedbackForm fetchUserData");
 					const userDataSnapshot = await getDoc(userRef);
 					const userData = userDataSnapshot.data();
 

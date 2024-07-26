@@ -33,7 +33,8 @@ function Schedule(props) {
 	});
 	const { swipeTriggeredX, swipeTriggeredY, touchEnd, touchStartX, touchStartY } = swipe;
 	const [swipeOffset, setSwipeOffset] = useState(0);
-	const SWIPE_SENSITIVITY = 60; // number of pixels to trigger swipe
+	const [swipeEnded, setSwipeEnded] = useState(false);
+	const SWIPE_SENSITIVITY = 60;
 	const SWIPE_DEADZONE = 10;
 
 	const [blocksRendered, setBlocksRendered] = useState([]);
@@ -120,6 +121,7 @@ function Schedule(props) {
 					setScheduleData(JSON.parse(sessionStorage.getItem("scheduleData")));
 				} else {
 					const userRef = doc(db, "users", props.uid);
+					console.log("Schedule fetchScheduleData");
 					const scheduleDataSnapshot = (await getDoc(userRef)).data();
 
 					// Extract the 'classes' data from the snapshot
@@ -384,11 +386,28 @@ function Schedule(props) {
 			} else if (distanceSwiped > 0) {
 				handleDateChange(1);
 			}
+			setSwipeEnded(true);
+			setSwipeOffset(swipeOffset * 2);
+
+			setTimeout(() => {
+				setSwipeEnded(false);
+				setSwipeOffset(swipeOffset * -5);
+				setTimeout(() => {
+					setSwipeEnded(true);
+					setTimeout(() => {
+						setSwipeOffset(0);
+
+						setTimeout(() => {
+							setSwipeEnded(false);
+						}, 200);
+					}, 200);
+				}, 10);
+			}, 50);
+		} else {
+			setSwipeEnded(true);
 			setTimeout(() => {
 				setSwipeOffset(0);
 			}, 100);
-		} else {
-			setSwipeOffset(0);
 		}
 	};
 
@@ -426,7 +445,7 @@ function Schedule(props) {
 							!displayDate.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0) || (displayDate.setHours(0, 0, 0, 0) === new Date().setHours(0, 0, 0, 0) && !highlighted.current)
 						}
 					>
-						<span className={`${"material-symbols-rounded"}`}>&#xf053;</span>
+						<span className={`${"material-symbols-rounded"}`}>{highlighted && highlighted.current ? <>&#xe259;</> : <>&#xf053;</>}</span>
 					</button>
 					<div className={styles.week}>
 						<button className={`${styles.button} ${styles.day} ${isWeekend(displayDate.getDate() - 2) ? styles.grayed : ""} `} onClick={() => handleDateChange(-2)}>
@@ -481,9 +500,10 @@ function Schedule(props) {
 			<div
 				className={isMobile ? styles.schedule : styles.desktopSchedule}
 				style={
-					!loading && isMobile
+					isMobile
 						? {
 								translate: `${swipeOffset}px`,
+								...(swipeEnded && { transition: "all 0.2s" }),
 						  }
 						: null
 				}
@@ -597,14 +617,12 @@ function Schedule(props) {
 								const startTimeA = new Date(a.start.dateTime);
 								const startTimeB = new Date(b.start.dateTime);
 
-								// If start times are the same, compare by end times
 								if (startTimeA.getTime() === startTimeB.getTime()) {
 									const endTimeA = new Date(a.end.dateTime);
 									const endTimeB = new Date(b.end.dateTime);
 									return endTimeA - endTimeB;
 								}
 
-								// If start times are different, compare by start times
 								return startTimeA - startTimeB;
 							})
 
@@ -619,7 +637,7 @@ function Schedule(props) {
 										return data.block.includes(summaryWithDollar) || data.block.includes(event.summary);
 									} else {
 										// Not a half day, just check for event.summary
-										return data.block.includes(event.summary);
+										return event.summary.includes(data.block);
 									}
 								});
 
@@ -683,12 +701,14 @@ function Schedule(props) {
 																	</i>
 																</p>
 															</div>
-															{/[A-Za-z]\$?[0-9]/g.test(event.summary) && (
+															{(/[A-Za-z]\$?[0-9]/g.test(event.summary) || event.summary === "Advisory") && (
 																<div className={styles.info}>
 																	<h4>{/^\d+$/.test(matchingData.classNames[1]) ? `Room ${matchingData.classNames[1]}` : matchingData.classNames[1]}</h4>
-																	<p>
-																		<i>{event.summary}</i>
-																	</p>
+																	{event.summary !== "Advisory" && (
+																		<p>
+																			<i>{event.summary}</i>
+																		</p>
+																	)}
 																</div>
 															)}
 														</div>

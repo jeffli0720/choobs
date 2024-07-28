@@ -545,7 +545,7 @@ function EditClasses() {
 					<div className={`${styles.modalContainer} ${modalFade ? styles.fade : ""}`} onClick={closeModal}>
 						<div className={`${styles.modalContent}`} onClick={(e) => e.stopPropagation()}>
 							<h3 className={styles.modalTitle}>Edit Classes</h3>
-							{deleteMode && (
+							{deleteMode && selectedClasses.length > 0 && (
 								<button className={styles.deleteButton} onClick={openDeleteModal}>
 									<span className={`${"material-symbols-rounded"}`}>&#xe872;</span>
 								</button>

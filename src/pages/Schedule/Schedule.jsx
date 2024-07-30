@@ -121,7 +121,7 @@ function Schedule(props) {
 					setScheduleData(JSON.parse(sessionStorage.getItem("scheduleData")));
 				} else {
 					const userRef = doc(db, "users", props.uid);
-					console.log("Schedule fetchScheduleData");
+					console.log("[Schedule] fetchScheduleData");
 					const scheduleDataSnapshot = (await getDoc(userRef)).data();
 
 					// Extract the 'classes' data from the snapshot

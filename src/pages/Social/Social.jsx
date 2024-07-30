@@ -54,7 +54,7 @@ function Social() {
 					setUserData(JSON.parse(sessionStorage.getItem("userData")));
 				} else {
 					const userRef = doc(db, "users", uid);
-					console.log("Social fetchUserData");
+					console.log("[Social] fetchUserData");
 					const userDataSnapshot = await getDoc(userRef);
 					const userData = userDataSnapshot.data();
 
@@ -108,7 +108,7 @@ function Social() {
 	useEffect(() => {
 		const fetchScheduleData = async () => {
 			try {
-				console.log("Social fetchScheduleData");
+				console.log("[Social] fetchScheduleData");
 				const querySnapshot = await getDocs(collection(db, "users"));
 				querySnapshot.forEach((doc) => {
 					if (friendData.some((friend) => friend[1] === doc.id && (friend[2] === 0 || friend[2] === 3))) {
@@ -201,16 +201,16 @@ function Social() {
 		if (uid) {
 			try {
 				const userRef = doc(db, "users", uid);
-				console.log("Social refreshFriendData");
 				const dataSnapshot = (await getDoc(userRef)).data();
 
 				if (dataSnapshot.friends) {
+					var count = 0;
 					const friendDataPromises = Object.entries(dataSnapshot.friends).map(async ([friendUID, status, photo]) => {
 						const friendUserRef = doc(db, "users", friendUID);
 						const friendDataSnapshot = await getDoc(friendUserRef);
 						const friendName = friendDataSnapshot.data().name;
 						const friendPhoto = friendDataSnapshot.data().pfp;
-						console.log("Social refreshFriendData (" + friendName + ")");
+						count++;
 
 						return [friendName, friendUID, status, friendPhoto];
 					});
@@ -219,6 +219,8 @@ function Social() {
 
 					setFriendData(friendData);
 				}
+
+				console.log("[Social] refreshFriendData (" + count + ")");
 
 				setLoading(false);
 			} catch (error) {
@@ -303,7 +305,7 @@ function Social() {
 			});
 
 			const friendRef = doc(db, "users", friendUID);
-			console.log("Social sendRequest");
+			console.log("[Social] sendRequest");
 			const friendDataSnapshot = await getDoc(friendRef);
 			const friendData = friendDataSnapshot.data();
 
@@ -352,7 +354,7 @@ function Social() {
 				return;
 			}
 
-			console.log("Social handleSearch");
+			console.log("[Social] handleSearch");
 			const querySnapshot = await getDocs(collection(db, "users"));
 
 			const results = [];
@@ -588,7 +590,6 @@ function Social() {
 																		const className =
 																			friendSchedules[friend[1]].find((item) => item.block === block.summary.replace(/([A-Z])(\d)/, "$1$$$2")) ||
 																			friendSchedules[friend[1]].find((item) => item.block === block.summary.replace("$", ""));
-																		console.log(className);
 																		if (className) {
 																			return (
 																				<React.Fragment key={block.summary}>

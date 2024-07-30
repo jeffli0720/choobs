@@ -37,7 +37,7 @@ export default function App() {
 
 	useEffect(() => {
 		if (user) {
-			console.log(user.emailVerified);
+			console.log("[App] emailVerified", user.emailVerified);
 		}
 	}, [user]);
 

@@ -55,7 +55,7 @@ function Settings(props) {
 					setPreviewPFP(JSON.parse(sessionStorage.getItem("userData")).pfp);
 				} else {
 					const userRef = doc(db, "users", uid);
-					console.log("Settings fetchUserData");
+					console.log("[Settings] fetchUserData");
 					const userDataSnapshot = await getDoc(userRef);
 					const userData = {
 						email: userDataSnapshot.data().email,
@@ -188,7 +188,7 @@ function Settings(props) {
 		updateDoc(doc(db, "users", uid), {
 			[`preferences.emailNotifications`]: !!!emailNotifications,
 		});
-		console.log("Settings toggleEmailNotifcations", !emailNotifications);
+		console.log("[Settings] toggleEmailNotifcations", !emailNotifications);
 	};
 
 	return (

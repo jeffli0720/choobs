@@ -75,7 +75,7 @@ function EditClasses() {
 
 						await setDoc(doc(db, "users", uid), { classes: classesObject }, { merge: true });
 
-						console.log("Added", block);
+						console.log("[EditClasses] Added", block);
 					});
 
 					await Promise.all(operations);
@@ -116,7 +116,7 @@ function EditClasses() {
 							[`classes.${block}`]: deleteField(),
 						});
 
-						console.log("Deleted", block);
+						console.log("[EditClasses] Deleted", block);
 					});
 
 					await Promise.all(deleteOperations);
@@ -158,7 +158,7 @@ function EditClasses() {
 						[`classes.${block}`]: deleteField(),
 					});
 
-					console.log("Deleted", block);
+					console.log("[EditClasses] Deleted", block);
 				});
 
 				await Promise.all(deleteOperations);
@@ -187,7 +187,7 @@ function EditClasses() {
 		try {
 			if (uid) {
 				const userRef = doc(db, "users", uid);
-				console.log("EditClasses refreshScheduleData");
+				console.log("[EditClasses] refreshScheduleData");
 				const scheduleDataSnapshot = (await getDoc(userRef)).data();
 
 				// Extract the 'classes' data from the snapshot
@@ -216,7 +216,7 @@ function EditClasses() {
 					setScheduleData(JSON.parse(sessionStorage.getItem("scheduleData")));
 				} else {
 					const userRef = doc(db, "users", uid);
-					console.log("EditClasses refreshScheduleData");
+					console.log("[EditClasses] refreshScheduleData");
 					const scheduleDataSnapshot = (await getDoc(userRef)).data();
 
 					// Extract the 'classes' data from the snapshot

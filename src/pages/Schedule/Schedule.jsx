@@ -1,5 +1,6 @@
 import styles from "./Schedule.module.css";
 import React, { useState, useEffect, forwardRef, useCallback, useMemo, useRef } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { db, auth } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
@@ -548,6 +549,15 @@ function Schedule(props) {
 					)}
 				</div>
 
+				{!loading && (!scheduleData || scheduleData.length === 0) && (
+					<Link to="/settings" className={styles.noSchedule}>
+						<h4>Finish setting up your schedule!</h4>
+						<p>
+							Head over to <span>Settings</span> to add your schedule.
+						</p>
+					</Link>
+				)}
+				
 				<div className={styles.ul}>
 					{loading ? (
 						<div className="lds-ring">

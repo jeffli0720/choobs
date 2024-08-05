@@ -58,7 +58,6 @@ export default function App() {
 	}
 
 	if (loading) {
-		// Show loading spinner or skeleton screen while checking authentication state
 		return (
 			<div className="lds-ring">
 				<div></div>

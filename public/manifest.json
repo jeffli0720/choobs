@@ -25,5 +25,9 @@
 			"type": "image/png",
 			"purpose": "any maskable"
 		}
-	]
+	],
+	"serviceworker": {
+		"src": "/service-worker.js",
+		"scope": "/"
+	}
 }

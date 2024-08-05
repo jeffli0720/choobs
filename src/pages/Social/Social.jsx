@@ -352,28 +352,35 @@ function Social() {
 				setActiveSearch(false);
 				setSearchResults([]);
 				return;
+			} else if (searchedUser.trim().length < 3 || (/\d/.test(searchedUser) && searchedUser.length !== 8)) {
+				setActiveSearch(true);
+				setSearchResults([]);
+				return;
+			} else {
+				console.log("[Social] handleSearch");
+				const querySnapshot = await getDocs(collection(db, "users"));
+
+				const results = [];
+
+				querySnapshot.forEach((doc) => {
+					if (doc.id !== uid) {
+						if (/^\d{2}stu\d{3}/.test(searchedUser)) {
+							if (doc.data().email.toLowerCase().substring(0, doc.data().email.toLowerCase().indexOf("@")).includes(searchedUser.toLowerCase())) {
+								results.push([doc.data().name, doc.data().email, doc.id, doc.data().pfp]);
+							}
+						} else {
+							if (doc.data().name.toLowerCase().includes(searchedUser.toLowerCase())) {
+								results.push([doc.data().name, doc.data().email, doc.id, doc.data().pfp]);
+							}
+						}
+					}
+				});
+
+				setActiveSearch(true);
+				setSearchResults(results);
 			}
-
-			console.log("[Social] handleSearch");
-			const querySnapshot = await getDocs(collection(db, "users"));
-
-			const results = [];
-
-			querySnapshot.forEach((doc) => {
-				if (
-					(doc.data().name.toLowerCase().includes(searchedUser.toLowerCase()) ||
-						doc.data().email.toLowerCase().substring(0, doc.data().email.toLowerCase().indexOf("@")).includes(searchedUser.toLowerCase())) &&
-					!friendData.some((friend) => friend[1] === doc.id) &&
-					doc.id !== uid
-				) {
-					results.push([doc.data().name, doc.data().email, doc.id, doc.data().pfp]);
-				}
-			});
-
-			setActiveSearch(true);
-			setSearchResults(results);
 		},
-		[friendData, searchedUser, uid]
+		[searchedUser, uid]
 	);
 
 	useEffect(() => {
@@ -658,7 +665,7 @@ function Social() {
 								})
 						) : (
 							<div className={styles.noFriends}>
-								<h3>Scheduling is better with friends!</h3>
+								<h4>Scheduling is better with friends!</h4>
 								<p>
 									Invite your friends to sign up at <span>choobs.app</span> and send them a friend request using the button in the top right.
 								</p>
@@ -710,19 +717,34 @@ function Social() {
 														<span>{user[1]}</span>
 													</div>
 												</div>
-												<button
-													onClick={() => {
-														sendRequest(user[2]);
-													}}
-												>
-													<span className={`${"material-symbols-rounded"}`}>&#xe7f0;</span>
-													Add
-												</button>
+												{!friendData.some((friend) => friend[1] === user[2]) ? (
+													<button
+														onClick={() => {
+															sendRequest(user[2]);
+														}}
+													>
+														<span className={`${"material-symbols-rounded"}`}>&#xe7f0;</span>
+														Add
+													</button>
+												) : (
+													<button
+														disabled={true}
+													>
+														Added
+													</button>
+												)}
 											</div>
 										);
 									})
+								) : searchedUser.length < 3 ? (
+									<>Search must be at least 3 characters.</>
 								) : (
-									<>No matches found for "{searchedUser}"</>
+									<>
+										No matches found for "{searchedUser}".
+										{(/\d/.test(searchedUser) || searchedUser.includes("stu")) && !/^\d{2}stu\d{3}/.test(searchedUser) && (
+											<i>To search by email, use the entire first part (e.g., “00stu000”).</i>
+										)}
+									</>
 								)}
 							</div>
 						)}

@@ -175,14 +175,6 @@ function EditClasses() {
 		}
 	};
 
-	// useEffect(() => {
-	// 	if (selectedClasses.length > 0 && !subject) {
-	// 		setDeleteMode(true);
-	// 	} else {
-	// 		setDeleteMode(false);
-	// 	}
-	// }, [selectedClasses, subject]);
-
 	const refreshScheduleData = async () => {
 		try {
 			if (uid) {
@@ -190,10 +182,8 @@ function EditClasses() {
 				console.log("[EditClasses] refreshScheduleData");
 				const scheduleDataSnapshot = (await getDoc(userRef)).data();
 
-				// Extract the 'classes' data from the snapshot
 				const classesData = scheduleDataSnapshot.classes;
 
-				// Map the 'classes' data into the 'scheduleData' array
 				const scheduleData = Object.entries(classesData).map(([block, classNames]) => ({
 					block,
 					classNames,
@@ -219,10 +209,8 @@ function EditClasses() {
 					console.log("[EditClasses] refreshScheduleData");
 					const scheduleDataSnapshot = (await getDoc(userRef)).data();
 
-					// Extract the 'classes' data from the snapshot
 					const classesData = scheduleDataSnapshot.classes;
 
-					// Map the 'classes' data into the 'scheduleData' array
 					const scheduleData = Object.entries(classesData).map(([block, classNames]) => ({
 						block,
 						classNames,
@@ -276,7 +264,7 @@ function EditClasses() {
 				return (
 					<button
 						key={id}
-						className={`${styles.scheduleItem}${!matchingData && !isDisabled() ? ` ${styles.missingData}` : ""}`}
+						className={`${styles.scheduleItem}${(!matchingData && !isDisabled()) || (matchingData && id === "Adv" && !matchingData.classNames[1][1]) ? ` ${styles.missingData}` : ""}`}
 						disabled={isDisabled()}
 						onClick={() => {
 							openModal(id);
@@ -581,7 +569,17 @@ function EditClasses() {
 										</button>
 									)}
 									<button
-										onClick={addData}
+										onClick={() => {
+											if (selectedClasses.includes("Adv")) {
+												if (!roomNumber) {
+													deleteData();
+												} else {
+													addData();
+												}
+											} else {
+												addData();
+											}
+										}}
 										disabled={(() => {
 											if (deleteMode) {
 												if (

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { auth, db } from "../../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import {
 	signInWithEmailAndPassword,
 	// sendEmailVerification,
+	sendPasswordResetEmail,
 	createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
@@ -22,6 +23,7 @@ function Login(props) {
 	const [loading, setLoading] = useState(false);
 
 	const navigate = useNavigate();
+	const buttonRef = useRef();
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
@@ -49,7 +51,7 @@ function Login(props) {
 			setLoading(false);
 			return;
 		} else {
-			if (!/^\d{2}stu\d{3}@lexingtonma\.org$/.test(email)) {
+			if (!/^(25|26|27|28)stu\d{3}@lexingtonma\.org$/.test(email)) {
 				setErrorMessage("Please use your Lexington email.");
 				setLoading(false);
 				return;
@@ -99,8 +101,14 @@ function Login(props) {
 			if (errorMessage.includes("auth/invalid-login-credentials")) {
 				setErrorMessage("Email or password is incorrect.");
 			}
+			if (errorMessage.includes("auth/user-not-found")) {
+				setErrorMessage("User not found.");
+			}
 			if (errorMessage.includes("auth/invalid-email")) {
 				setErrorMessage("Email invalid. Please try again.");
+			}
+			if (errorMessage.includes("auth/missing-email")) {
+				setErrorMessage("Missing email.");
 			}
 			if (errorMessage.includes("auth/missing-password")) {
 				setErrorMessage("Missing password.");
@@ -133,6 +141,55 @@ function Login(props) {
 		}
 	};
 
+	const handlePasswordReset = () => {
+		buttonRef.current.disabled = true;
+		buttonRef.current.textContent = "Sending email...";
+
+		if (/^(25|26|27|28)stu\d{3}@lexingtonma\.org$/.test(email)) {
+			sendPasswordResetEmail(auth, email)
+				.then(() => {
+					let countdownTimer = 10;
+					buttonRef.current.textContent = `Reset email sent! (${countdownTimer}s)`;
+					const countdownInterval = setInterval(() => {
+						countdownTimer--;
+						buttonRef.current.textContent = `Reset email sent! (${countdownTimer}s)`;
+						if (countdownTimer === 0) {
+							clearInterval(countdownInterval);
+							buttonRef.current.disabled = false;
+							buttonRef.current.textContent = "Forgot your password?";
+						}
+					}, 1000);
+				})
+				.catch((error) => {
+					let countdownTimer = 10;
+					buttonRef.current.textContent = `Failed to send email. (${countdownTimer}s)`;
+					setErrorMessage(error.message);
+					console.error(error.message);
+					const countdownInterval = setInterval(() => {
+						countdownTimer--;
+						buttonRef.current.textContent = `Failed to send email. (${countdownTimer}s)`;
+						if (countdownTimer === 0) {
+							clearInterval(countdownInterval);
+							buttonRef.current.disabled = false;
+							buttonRef.current.textContent = "Forgot your password?";
+						}
+					}, 1000);
+				});
+		} else {
+			let countdownTimer = 5;
+			buttonRef.current.textContent = `Email invalid. (${countdownTimer}s)`;
+			const countdownInterval = setInterval(() => {
+				countdownTimer--;
+				buttonRef.current.textContent = `Email invalid. (${countdownTimer}s)`;
+				if (countdownTimer === 0) {
+					clearInterval(countdownInterval);
+					buttonRef.current.disabled = false;
+					buttonRef.current.textContent = "Forgot your password?";
+				}
+			}, 1000);
+		}
+	};
+
 	return (
 		<>
 			<div className={styles.loginPage}>
@@ -159,6 +216,9 @@ function Login(props) {
 										) : (
 											`Log In`
 										)}
+									</button>
+									<button ref={buttonRef} className={styles.link} onClick={handlePasswordReset}>
+										Forgot your password?
 									</button>
 								</div>
 

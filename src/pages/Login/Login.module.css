@@ -148,13 +148,18 @@
 	padding-left: 6px;
 }
 
-.toggleLoginSignup > button {
+.link {
 	background: none;
 	border: none;
 	color: #80a4ae;
 	font-weight: 600;
 	font-size: 14px;
 	padding: 0 6px;
+	transition: all 0.2s ease-in-out;
+}
+
+.link:disabled {
+	color: #646464 !important;
 }
 
 .wave {

@@ -364,7 +364,9 @@ function Social() {
 
 				querySnapshot.forEach((doc) => {
 					if (doc.id !== uid) {
-						if (/^\d{2}stu\d{3}/.test(searchedUser)) {
+						if (searchedUser === "everyone") {
+							results.push([doc.data().name, doc.data().email, doc.id, doc.data().pfp]);
+						} else if (/^\d{2}stu\d{3}/.test(searchedUser)) {
 							if (doc.data().email.toLowerCase().substring(0, doc.data().email.toLowerCase().indexOf("@")).includes(searchedUser.toLowerCase())) {
 								results.push([doc.data().name, doc.data().email, doc.id, doc.data().pfp]);
 							}
@@ -538,7 +540,7 @@ function Social() {
 								<div></div>
 								<div></div>
 							</div>
-						) : friendData && friendData.some((item) => item[2] === 0) ? (
+						) : friendData && (friendData.some((item) => item[2] === 0) || friendData.some((item) => item[2] === 3)) ? (
 							friendData
 								.sort((a, b) => {
 									if (a[2] === 3 && b[2] !== 3) return -1;
@@ -727,11 +729,7 @@ function Social() {
 														Add
 													</button>
 												) : (
-													<button
-														disabled={true}
-													>
-														Added
-													</button>
+													<button disabled={true}>Added</button>
 												)}
 											</div>
 										);

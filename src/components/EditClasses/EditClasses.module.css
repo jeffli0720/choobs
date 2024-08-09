@@ -215,6 +215,10 @@ button {
 	color: #d7e2ec;
 }
 
+.modalContent input:disabled {
+	opacity: 0.4 !important;
+}
+
 .modalContent input::placeholder {
 	color: #d7e2ec90;
 }

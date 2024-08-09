@@ -549,15 +549,15 @@ function Schedule(props) {
 					)}
 				</div>
 
-				{!loading && (!scheduleData || scheduleData.length === 0) && (
+				{!loading && (!scheduleData || scheduleData.length === 0) && props.uid === uid && (
 					<Link to="/settings" className={styles.noSchedule}>
-						<h4>Finish setting up your schedule!</h4>
+						<h4>Finish setting up your account!</h4>
 						<p>
 							Head over to <span>Settings</span> to add your schedule.
 						</p>
 					</Link>
 				)}
-				
+
 				<div className={styles.ul}>
 					{loading ? (
 						<div className="lds-ring">
